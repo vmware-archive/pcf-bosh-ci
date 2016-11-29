@@ -15,8 +15,8 @@ resources:
 - name: minimal-dockerfile
   type: git
   source:
-    uri: https://github.com/pivotal-cf/pcf-bosh-ci
-    paths: Dockerfile
+    uri: https://github.com/wendorf/pcf-bosh-ci
+    paths: [Dockerfile]
     branch: master
 
 - name: minimal-docker-image
@@ -25,7 +25,6 @@ resources:
     repository: dwendorfpivotal/minimal
     username: {{dockerhub_username}}
     password: {{dockerhub_password}}
-    email: {{dockerhub_email}}
 
 - name: terraforming-gcp
   type: git
@@ -95,6 +94,7 @@ jobs:
       file: bosh-state/*
 
 - name: upload-cloud-config
+  plan:
   - aggregate:
     - get: pcf-bosh-ci
     - get: terraform-state
@@ -104,6 +104,7 @@ jobs:
     file: pcf-bosh-ci/tasks/upload-cloud-config/task.yml
 
 - name: upload-stemcell
+  plan:
   - aggregate:
     - get: pcf-bosh-ci
     - get: stemcell
@@ -120,5 +121,5 @@ jobs:
     - get: terraform-state
       trigger: true
       passed: [upload-cloud-config, upload-stemcell]
-  - put: deploy-pcf
+  - task: deploy-pcf
     file: pcf-bosh-ci/tasks/deploy-pcf/task.yml
