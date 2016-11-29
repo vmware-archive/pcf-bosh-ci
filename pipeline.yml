@@ -22,7 +22,7 @@ resources:
 - name: minimal-docker-image
   type: docker-image
   source:
-    repository: wendorf/minimal
+    repository: dwendorfpivotal/minimal
     username: {{dockerhub_username}}
     password: {{dockerhub_password}}
     email: {{dockerhub_email}}
