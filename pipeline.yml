@@ -1,0 +1,124 @@
+---
+resource_types:
+- name: terraform
+  type: docker-image
+  source:
+    repository: ljfranklin/terraform-resource
+
+resources:
+- name: pcf-bosh-ci
+  type: git
+  source:
+    uri: https://github.com/pivotal-cf/pcf-bosh-ci
+    branch: master
+
+- name: minimal-dockerfile
+  type: git
+  source:
+    uri: https://github.com/pivotal-cf/pcf-bosh-ci
+    paths: Dockerfile
+    branch: master
+
+- name: minimal-docker-image
+  type: docker-image
+  source:
+    repository: wendorf/minimal
+    username: {{dockerhub_username}}
+    password: {{dockerhub_password}}
+    email: {{dockerhub_email}}
+
+- name: terraforming-gcp
+  type: git
+  source:
+    uri: https://github.com/pivotal-cf/terraforming-gcp
+    branch: master
+
+- name: terraform-state
+  type: terraform
+  source:
+    storage:
+      bucket: pcf-bosh-ci
+      bucket_path: terraform-environments
+      access_key_id: {{gcs_access_key_id}}
+      secret_access_key: {{gcs_secret_access_key}}
+      endpoint: storage.googleapis.com
+  delete_on_failure: true
+
+- name: bosh-state
+  type: s3
+  source:
+    bucket: pcf-bosh-ci
+    access_key_id: {{gcs_access_key_id}}
+    secret_access_key: {{gcs_secret_access_key}}
+    endpoint: storage.googleapis.com
+    versioned_file: bosh-state.json
+  delete_on_failure: true
+
+- name: stemcell
+  type: bosh-io-stemcell
+  source:
+    name: bosh-google-kvm-ubuntu-trusty-go_agent
+
+jobs:
+- name: minimal-docker-image
+  public: true
+  plan:
+  - get: minimal-dockerfile
+    trigger: true
+  - put: minimal-docker-image
+    params:
+      build: minimal-dockerfile
+
+- name: terraform-up
+  plan:
+  - aggregate:
+    - get: terraforming-gcp
+    - get: pcf-bosh-ci
+  - put: terraform-state
+    params:
+      generate_random_name: true
+      var_file: pcf-bosh-ci/terraform-vars.tf
+      terraform_source: terraforming-gcp
+      delete_on_failure: true
+
+- name: deploy-director
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: terraform-state
+      trigger: true
+      passed: [terraform-up]
+  - task: deploy-director
+    file: pcf-bosh-ci/tasks/deploy-director/task.yml
+  - put: bosh-state
+    params:
+      file: bosh-state/*
+
+- name: upload-cloud-config
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: terraform-state
+      trigger: true
+      passed: [deploy-director]
+  - task: upload-cloud-config
+    file: pcf-bosh-ci/tasks/upload-cloud-config/task.yml
+
+- name: upload-stemcell
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: stemcell
+    - get: terraform-state
+      trigger: true
+      passed: [deploy-director]
+  - task: upload-stemcell
+    file: pcf-bosh-ci/tasks/upload-stemcell/task.yml
+
+- name: deploy-pcf
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: terraform-state
+      trigger: true
+      passed: [upload-cloud-config, upload-stemcell]
+  - put: deploy-pcf
+    file: pcf-bosh-ci/tasks/deploy-pcf/task.yml

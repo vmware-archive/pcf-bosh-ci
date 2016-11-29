@@ -1,0 +1,19 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: { repository: pcf-bosh-ci/minimal }
+
+inputs:
+- name: pcf-bosh-ci
+#bosh username
+#bosh password
+#rootca file
+#director uri
+
+outputs:
+- name: built-project
+
+run:
+  path: pcf-bosh-ci/tasks/upload-cloud-config/task.sh
