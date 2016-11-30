@@ -9,7 +9,7 @@ resources:
 - name: pcf-bosh-ci
   type: git
   source:
-    uri: https://github.com/pivotal-cf/pcf-bosh-ci
+    uri: https://github.com/wendorf/pcf-bosh-ci
     branch: master
 
 - name: minimal-dockerfile
@@ -125,6 +125,12 @@ jobs:
   - put: bosh-state
     params:
       file: bosh-state/*
+  - put: bosh-creds
+    params:
+      file: bosh-creds/*
+  - put: terraform-vars
+    params:
+      file: terraform-vars/*
 
 - name: upload-cloud-config
   plan:
