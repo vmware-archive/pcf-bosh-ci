@@ -1,6 +1,6 @@
 FROM golang
 MAINTAINER https://github.com/pivotal-cf/pcf-bosh-ci
 
-ADD https://main.bosh-ci.cf-app.com/teams/main/pipelines/bosh:cli/resources/release-bucket-linux /usr/local/bin/bosh
+ADD https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-0.0.123-linux-amd64 /usr/local/bin/bosh
 
 RUN chmod +x /usr/local/bin/bosh
