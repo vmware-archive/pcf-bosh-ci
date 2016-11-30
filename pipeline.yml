@@ -32,6 +32,12 @@ resources:
     uri: https://github.com/wendorf/terraforming-gcp
     branch: master
 
+- name: bosh-deployment
+  type: git
+  source:
+    uri: https://github.com/cloudfoundry/bosh-deployment
+    branch: master
+
 - name: terraform-state
   type: terraform
   source:
@@ -51,7 +57,33 @@ resources:
     secret_access_key: {{gcs_secret_access_key}}
     endpoint: storage.googleapis.com
     versioned_file: bosh-state.json
-  delete_on_failure: true
+
+- name: bosh-creds
+  type: s3
+  source:
+    bucket: pcf-bosh-ci
+    access_key_id: {{gcs_access_key_id}}
+    secret_access_key: {{gcs_secret_access_key}}
+    endpoint: storage.googleapis.com
+    versioned_file: bosh-creds.yml
+
+- name: terraform-vars
+  type: s3
+  source:
+    bucket: pcf-bosh-ci
+    access_key_id: {{gcs_access_key_id}}
+    secret_access_key: {{gcs_secret_access_key}}
+    endpoint: storage.googleapis.com
+    versioned_file: terraform.tfvars
+
+- name: bosh-vars
+  type: s3
+  source:
+    bucket: pcf-bosh-ci
+    access_key_id: {{gcs_access_key_id}}
+    secret_access_key: {{gcs_secret_access_key}}
+    endpoint: storage.googleapis.com
+    versioned_file: bosh-vars.yml
 
 - name: stemcell
   type: bosh-io-stemcell
@@ -75,8 +107,7 @@ jobs:
     - get: pcf-bosh-ci
   - put: terraform-state
     params:
-      generate_random_name: true
-      var_file: pcf-bosh-ci/terraform.tfvars
+      var_file: terraform-vars/terraform.tfvars
       terraform_source: terraforming-gcp
       delete_on_failure: true
 
@@ -84,6 +115,8 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-bosh-ci
+    - get: bosh-deployment
+    - get: bosh-vars
     - get: terraform-state
       trigger: true
       passed: [terraform-up]

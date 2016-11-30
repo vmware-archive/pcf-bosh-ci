@@ -7,10 +7,13 @@ image_resource:
 
 inputs:
 - name: pcf-bosh-ci
+- name: bosh-deployment
+- name: bosh-vars
 - name: terraform-state
 
 outputs:
 - name: bosh-state
+- name: bosh-creds
 
 run:
   path: pcf-bosh-ci/tasks/deploy-director/task.sh

@@ -1,0 +1,10 @@
+---
+director_name: ol-smokey
+gcp_credentials_json: waiting-for-ask-ticket
+internal_cidr: 10.0.1.0/24
+internal_gw: 10.0.1.1
+internal_ip: 10.0.1.3
+network: ol-smokey-pcf-network
+project_id: waiting-for-ask-ticket
+subnetwork: ol-smokey-cf-subnet
+zone: us-central1-a
