@@ -1,6 +1,6 @@
 region = "us-central1"
 zones = ["us-central1-a", "us-central1-b", "us-central1-c"]
-project = "waiting-for-ask-ticket"
+project = "cf-pcf-bosh"
 dns_suffix = "gcp.pcf-bosh.cf-app.com"
 ssl_cert = <<SSL_CERT
 -----BEGIN CERTIFICATE-----
