@@ -8,10 +8,7 @@ resource_types:
 - name: gcs-resource
   type: docker-image
   source:
-    # TODO: change back after PR is merged: https://github.com/frodenas/gcs-resource/pull/4
-    # repository: frodenas/gcs-resource
-    repository: boshcpi/gcs-resource
-    tag: PR-fix-versioned-put
+    repository: frodenas/gcs-resource
 
 resources:
 - name: pcf-bosh-ci
