@@ -73,7 +73,7 @@
 - type: replace
   path: /instance_groups/name=bosh/properties/uaa?/scim/users/-
   value:
-  - name: credhub-user #template this??
+  - name: ((credhub-user))
     password: ((credhub_user_password))
     groups:
     - credhub.read
@@ -89,4 +89,10 @@
   path: /variables/-
   value:
     name: credhub_user_password
+    type: password
+
+- type: replace
+  path: /variables/-
+  value:
+    name: credhub_user
     type: password
