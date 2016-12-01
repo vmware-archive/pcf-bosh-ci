@@ -5,6 +5,14 @@ resource_types:
   source:
     repository: ljfranklin/terraform-resource
 
+- name: gcs-resource
+  type: docker-image
+  source:
+    # TODO: change back after PR is merged: https://github.com/frodenas/gcs-resource/pull/4
+    # repository: frodenas/gcs-resource
+    repository: boshcpi/gcs-resource
+    tag: PR-fix-versioned-put
+
 resources:
 - name: pcf-bosh-ci
   type: git
@@ -50,40 +58,39 @@ resources:
   delete_on_failure: true
 
 - name: bosh-state
-  type: s3
+  type: gcs-resource
   source:
     bucket: pcf-bosh-ci
-    access_key_id: {{gcs_access_key_id}}
-    secret_access_key: {{gcs_secret_access_key}}
-    endpoint: storage.googleapis.com
+    json_key: {{google_json_key}}
     versioned_file: bosh-state.json
 
 - name: bosh-creds
-  type: s3
+  type: gcs-resource
   source:
     bucket: pcf-bosh-ci
-    access_key_id: {{gcs_access_key_id}}
-    secret_access_key: {{gcs_secret_access_key}}
-    endpoint: storage.googleapis.com
+    json_key: {{google_json_key}}
     versioned_file: bosh-creds.yml
 
 - name: terraform-vars
-  type: s3
+  type: gcs-resource
   source:
     bucket: pcf-bosh-ci
-    access_key_id: {{gcs_access_key_id}}
-    secret_access_key: {{gcs_secret_access_key}}
-    endpoint: storage.googleapis.com
-    versioned_file: terraform.tfvars
+    json_key: {{google_json_key}}
+    versioned_file: terraform.tfvars.yml
 
 - name: bosh-vars
-  type: s3
+  type: gcs-resource
   source:
     bucket: pcf-bosh-ci
-    access_key_id: {{gcs_access_key_id}}
-    secret_access_key: {{gcs_secret_access_key}}
-    endpoint: storage.googleapis.com
+    json_key: {{google_json_key}}
     versioned_file: bosh-vars.yml
+
+- name: credhub-release
+  type: gcs-resource
+  source:
+    bucket: pcf-bosh-ci
+    json_key: {{google_json_key}}
+    versioned_file: credhub-0.3.0.tgz
 
 - name: stemcell
   type: bosh-io-stemcell
@@ -105,11 +112,13 @@ jobs:
   - aggregate:
     - get: terraforming-gcp
     - get: pcf-bosh-ci
+    - get: terraform-vars
   - put: terraform-state
     params:
-      var_file: terraform-vars/terraform.tfvars
+      var_file: terraform-vars/terraform.tfvars.yml
       terraform_source: terraforming-gcp
       delete_on_failure: true
+      env_name: ol-smokey
 
 - name: deploy-director
   plan:
@@ -117,6 +126,7 @@ jobs:
     - get: pcf-bosh-ci
     - get: bosh-deployment
     - get: bosh-vars
+    - get: credhub-release
     - get: terraform-state
       trigger: true
       passed: [terraform-up]
@@ -128,9 +138,6 @@ jobs:
   - put: bosh-creds
     params:
       file: bosh-creds/*
-  - put: terraform-vars
-    params:
-      file: terraform-vars/*
 
 - name: upload-cloud-config
   plan:
