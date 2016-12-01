@@ -30,7 +30,7 @@ resources:
 - name: minimal-docker-image
   type: docker-image
   source:
-    repository: dwendorfpivotal/minimal
+    repository: pcfbosh/minimal
     username: {{dockerhub_username}}
     password: {{dockerhub_password}}
 
