@@ -143,6 +143,8 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-bosh-ci
+    - get: bosh-creds
+      passed: [deploy-director]
     - get: terraform-state
       trigger: true
       passed: [deploy-director]
