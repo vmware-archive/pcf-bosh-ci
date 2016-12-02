@@ -14,13 +14,15 @@ resources:
 - name: pcf-bosh-ci
   type: git
   source:
-    uri: https://github.com/wendorf/pcf-bosh-ci
+    uri: git@github.com:pivotal-cf/pcf-bosh-ci
     branch: master
+    private_key: {{pcf-bosh-ci_deploy_key}}
 
 - name: minimal-dockerfile
   type: git
   source:
-    uri: https://github.com/wendorf/pcf-bosh-ci
+    uri: git@github.com:pivotal-cf/pcf-bosh-ci
+    private_key: {{pcf-bosh-ci_deploy_key}}
     paths: [Dockerfile]
     branch: master
 
@@ -34,7 +36,8 @@ resources:
 - name: terraforming-gcp
   type: git
   source:
-    uri: https://github.com/wendorf/terraforming-gcp
+    uri: git@github.com:pivotal-cf/pcf-bosh-terraforming-gcp
+    private_key: {{pcf-bosh-terraforming-gcp_deploy_key}}
     branch: master
 
 - name: bosh-deployment
