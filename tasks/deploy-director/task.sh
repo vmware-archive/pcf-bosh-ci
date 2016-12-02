@@ -2,7 +2,7 @@
 
 bosh create-env bosh-deployment/bosh.yml \
   --state bosh-state/bosh-state.json \
-  --ops-file bosh-deployment/external-ip-not-recommended.yml \
+  --ops-file pcf-bosh-ci/ops-files/ljfranklin_external-ip-not-recommended.yml \
   --ops-file bosh-deployment/gcp/cpi.yml \
   --ops-file bosh-deployment/uaa.yml \
   --ops-file pcf-bosh-ci/ops-files/uaa-with-external-ip.yml \
