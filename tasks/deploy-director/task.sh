@@ -2,8 +2,12 @@
 
 bosh create-env bosh-deployment/bosh.yml \
   --state bosh-state/bosh-state.json \
+  --ops-file bosh-deployment/external-ip-not-recommended.yml \
   --ops-file bosh-deployment/gcp/cpi.yml \
   --ops-file bosh-deployment/uaa.yml \
+  --ops-file pcf-bosh-ci/uaa-with-external-ip.yml \
   --ops-file pcf-bosh-ci/ops-files/credhub.yml \
+  --ops-file pcf-bosh-ci/ops-files/director-overrides.yml \
   --vars-store bosh-creds/bosh-creds.yml \
-  --vars-file bosh-vars/bosh-vars.yml
+  --vars-file bosh-vars/bosh-vars.yml \
+  --var file_path_to_credhub_release="file://$PWD/credhub-release/credhub-0.3.0.tgz"
