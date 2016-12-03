@@ -144,6 +144,7 @@ jobs:
   - aggregate:
     - get: pcf-bosh-ci
     - get: bosh-creds
+      trigger: true
       passed: [deploy-director]
   - task: upload-cloud-config
     file: pcf-bosh-ci/tasks/upload-cloud-config/task.yml
@@ -153,7 +154,7 @@ jobs:
   - aggregate:
     - get: pcf-bosh-ci
     - get: stemcell
-    - get: terraform-state
+    - get: bosh-creds
       trigger: true
       passed: [deploy-director]
   - task: upload-stemcell
@@ -163,7 +164,7 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-bosh-ci
-    - get: terraform-state
+    - get: bosh-creds
       trigger: true
       passed: [upload-cloud-config, upload-stemcell]
   - task: deploy-pcf
