@@ -145,9 +145,6 @@ jobs:
     - get: pcf-bosh-ci
     - get: bosh-creds
       passed: [deploy-director]
-    - get: terraform-state
-      trigger: true
-      passed: [deploy-director]
   - task: upload-cloud-config
     file: pcf-bosh-ci/tasks/upload-cloud-config/task.yml
 
