@@ -72,7 +72,7 @@
 - type: replace
   path: /instance_groups/name=bosh/jobs/name=uaa/properties/uaa?/scim/users/-
   value:
-  - name: ((credhub_user))
+    name: ((credhub_user))
     password: ((credhub_user_password))
     groups:
     - credhub.read
