@@ -134,12 +134,14 @@ jobs:
       passed: [terraform-up]
   - task: deploy-director
     file: pcf-bosh-ci/tasks/deploy-director/task.yml
-  - put: bosh-state
-    params:
-      file: new-bosh-state/*
-  - put: bosh-creds
-    params:
-      file: new-bosh-creds/*
+    ensure:
+      aggregate:
+      - put: bosh-state
+        params:
+          file: new-bosh-state/*
+      - put: bosh-creds
+        params:
+          file: new-bosh-creds/*
 
 - name: upload-cloud-config
   plan:
