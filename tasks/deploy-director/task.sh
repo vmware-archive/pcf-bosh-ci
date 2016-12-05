@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 bosh create-env bosh-deployment/bosh.yml \
   --state bosh-state/bosh-state.json \
   --ops-file pcf-bosh-ci/ops-files/ljfranklin_external-ip-not-recommended.yml \
