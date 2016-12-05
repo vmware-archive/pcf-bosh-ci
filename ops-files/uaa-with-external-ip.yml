@@ -26,5 +26,8 @@
 
 # temp fix to appease issue where UAA does not default serviceProviderKeyPassword
 - type: replace
-  path: /instance_groups/name=bosh/jobs/name=uaa?/properties/login/saml/serviceProviderKey
-  value: ""
+  path: /instance_groups/name=bosh/jobs/name=uaa?/properties/login/saml
+  value:
+    serviceProviderKeyPassword: ""
+    serviceProviderKey: ((uaa_service_provider_ssl.private_key))
+    serviceProviderCertificate: ((uaa_service_provider_ssl.certificate))
