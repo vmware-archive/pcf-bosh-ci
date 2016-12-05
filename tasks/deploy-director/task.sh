@@ -16,3 +16,4 @@ bosh create-env bosh-deployment/bosh.yml \
   --var external_ip="$(jq -r .director_external_ip terraform-state/metadata)"
 
 cp bosh-state/bosh-state.json new-bosh-state/bosh-state.json
+cp bosh-creds/bosh-creds.json new-bosh-creds/bosh-creds.json

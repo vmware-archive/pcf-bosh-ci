@@ -11,11 +11,12 @@ inputs:
 - name: bosh-deployment
 - name: bosh-vars
 - name: bosh-state
+- name: bosh-creds
 - name: terraform-state
 
 outputs:
 - name: new-bosh-state
-- name: bosh-creds
+- name: new-bosh-creds
 
 run:
   path: pcf-bosh-ci/tasks/deploy-director/task.sh

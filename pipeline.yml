@@ -126,6 +126,7 @@ jobs:
     - get: pcf-bosh-ci
     - get: bosh-deployment
     - get: bosh-state
+    - get: bosh-creds
     - get: bosh-vars
     - get: credhub-release
     - get: terraform-state
@@ -138,7 +139,7 @@ jobs:
       file: new-bosh-state/*
   - put: bosh-creds
     params:
-      file: bosh-creds/*
+      file: new-bosh-creds/*
 
 - name: upload-cloud-config
   plan:
