@@ -125,6 +125,7 @@ jobs:
   - aggregate:
     - get: pcf-bosh-ci
     - get: bosh-deployment
+    - get: bosh-state
     - get: bosh-vars
     - get: credhub-release
     - get: terraform-state
@@ -134,7 +135,7 @@ jobs:
     file: pcf-bosh-ci/tasks/deploy-director/task.yml
   - put: bosh-state
     params:
-      file: bosh-state/*
+      file: new-bosh-state/*
   - put: bosh-creds
     params:
       file: bosh-creds/*

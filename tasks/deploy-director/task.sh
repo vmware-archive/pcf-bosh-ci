@@ -12,3 +12,5 @@ bosh create-env bosh-deployment/bosh.yml \
   --vars-file bosh-vars/bosh-vars.yml \
   --var file_path_to_credhub_release="file://$PWD/credhub-release/credhub-0.3.0.tgz" \
   --var external_ip="$(jq -r .director_external_ip terraform-state/metadata)"
+
+cp bosh-state/bosh-state.json new-bosh-state/bosh-state.json

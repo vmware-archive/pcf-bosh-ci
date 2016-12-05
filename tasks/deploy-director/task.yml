@@ -10,10 +10,11 @@ inputs:
 - name: credhub-release
 - name: bosh-deployment
 - name: bosh-vars
+- name: bosh-state
 - name: terraform-state
 
 outputs:
-- name: bosh-state
+- name: new-bosh-state
 - name: bosh-creds
 
 run:
