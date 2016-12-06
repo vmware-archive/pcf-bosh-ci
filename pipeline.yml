@@ -77,6 +77,13 @@ resources:
     json_key: {{google_json_key}}
     versioned_file: bosh-creds.yml
 
+- name: cf-creds
+  type: gcs-resource
+  source:
+    bucket: pcf-bosh-ci
+    json_key: {{google_json_key}}
+    versioned_file: cf-creds.yml
+
 - name: terraform-vars
   type: gcs-resource
   source:
@@ -175,8 +182,13 @@ jobs:
   - aggregate:
     - get: pcf-bosh-ci
     - get: cf-deployment
+    - get: cf-creds
     - get: bosh-creds
       trigger: true
       passed: [upload-cloud-config, upload-stemcell]
   - task: deploy-pcf
     file: pcf-bosh-ci/tasks/deploy-pcf/task.yml
+    ensure:
+      - put: cf-creds
+        params:
+          file: new-cf-creds/*

@@ -9,9 +9,11 @@ inputs:
 - name: pcf-bosh-ci
 - name: bosh-creds
 - name: cf-deployment
+- name: cf-creds
 
 outputs:
 - name: built-project
+- name: new-cf-creds
 
 run:
   path: pcf-bosh-ci/tasks/deploy-pcf/task.sh
