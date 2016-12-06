@@ -18,7 +18,7 @@
 
     ca_cert: ((default_ca))
     uaa:
-      url: "https://localhost:8443"
+      url: "https://((external_ip)):8443"
       client_id: director_credhub
       client_secret: ((director_credhub_client_secret))
       ca_cert: ((default_ca))
@@ -32,7 +32,7 @@
       credhub:
         user_management:
           uaa:
-            url: "https://((internal_ip)):8443"
+            url: "https://((external_ip)):8443"
             verification_key: ((uaa_jwt_signing_key.public_key))
         data_storage:
           type: postgres
