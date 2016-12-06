@@ -2,4 +2,4 @@
 
 source pcf-bosh-ci/scripts/load-director-environment.sh bosh-creds/bosh-creds.yml
 
-bosh -n upload-stemcell stemcell/*
+bosh -n upload-stemcell stemcell/*.tgz
