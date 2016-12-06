@@ -14,4 +14,4 @@ outputs:
 - name: built-project
 
 run:
-  path: pcf-bosh-ci/tasks/deploy-director/task.sh
+  path: pcf-bosh-ci/tasks/upload-stemcell/task.sh
