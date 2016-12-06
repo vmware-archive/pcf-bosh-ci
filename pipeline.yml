@@ -18,6 +18,12 @@ resources:
     branch: master
     private_key: {{pcf-bosh-ci_deploy_key}}
 
+- name: cf-deployment
+  type: git
+  source:
+    uri: https://github.com/cloudfoundry/cf-deployment
+    branch: master
+
 - name: minimal-dockerfile
   type: git
   source:
@@ -168,6 +174,7 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-bosh-ci
+    - get: cf-deployment
     - get: bosh-creds
       trigger: true
       passed: [upload-cloud-config, upload-stemcell]
