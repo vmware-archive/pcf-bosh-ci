@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-exit 1
+source pcf-bosh-ci/scripts/load-director-environment.sh bosh-creds/bosh-creds.yml
+
+bosh -n upload-stemcell stemcell/*
