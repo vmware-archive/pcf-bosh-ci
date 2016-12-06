@@ -189,6 +189,6 @@ jobs:
   - task: deploy-pcf
     file: pcf-bosh-ci/tasks/deploy-pcf/task.yml
     ensure:
-      - put: cf-creds
+        put: cf-creds
         params:
           file: new-cf-creds/*
