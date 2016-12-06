@@ -101,7 +101,7 @@ networks:
     - 10.0.1.190 - 10.0.1.254
     cloud_properties:
       ephemeral_external_ip: false
-      network_name: ol-smokey-cf-network
+      network_name: ol-smokey-pcf-network
       subnetwork_name: ol-smokey-cf-subnet
       tags:
       - ol-smokey-vms
