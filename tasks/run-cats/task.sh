@@ -3,7 +3,7 @@
 set -e
 
 export CONFIG
-CONFIG="$PWD/cf-cats-config/*.json"
+CONFIG="$PWD/cf-cats-config/cf-cats-config.json"
 
 CF_GOPATH=/go/src/github.com/cloudfoundry/
 
