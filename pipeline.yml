@@ -211,5 +211,10 @@ jobs:
     - get: pcf-bosh-ci
     - get: cf-acceptance-tests
     - get: cf-cats-config
+    - get: cf-creds
+      trigger: true
+      passed: [deploy-pcf]
+  - task: enable-diego-docker
+    file: pcf-bosh-ci/tasks/enable-diego-docker/task.yml
   - task: run-cats
     file: pcf-bosh-ci/tasks/run-cats/task.yml
