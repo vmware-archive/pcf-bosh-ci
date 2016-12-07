@@ -8,6 +8,8 @@ cf_username="admin"
 cf_password=$(echo "$creds_json" | jq -r .uaa_scim_users_admin_password)
 cf_target="https://api.sys.ol-smokey.gcp.pcf-bosh.cf-app.com"
 
-cf login -a "$cf_target" -u "$cf_username" -p "$cf_password" --skip-ssl-validation
+cf api "$cf_target" --skip-ssl-validation
+
+cf auth "$cf_username" "$cf_password"
 
 cf enable-feature-flag diego_docker
