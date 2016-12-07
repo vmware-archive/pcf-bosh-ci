@@ -124,7 +124,6 @@ jobs:
   plan:
   - aggregate:
     - get: terraforming-gcp
-    - get: pcf-bosh-ci
     - get: terraform-vars
   - put: terraform-state
     params:
