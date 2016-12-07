@@ -4,7 +4,7 @@ MAINTAINER https://github.com/pivotal-cf/pcf-bosh-ci
 RUN apt-get update && apt-get install -y \
     jq \
     ruby \
-    unzip \ # Used by V3 CATs
+    unzip # Used by V3 CATs \
     && rm -rf /var/lib/apt/lists/*
 
 ADD https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-0.0.131-linux-amd64 /usr/local/bin/bosh
