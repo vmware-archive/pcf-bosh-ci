@@ -1,4 +1,4 @@
 - type: replace
-  path: /instance_groups/name=cloud_controller_ng/properties/app_domains
+  path: /instance_groups/name=api/jobs/name=cloud_controller_ng/properties/app_domains
   value:
   - "apps.ol-smokey.gcp.pcf-bosh.cf-app.com"
