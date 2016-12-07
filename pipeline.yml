@@ -24,6 +24,12 @@ resources:
     uri: https://github.com/cloudfoundry/cf-deployment
     branch: master
 
+- name: cf-acceptance-tests
+  type: git
+  source:
+    uri: https://github.com/cloudfoundry/cf-acceptance-tests
+    branch: master
+
 - name: minimal-dockerfile
   type: git
   source:
@@ -83,6 +89,13 @@ resources:
     bucket: pcf-bosh-ci
     json_key: {{google_json_key}}
     versioned_file: cf-creds.yml
+
+- name: cf-cats-config
+  type: gcs-resource
+  source:
+    bucket: pcf-bosh-ci
+    json_key: {{google_json_key}}
+    versioned_file: cf-cats-config.json
 
 - name: terraform-vars
   type: gcs-resource
@@ -191,3 +204,12 @@ jobs:
         put: cf-creds
         params:
           file: new-cf-creds/*
+
+- name: run-cats
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: cf-acceptance-tests
+    - get: cf-cats-config
+  - task: run-cats
+    file: pcf-bosh-ci/tasks/run-cats/task.yml
