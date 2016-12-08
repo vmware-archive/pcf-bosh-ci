@@ -97,6 +97,13 @@ resources:
     json_key: {{google_json_key}}
     versioned_file: cf-cats-config.json
 
+- name: cf-rats-config
+  type: gcs-resource
+  source:
+    bucket: pcf-bosh-ci
+    json_key: {{google_json_key}}
+    versioned_file: cf-rats-config.json
+
 - name: terraform-vars
   type: gcs-resource
   source:
@@ -218,3 +225,19 @@ jobs:
     file: pcf-bosh-ci/tasks/enable-diego-docker/task.yml
   - task: run-cats
     file: pcf-bosh-ci/tasks/run-cats/task.yml
+
+- name: run-rats
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: cf-acceptance-tests
+    - get: cf-rats-config
+    - get: cf-deployment
+      passed: [deploy-pcf]
+    - get: cf-creds
+      trigger: true
+      passed: [deploy-pcf]
+  - task: fetch-routing-release
+    file: pcf-bosh-ci/tasks/fetch-routing-release/task.yml
+  - task: run-rats
+    file: pcf-bosh-ci/tasks/run-rats/task.yml

@@ -1,0 +1,16 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: { repository: pcfbosh/minimal }
+
+inputs:
+- name: pcf-bosh-ci
+- name: cf-deployment
+
+outputs:
+- name: routing-release
+
+run:
+  path: pcf-bosh-ci/tasks/fetch-routing-release/task.sh
