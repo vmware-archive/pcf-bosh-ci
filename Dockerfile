@@ -20,3 +20,10 @@ RUN wget -q -O /tmp/network-policy-plugin "https://github.com/cloudfoundry-incub
   chmod +x /tmp/network-policy-plugin && \
   cf install-plugin /tmp/network-policy-plugin -f && \
   rm -rf /tmp/*
+
+# Install the routing cli
+RUN wget -q https://github.com/cloudfoundry-incubator/routing-api-cli/releases/download/2.7.0/rtr-linux-amd64.tgz && \
+    tar -xvf rtr-linux-amd64.tgz && \
+    chmod +x rtr-linux-amd64 && \
+    mv rtr-linux-amd64 /usr/local/bin/rtr && \
+    rm rtr-linux-amd64.tgz
