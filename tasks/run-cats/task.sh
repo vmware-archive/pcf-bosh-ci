@@ -2,10 +2,9 @@
 
 set -e
 
-export CONFIG
-CONFIG="$PWD/cf-cats-config/cf-cats-config.json"
+export CONFIG="$PWD/cf-cats-config/cf-cats-config.json"
 
-CF_GOPATH=/go/src/github.com/cloudfoundry/
+export CF_GOPATH="/go/src/github.com/cloudfoundry/"
 
 echo "Moving cf-acceptance-tests onto the gopath..."
 mkdir -p $CF_GOPATH
