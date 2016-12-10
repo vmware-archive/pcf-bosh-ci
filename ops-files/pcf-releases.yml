@@ -1,0 +1,63 @@
+- type: replace
+  path: /releases/-
+  value:
+    name: notifications-ui
+    version: ((notifications_ui_release_version))
+    url: ((notifications_ui_release_path))
+
+- type: replace
+  path: /releases/-
+  value:
+    name: mysql-monitoring
+    version: ((mysql_monitoring_release_version))
+    url: ((mysql_monitoring_release_path))
+
+- type: replace
+  path: /releases/-
+  value:
+    name: cf-autoscaling
+    version: ((cf_autoscaling_release_version))
+    url: ((cf_autoscaling_release_path))
+
+- type: replace
+  path: /releases/-
+  value:
+    name: mysql-backup
+    version: ((mysql_backup_release_version))
+    url: ((mysql_backup_release_path))
+
+
+- type: replace
+  path: /releases/-
+  value:
+    name: console
+    version: ((console_release_version))
+    url: ((console_release_path))
+
+- type: replace
+  path: /releases/-
+  value:
+    name: postgres
+    version: ((postgres_release_version))
+    url: ((postgres_release_path))
+
+- type: replace
+  path: /releases/-
+  value:
+    name: cf
+    version: ((cf_release_version))
+    url: ((cf_release_path))
+
+#- type: replace
+#  path: /releases/-
+#  value:
+#    name: service-backup
+#    version: ((service_backup_release_version))
+#    url: ((service_backup_release_path))
+
+#- type: replace
+#  path: /releases/-
+#  value:
+#    name: pivotal-account
+#    version: ((pivotal_account_release_version))
+#    url: ((pivotal_account_release_path))

@@ -10,6 +10,15 @@ inputs:
 - name: bosh-creds
 - name: cf-deployment
 - name: cf-creds
+- name: postgres-release
+- name: notifications-ui-release
+- name: mysql-monitoring-release
+- name: cf-autoscaling-release
+- name: mysql-backup-release
+- name: cf-release
+- name: console-release
+#- name: service-backup-release
+#- name: pivotal-account-release
 
 outputs:
 - name: built-project

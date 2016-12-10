@@ -30,6 +30,72 @@ resources:
     uri: https://github.com/cloudfoundry/cf-acceptance-tests
     branch: master
 
+# github releases
+- name: notifications-ui-release
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: notifications-ui-release
+    access_token: {{github_releases_access_token}}
+
+- name: cf-autoscaling-release
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: cf-autoscaling-release
+    access_token: {{github_releases_access_token}}
+
+- name: console-release
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: console-release
+    access_token: {{github_releases_access_token}}
+
+# bosh.io releases
+- name: cf-release
+  type: bosh-io-release
+  source:
+    repository: cloudfoundry/cf-release
+
+- name: postgres-release
+  type: bosh-io-release
+  source:
+    repository: cloudfoundry/postgres-release
+
+# s3 releases
+- name: mysql-monitoring-release
+  type: s3
+  source:
+    bucket: mysql-monitoring-releases
+    regexp: final/mysql-monitoring-(\d+\.0).tgz
+    access_key_id: {{mysql_releases_access_key_id}}
+    secret_access_key: {{mysql_releases_secret_access_key}}
+
+- name: mysql-backup-release
+  type: s3
+  source:
+    bucket: mysql-backup-releases
+    regexp: final/mysql-backup-([\d.]+\.0).tgz
+    access_key_id: {{mysql_releases_access_key_id}}
+    secret_access_key: {{mysql_releases_secret_access_key}}
+
+#- name: service-backup-release
+#  type: s3
+#  source:
+#    bucket: some-service-bucket
+#    regexp:
+#    access_key_id: service_backup_release_access_key_id
+#    secret_access_key: service_backup_release_secret_access_key
+
+#- name: pivotal-account-release
+#  type: s3
+#  source:
+#    bucket: some--bucket
+#    regexp:
+#    access_key_id: pivotal_account_release_access_key_id
+#    secret_access_key: pivotal_account_release_secret_access_key
+
 - name: minimal-dockerfile
   type: git
   source:
@@ -202,6 +268,19 @@ jobs:
     - get: pcf-bosh-ci
     - get: cf-deployment
     - get: cf-creds
+#    - get: service-backup-release
+#    - get: pivotal-account-release
+    - get: notifications-ui-release
+    - get: mysql-monitoring-release
+    - get: cf-autoscaling-release
+    - get: mysql-backup-release
+    - get: console-release
+    - get: postgres-release
+      params:
+        tarball: true
+    - get: cf-release
+      params:
+        tarball: true
     - get: bosh-creds
       trigger: true
       passed: [upload-cloud-config, upload-stemcell]
