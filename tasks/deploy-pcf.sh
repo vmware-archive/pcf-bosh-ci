@@ -18,8 +18,8 @@ bosh -n deploy cf-deployment/cf-deployment.yml \
   --var "console_release_path=file://$(ls "$PWD"/console-release/*.tgz)" \
   --var "console_release_version=$(cat "$PWD/console-release/version")" \
   --var "cf_release_path=file://$(ls "$PWD"/cf-release/*.tgz)" \
-  --var "postgres_release_p2ath=file://$(ls "$PWD"/postgres-release/*.tgz)" \
   --var "cf_release_version=$(cat "$PWD/cf-release/version")" \
+  --var "postgres_release_path=file://$(ls "$PWD"/postgres-release/*.tgz)" \
   --var "postgres_release_version=$(cat "$PWD/postgres-release/version")" \
   --var "mysql_monitoring_release_path=file://$(ls "$PWD"/mysql-monitoring-release/*.tgz)" \
   --var "mysql_monitoring_release_version=$(cat "$PWD/mysql-monitoring-release/version")" \
