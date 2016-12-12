@@ -36,7 +36,7 @@ resources:
     uri: https://github.com/cloudfoundry/cf-acceptance-tests
     branch: master
 
-- name: p-ert
+- name: p-ert-bosh-experiment
   type: git
   source:
     uri: https://github.com/pivotal-cf/p-ert-bosh-experiment
