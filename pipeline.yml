@@ -36,6 +36,12 @@ resources:
     uri: https://github.com/cloudfoundry/cf-acceptance-tests
     branch: master
 
+- name: p-ert
+  type: git
+  source:
+    uri: https://github.com/pivotal-cf/p-ert-bosh-experiment
+    branch: master
+
 # github releases
 - name: notifications-ui-release
   type: github-release
@@ -263,6 +269,8 @@ jobs:
   - aggregate:
     - get: pcf-bosh-ci
     - get: cf-deployment
+    - get: p-ert
+      resource: p-ert-bosh-experiment
     - get: cf-creds
     - get: service-backup-release
       params:

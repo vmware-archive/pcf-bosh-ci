@@ -9,6 +9,7 @@ inputs:
 - name: pcf-bosh-ci
 - name: bosh-creds
 - name: cf-deployment
+- name: p-ert
 - name: cf-creds
 - name: postgres-release
 - name: notifications-ui-release
