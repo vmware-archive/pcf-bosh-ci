@@ -8,6 +8,7 @@ bosh -n deploy cf-deployment/cf-deployment.yml \
   --deployment cf \
   --ops-file cf-deployment/opsfiles/gcp.yml \
   --ops-file pcf-bosh-ci/ops-files/cf-apps-domain.yml \
+  --ops-file pcf-bosh-ci/ops-files/pcf-releases.yml \
   --vars-store new-cf-creds/cf-creds.yml \
   --var system_domain=sys.ol-smokey.gcp.pcf-bosh.cf-app.com \
   --var notifications_ui_release_path="file://$PWD/notifications-ui-release/notifications-ui*.tgz" \
