@@ -89,7 +89,7 @@ resources:
 - name: service-backup-release
   type: pivnet
   source:
-    api_token: ((pivnet_api_token))
+    api_token: {{pivnet_api_token}}
     product_slug: service-backups-sdk
 
 - name: minimal-dockerfile
