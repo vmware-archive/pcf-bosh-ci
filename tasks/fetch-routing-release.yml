@@ -7,8 +7,10 @@ image_resource:
 
 inputs:
 - name: pcf-bosh-ci
-- name: cf-acceptance-tests
-- name: cf-cats-config
+- name: cf-deployment
+
+outputs:
+- name: routing-release
 
 run:
-  path: pcf-bosh-ci/tasks/run-cats/task.sh
+  path: pcf-bosh-ci/tasks/fetch-routing-release.sh

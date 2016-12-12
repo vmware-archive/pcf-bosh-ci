@@ -231,7 +231,7 @@ jobs:
       trigger: true
       passed: [terraform-up]
   - task: deploy-director
-    file: pcf-bosh-ci/tasks/deploy-director/task.yml
+    file: pcf-bosh-ci/tasks/deploy-director.yml
     ensure:
       aggregate:
       - put: bosh-state
@@ -249,7 +249,7 @@ jobs:
       trigger: true
       passed: [deploy-director]
   - task: upload-cloud-config
-    file: pcf-bosh-ci/tasks/upload-cloud-config/task.yml
+    file: pcf-bosh-ci/tasks/upload-cloud-config.yml
 
 - name: upload-stemcell
   plan:
@@ -260,7 +260,7 @@ jobs:
       trigger: true
       passed: [deploy-director]
   - task: upload-stemcell
-    file: pcf-bosh-ci/tasks/upload-stemcell/task.yml
+    file: pcf-bosh-ci/tasks/upload-stemcell.yml
 
 - name: deploy-pcf
   plan:
@@ -285,7 +285,7 @@ jobs:
       trigger: true
       passed: [upload-cloud-config, upload-stemcell]
   - task: deploy-pcf
-    file: pcf-bosh-ci/tasks/deploy-pcf/task.yml
+    file: pcf-bosh-ci/tasks/deploy-pcf.yml
     ensure:
         put: cf-creds
         params:
@@ -301,9 +301,9 @@ jobs:
       trigger: true
       passed: [deploy-pcf]
   - task: enable-diego-docker
-    file: pcf-bosh-ci/tasks/enable-diego-docker/task.yml
+    file: pcf-bosh-ci/tasks/enable-diego-docker.yml
   - task: run-cats
-    file: pcf-bosh-ci/tasks/run-cats/task.yml
+    file: pcf-bosh-ci/tasks/run-cats.yml
 
 - name: run-rats
   plan:
@@ -317,6 +317,6 @@ jobs:
       trigger: true
       passed: [deploy-pcf]
   - task: fetch-routing-release
-    file: pcf-bosh-ci/tasks/fetch-routing-release/task.yml
+    file: pcf-bosh-ci/tasks/fetch-routing-release.yml
   - task: run-rats
-    file: pcf-bosh-ci/tasks/run-rats/task.yml
+    file: pcf-bosh-ci/tasks/run-rats.yml

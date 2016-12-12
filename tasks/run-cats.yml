@@ -7,7 +7,8 @@ image_resource:
 
 inputs:
 - name: pcf-bosh-ci
-- name: cf-creds
+- name: cf-acceptance-tests
+- name: cf-cats-config
 
 run:
-  path: pcf-bosh-ci/tasks/enable-diego-docker/task.sh
+  path: pcf-bosh-ci/tasks/run-cats.sh

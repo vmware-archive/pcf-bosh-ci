@@ -19,4 +19,4 @@ outputs:
 - name: new-bosh-creds
 
 run:
-  path: pcf-bosh-ci/tasks/deploy-director/task.sh
+  path: pcf-bosh-ci/tasks/deploy-director.sh
