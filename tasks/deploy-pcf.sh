@@ -25,4 +25,4 @@ bosh -n deploy cf-deployment/cf-deployment.yml \
   --var mysql_backup_release_path="file://$PWD/mysql-backup-release/*.tgz" \
   --var mysql_backup_release_version="$(cat "$PWD/mysql-backup-release/version")" \
   --var service_backup_release_path="file://$PWD/service-backup-release/service-backup*.tgz" \
-  --var service_backup_release_version="$(jq "$PWD/service-backup-release/metadata" -r .release.version)"
+  --var service_backup_release_version="$(jq -r .Release.Version "$PWD/service-backup-release/metadata.json")"
