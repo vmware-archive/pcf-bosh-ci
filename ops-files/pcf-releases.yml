@@ -48,16 +48,9 @@
     version: ((cf_release_version))
     url: ((cf_release_path))
 
-#- type: replace
-#  path: /releases/-
-#  value:
-#    name: service-backup
-#    version: ((service_backup_release_version))
-#    url: ((service_backup_release_path))
-
-#- type: replace
-#  path: /releases/-
-#  value:
-#    name: pivotal-account
-#    version: ((pivotal_account_release_version))
-#    url: ((pivotal_account_release_path))
+- type: replace
+  path: /releases/-
+  value:
+    name: service-backup
+    version: ((service_backup_release_version))
+    url: ((service_backup_release_path))
