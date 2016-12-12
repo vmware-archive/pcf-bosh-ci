@@ -24,8 +24,5 @@ bosh -n deploy cf-deployment/cf-deployment.yml \
   --var mysql_monitoring_release_version="$(cat "file://$PWD/mysql-monitoring-release/version")" \
   --var mysql_backup_release_path="file://$PWD/mysql-backup-release/*.tgz" \
   --var mysql_backup_release_version="$(cat "file://$PWD/mysql-backup-release/version")" \
-
-#  --var service_backup_release_path="file://$PWD/service-backup-release/service-backup*.tgz"
-#  --var service_backup_release_version="file://$PWD/service-backup-release/version"
-#  --var pivotal_account_release_path="file://$PWD/pivotal-account-release/pivotal-account*.tgz"
-#  --var pivotal_account_release_version="file://$PWD/pivotal-account-release/version"
+  --var service_backup_release_path="file://$PWD/service-backup-release/service-backup*.tgz" \
+  --var service_backup_release_version="$(jq "file://$PWD/service-backup-release/metadata" -r .release.version)"

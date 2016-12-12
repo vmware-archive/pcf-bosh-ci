@@ -10,6 +10,12 @@ resource_types:
   source:
     repository: frodenas/gcs-resource
 
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
 resources:
 - name: pcf-bosh-ci
   type: git
@@ -80,21 +86,11 @@ resources:
     access_key_id: {{mysql_releases_access_key_id}}
     secret_access_key: {{mysql_releases_secret_access_key}}
 
-#- name: service-backup-release
-#  type: s3
-#  source:
-#    bucket: some-service-bucket
-#    regexp:
-#    access_key_id: service_backup_release_access_key_id
-#    secret_access_key: service_backup_release_secret_access_key
-
-#- name: pivotal-account-release
-#  type: s3
-#  source:
-#    bucket: some--bucket
-#    regexp:
-#    access_key_id: pivotal_account_release_access_key_id
-#    secret_access_key: pivotal_account_release_secret_access_key
+- name: service-backup-release
+  type: pivnet
+  source:
+    api_token: ((pivnet_api_token))
+    product_slug: service-backups-sdk
 
 - name: minimal-dockerfile
   type: git
@@ -268,8 +264,10 @@ jobs:
     - get: pcf-bosh-ci
     - get: cf-deployment
     - get: cf-creds
-#    - get: service-backup-release
-#    - get: pivotal-account-release
+    - get: service-backup-release
+      params:
+        globs:
+        - "*tgz"
     - get: notifications-ui-release
     - get: mysql-monitoring-release
     - get: cf-autoscaling-release

@@ -17,8 +17,7 @@ inputs:
 - name: mysql-backup-release
 - name: cf-release
 - name: console-release
-#- name: service-backup-release
-#- name: pivotal-account-release
+- name: service-backup-release
 
 outputs:
 - name: built-project
