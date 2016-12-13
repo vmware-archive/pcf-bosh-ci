@@ -57,11 +57,11 @@ resources:
     repository: cf-autoscaling-release
     access_token: {{github_releases_access_token}}
 
-- name: console-release
+- name: push-apps-manager-release
   type: github-release
   source:
     user: pivotal-cf
-    repository: console-release
+    repository: apps-manager-release
     access_token: {{github_releases_access_token}}
 
 # bosh.io releases
@@ -280,7 +280,7 @@ jobs:
     - get: mysql-monitoring-release
     - get: cf-autoscaling-release
     - get: mysql-backup-release
-    - get: console-release
+    - get: push-apps-manager-release
     - get: postgres-release
       params:
         tarball: true

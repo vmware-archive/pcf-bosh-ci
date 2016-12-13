@@ -17,7 +17,7 @@ inputs:
 - name: cf-autoscaling-release
 - name: mysql-backup-release
 - name: cf-release
-- name: console-release
+- name: push-apps-manager-release
 - name: service-backup-release
 
 outputs:
