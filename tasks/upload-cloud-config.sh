@@ -2,4 +2,4 @@
 
 source pcf-bosh-ci/scripts/load-director-environment.sh bosh-creds/bosh-creds.yml
 
-bosh -n update-cloud-config pcf-bosh-ci/cloud-config.yml
+bosh -n update-cloud-config cloud-config/cloud-config.yml

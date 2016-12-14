@@ -24,6 +24,14 @@ resources:
     branch: master
     private_key: {{pcf-bosh-ci_deploy_key}}
 
+- name: cloud-config
+  type: git
+  source:
+    uri: git@github.com:pivotal-cf/pcf-bosh-ci
+    branch: master
+    private_key: {{pcf-bosh-ci_deploy_key}}
+    paths: [cloud-config.yml]
+
 - name: cf-deployment
   type: git
   source:
@@ -198,6 +206,8 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-bosh-ci
+    - get: cloud-config
+      trigger: true
     - get: bosh-creds
       trigger: true
       passed: [deploy-director]
