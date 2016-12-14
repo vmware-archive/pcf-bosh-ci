@@ -269,22 +269,32 @@ jobs:
   - aggregate:
     - get: pcf-bosh-ci
     - get: cf-deployment
+      trigger: true
     - get: p-ert
       resource: p-ert-bosh-experiment
+      trigger: true
     - get: cf-creds
     - get: service-backup-release
+      trigger: true
       params:
         globs:
         - "*tgz"
     - get: notifications-ui-release
+      trigger: true
     - get: mysql-monitoring-release
+      trigger: true
     - get: cf-autoscaling-release
+      trigger: true
     - get: mysql-backup-release
+      trigger: true
     - get: push-apps-manager-release
+      trigger: true
     - get: postgres-release
+      trigger: true
       params:
         tarball: true
     - get: cf-release
+      trigger: true
       params:
         tarball: true
     - get: bosh-creds
