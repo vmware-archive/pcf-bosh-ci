@@ -16,8 +16,10 @@ bosh -n deploy cf-deployment/cf-deployment.yml \
   --var "cf_release_version=246.0.2" \
   --var "postgres_release_path=file://$(ls "$PWD"/closed-source-releases/postgres*.tgz)" \
   --var "postgres_release_version=8" \
-  --var "notifications_ui_release_path=file://$(ls "$PWD"/closed-source-releases/notifications*.tgz)" \
-  --var "notifications_ui_release_version=31" \
+  --var "notifications_release_path=file://$(ls "$PWD"/closed-source-releases/notifications-31*.tgz)" \
+  --var "notifications_release_version=31" \
+  --var "notifications_ui_release_path=file://$(ls "$PWD"/closed-source-releases/notifications-ui*.tgz)" \
+  --var "notifications_ui_release_version=26" \
   --var "cf_autoscaling_release_path=file://$(ls "$PWD"/closed-source-releases/cf-autoscaling*.tgz)" \
   --var "cf_autoscaling_release_version=67" \
   --var "push_apps_manager_release_path=file://$(ls "$PWD"/closed-source-releases/push-apps-manager*.tgz)" \
