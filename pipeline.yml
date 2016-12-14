@@ -184,6 +184,8 @@ jobs:
   - aggregate:
     - get: pcf-bosh-ci
     - get: bosh-deployment
+      version:
+        ref: 1b7d6d8c39afa6cac5f90351e586655ff1b963bf
     - get: bosh-state
     - get: bosh-creds
     - get: bosh-vars
