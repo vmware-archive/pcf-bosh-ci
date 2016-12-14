@@ -9,9 +9,11 @@ bosh -n deploy cf-deployment/cf-deployment.yml \
   --ops-file cf-deployment/opsfiles/gcp.yml \
   --ops-file p-ert/releases.yml \
   --ops-file p-ert/pivotal-defaults.yml \
+  --ops-file p-ert/smoke-tests.yml \
   --ops-file pcf-bosh-ci/ops-files/cf-apps-domain.yml \
   --vars-store new-cf-creds/cf-creds.yml \
   --var system_domain=sys.ol-smokey.gcp.pcf-bosh.cf-app.com \
+  --var apps_domain=apps.ol-smokey.gcp.pcf-bosh.cf-app.com \
   --var "cf_release_path=file://$(ls "$PWD"/closed-source-releases/cf-246*.tgz)" \
   --var "cf_release_version=246.0.2" \
   --var "postgres_release_path=file://$(ls "$PWD"/closed-source-releases/postgres*.tgz)" \
