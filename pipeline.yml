@@ -221,6 +221,7 @@ jobs:
   - aggregate:
     - get: pcf-bosh-ci
     - get: stemcell
+      trigger: true
     - get: bosh-creds
       trigger: true
       passed: [deploy-director]
