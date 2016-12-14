@@ -50,6 +50,11 @@ resources:
     uri: https://github.com/pivotal-cf/p-ert-bosh-experiment
     branch: master
 
+- name: terraform
+  type: docker-image
+  source:
+    repository: ljfranklin/terraform-resource
+
 - name: terraforming-gcp
   type: git
   source:
@@ -147,7 +152,11 @@ jobs:
   plan:
   - aggregate:
     - get: terraforming-gcp
+      trigger: true
     - get: terraform-vars
+      trigger: true
+    - get: terraform
+      trigger: true
   - put: terraform-state
     params:
       var_file: terraform-vars/terraform.tfvars.yml
