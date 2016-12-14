@@ -50,21 +50,6 @@ resources:
     uri: https://github.com/pivotal-cf/p-ert-bosh-experiment
     branch: master
 
-- name: minimal-dockerfile
-  type: git
-  source:
-    uri: git@github.com:pivotal-cf/pcf-bosh-ci
-    private_key: {{pcf-bosh-ci_deploy_key}}
-    paths: [Dockerfile]
-    branch: master
-
-- name: minimal-docker-image
-  type: docker-image
-  source:
-    repository: pcfbosh/minimal
-    username: {{dockerhub_username}}
-    password: {{dockerhub_password}}
-
 - name: terraforming-gcp
   type: git
   source:
@@ -158,15 +143,6 @@ resources:
     name: bosh-google-kvm-ubuntu-trusty-go_agent
 
 jobs:
-- name: minimal-docker-image
-  public: true
-  plan:
-  - get: minimal-dockerfile
-    trigger: true
-  - put: minimal-docker-image
-    params:
-      build: minimal-dockerfile
-
 - name: terraform-up
   plan:
   - aggregate:
