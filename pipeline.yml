@@ -42,62 +42,6 @@ resources:
     uri: https://github.com/pivotal-cf/p-ert-bosh-experiment
     branch: master
 
-# github releases
-- name: notifications-ui-release
-  type: github-release
-  source:
-    user: pivotal-cf
-    repository: notifications-ui-release
-    access_token: {{github_releases_access_token}}
-
-- name: cf-autoscaling-release
-  type: github-release
-  source:
-    user: pivotal-cf
-    repository: cf-autoscaling-release
-    access_token: {{github_releases_access_token}}
-
-- name: push-apps-manager-release
-  type: github-release
-  source:
-    user: pivotal-cf
-    repository: apps-manager-release
-    access_token: {{github_releases_access_token}}
-
-# bosh.io releases
-- name: cf-release
-  type: bosh-io-release
-  source:
-    repository: cloudfoundry/cf-release
-
-- name: postgres-release
-  type: bosh-io-release
-  source:
-    repository: cloudfoundry/postgres-release
-
-# s3 releases
-- name: mysql-monitoring-release
-  type: s3
-  source:
-    bucket: mysql-monitoring-releases
-    regexp: final/mysql-monitoring-(\d+\.0).tgz
-    access_key_id: {{mysql_releases_access_key_id}}
-    secret_access_key: {{mysql_releases_secret_access_key}}
-
-- name: mysql-backup-release
-  type: s3
-  source:
-    bucket: mysql-backup-releases
-    regexp: final/mysql-backup-([\d.]+\.0).tgz
-    access_key_id: {{mysql_releases_access_key_id}}
-    secret_access_key: {{mysql_releases_secret_access_key}}
-
-- name: service-backup-release
-  type: pivnet
-  source:
-    api_token: {{pivnet_api_token}}
-    product_slug: service-backups-sdk
-
 - name: minimal-dockerfile
   type: git
   source:
@@ -193,6 +137,13 @@ resources:
     json_key: {{google_json_key}}
     versioned_file: credhub-0.3.0.tgz
 
+- name: closed-source-releases-zip
+  type: gcs-resource
+  source:
+    bucket: pcf-bosh-ci
+    json_key: {{google_json_key}}
+    versioned_file: closed-source-releases.zip
+
 - name: stemcell
   type: bosh-io-stemcell
   source:
@@ -274,32 +225,12 @@ jobs:
       resource: p-ert-bosh-experiment
       trigger: true
     - get: cf-creds
-    - get: service-backup-release
-      trigger: true
-      params:
-        globs:
-        - "*tgz"
-    - get: notifications-ui-release
-      trigger: true
-    - get: mysql-monitoring-release
-      trigger: true
-    - get: cf-autoscaling-release
-      trigger: true
-    - get: mysql-backup-release
-      trigger: true
-    - get: push-apps-manager-release
-      trigger: true
-    - get: postgres-release
-      trigger: true
-      params:
-        tarball: true
-    - get: cf-release
-      trigger: true
-      params:
-        tarball: true
+    - get: closed-source-releases-zip
     - get: bosh-creds
       trigger: true
       passed: [upload-cloud-config, upload-stemcell]
+  - task: extract-closed-source-releases
+    file: pcf-bosh-ci/tasks/extract-closed-source-releases.yml
   - task: deploy-pcf
     file: pcf-bosh-ci/tasks/deploy-pcf.yml
     ensure:

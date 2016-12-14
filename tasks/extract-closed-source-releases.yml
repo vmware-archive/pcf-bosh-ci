@@ -7,8 +7,10 @@ image_resource:
 
 inputs:
 - name: pcf-bosh-ci
-- name: bosh-creds
-- name: stemcell
+- name: closed-source-releases-zip
+
+outputs:
+- name: closed-source-releases
 
 run:
-  path: pcf-bosh-ci/tasks/upload-stemcell.sh
+  path: pcf-bosh-ci/tasks/extract-closed-source-releases.sh

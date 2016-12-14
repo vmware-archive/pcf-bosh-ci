@@ -11,17 +11,9 @@ inputs:
 - name: cf-deployment
 - name: p-ert
 - name: cf-creds
-- name: postgres-release
-- name: notifications-ui-release
-- name: mysql-monitoring-release
-- name: cf-autoscaling-release
-- name: mysql-backup-release
-- name: cf-release
-- name: push-apps-manager-release
-- name: service-backup-release
+- name: closed-source-releases
 
 outputs:
-- name: built-project
 - name: new-cf-creds
 
 run:
