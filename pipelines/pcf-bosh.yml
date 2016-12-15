@@ -201,6 +201,7 @@ jobs:
   - aggregate:
     - get: pcf-bosh-ci
     - get: cf-deployment
+      trigger: true
     - get: bosh-creds
       trigger: true
       passed: [deploy-director]
