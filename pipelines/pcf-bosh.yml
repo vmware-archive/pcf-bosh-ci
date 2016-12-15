@@ -142,11 +142,6 @@ resources:
     json_key: {{google_json_key}}
     versioned_file: closed-source-releases.zip
 
-- name: stemcell
-  type: bosh-io-stemcell
-  source:
-    name: bosh-google-kvm-ubuntu-trusty-go_agent
-
 jobs:
 - name: terraform-up
   plan:
@@ -205,10 +200,14 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-bosh-ci
-    - get: stemcell
+    - get: cf-deployment
     - get: bosh-creds
       trigger: true
       passed: [deploy-director]
+  - task: stemcell-url-from-cf-deployment
+    file: pcf-bosh-ci/tasks/stemcell-url-from-cf-deployment.yml
+    params:
+      NAME: bosh-google-kvm-ubuntu-trusty-go_agent
   - task: upload-stemcell
     file: pcf-bosh-ci/tasks/upload-stemcell.yml
 
@@ -218,6 +217,7 @@ jobs:
     - get: pcf-bosh-ci
     - get: cf-deployment
       trigger: true
+      passed: [upload-stemcell]
     - get: p-ert
       resource: p-ert-bosh-experiment
       trigger: true

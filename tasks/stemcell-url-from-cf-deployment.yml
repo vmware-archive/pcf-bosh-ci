@@ -7,8 +7,13 @@ image_resource:
 
 inputs:
 - name: pcf-bosh-ci
-- name: bosh-creds
+- name: cf-deployment
+
+params:
+  NAME:
+
+outputs:
 - name: stemcell-url
 
 run:
-  path: pcf-bosh-ci/tasks/upload-stemcell.sh
+  path: pcf-bosh-ci/tasks/stemcell-url-from-cf-deployment.sh
