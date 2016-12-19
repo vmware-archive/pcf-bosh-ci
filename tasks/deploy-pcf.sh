@@ -30,5 +30,7 @@ bosh -n deploy cf-deployment/cf-deployment.yml \
   --var "mysql_monitoring_release_version=6" \
   --var "mysql_backup_release_path=file://$(ls "$PWD"/closed-source-releases/mysql-backup*.tgz)" \
   --var "mysql_backup_release_version=1.28.0" \
+  --var "pivotal_account_release_path=file://$(ls "$PWD"/closed-source-releases/pivotal-account*.tgz)" \
+  --var "pivotal_account_release_version=1" \
   --var "service_backup_release_path=file://$(ls "$PWD"/closed-source-releases/service-backup*.tgz)" \
   --var "service_backup_release_version=17.2.0"
