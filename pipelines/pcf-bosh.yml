@@ -236,6 +236,17 @@ jobs:
         params:
           file: new-cf-creds/*
 
+- name: smoke-tests
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: bosh-creds
+    - get: cf-creds
+      trigger: true
+      passed: [deploy-pcf]
+  - task: run-smoke-tests
+    file: pcf-bosh-ci/tasks/run-smoke-tests.yml
+
 - name: run-cats
   plan:
   - aggregate:
