@@ -213,6 +213,7 @@ jobs:
     file: pcf-bosh-ci/tasks/upload-stemcell.yml
 
 - name: deploy-pcf
+  serial: true
   plan:
   - aggregate:
     - get: pcf-bosh-ci
