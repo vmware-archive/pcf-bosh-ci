@@ -156,6 +156,8 @@ vm_extensions:
 - name: cf-tcp-router-network-properties
   cloud_properties:
     target_pool: ol-smokey-cf-tcp
+    tags:
+    - ol-smokey-cf-tcp
 
 - name: diego-ssh-proxy-network-properties
   cloud_properties:
