@@ -102,4 +102,4 @@
     name: credhub_certificate
     type: certificate
     options:
-      common_name: uaa.ol-smokey.gcp.pcf-bosh.cf-app.com
+      common_name: credhub.example.com
