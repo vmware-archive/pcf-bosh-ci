@@ -9,6 +9,7 @@ inputs:
 - name: pcf-bosh-ci
 - name: cloud-config
 - name: bosh-creds
+- name: terraform-state
 
 run:
   path: pcf-bosh-ci/tasks/upload-cloud-config.sh
