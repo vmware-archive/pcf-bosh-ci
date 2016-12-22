@@ -37,6 +37,7 @@ resources:
   source:
     uri: https://github.com/cloudfoundry/cf-deployment
     branch: master
+    tag_filter: "0\\.0\\.0"
 
 - name: cf-acceptance-tests
   type: git
