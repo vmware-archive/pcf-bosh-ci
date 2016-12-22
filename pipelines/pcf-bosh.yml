@@ -261,6 +261,8 @@ jobs:
     - get: cf-creds
       trigger: true
       passed: [deploy-pcf]
+    - get: terraform-state
+      passed: [deploy-pcf]
   - task: enable-diego-docker
     file: pcf-bosh-ci/tasks/enable-diego-docker.yml
   - task: run-cats

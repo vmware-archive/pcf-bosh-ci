@@ -8,6 +8,7 @@ image_resource:
 inputs:
 - name: pcf-bosh-ci
 - name: cf-creds
+- name: terraform-state
 
 run:
   path: pcf-bosh-ci/tasks/enable-diego-docker.sh

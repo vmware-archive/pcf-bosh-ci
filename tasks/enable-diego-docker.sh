@@ -6,7 +6,7 @@ creds_json=$(ruby -ryaml -rjson -e "puts JSON.pretty_generate(YAML.load_file('cf
 
 cf_username="admin"
 cf_password=$(echo "$creds_json" | jq -r .uaa_scim_users_admin_password)
-cf_target="https://api.sys.ol-smokey.gcp.pcf-bosh.cf-app.com"
+cf_target="https://api.$(jq -r .sys_domain terraform-state/metadata)"
 
 cf api "$cf_target" --skip-ssl-validation
 
