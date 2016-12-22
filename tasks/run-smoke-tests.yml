@@ -8,6 +8,7 @@ image_resource:
 inputs:
 - name: pcf-bosh-ci
 - name: bosh-creds
+- name: terraform-state
 
 run:
   path: pcf-bosh-ci/tasks/run-smoke-tests.sh

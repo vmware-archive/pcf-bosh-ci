@@ -9,6 +9,7 @@ inputs:
 - name: pcf-bosh-ci
 - name: bosh-creds
 - name: stemcell-url
+- name: terraform-state
 
 run:
   path: pcf-bosh-ci/tasks/upload-stemcell.sh

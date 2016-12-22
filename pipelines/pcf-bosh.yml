@@ -203,6 +203,8 @@ jobs:
     - get: bosh-creds
       trigger: true
       passed: [deploy-director]
+    - get: terraform-state
+      passed: [deploy-director]
   - task: stemcell-url-from-cf-deployment
     file: pcf-bosh-ci/tasks/stemcell-url-from-cf-deployment.yml
     params:
@@ -226,6 +228,8 @@ jobs:
     - get: bosh-creds
       trigger: true
       passed: [upload-cloud-config, upload-stemcell]
+    - get: terraform-state
+      passed: [upload-cloud-config, upload-stemcell]
   - task: extract-closed-source-releases
     file: pcf-bosh-ci/tasks/extract-closed-source-releases.yml
   - task: deploy-pcf
@@ -242,6 +246,8 @@ jobs:
     - get: bosh-creds
     - get: cf-creds
       trigger: true
+      passed: [deploy-pcf]
+    - get: terraform-state
       passed: [deploy-pcf]
   - task: run-smoke-tests
     file: pcf-bosh-ci/tasks/run-smoke-tests.yml

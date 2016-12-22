@@ -12,6 +12,7 @@ inputs:
 - name: p-ert
 - name: cf-creds
 - name: closed-source-releases
+- name: terraform-state
 
 outputs:
 - name: new-cf-creds
