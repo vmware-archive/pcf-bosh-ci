@@ -15,8 +15,8 @@ bosh -n deploy cf-deployment/cf-deployment.yml \
   --ops-file p-ert/smoke-tests.yml \
   --ops-file pcf-bosh-ci/ops-files/cf-apps-domain.yml \
   --vars-store new-cf-creds/cf-creds.yml \
-  --var system_domain=sys.ol-smokey.gcp.pcf-bosh.cf-app.com \
-  --var apps_domain=apps.ol-smokey.gcp.pcf-bosh.cf-app.com \
+  --var "system_domain=$(jq -r .sys_domain terraform-state/metadata)" \
+  --var "apps_domain=$(jq -r .apps_domain terraform-state/metadata)" \
   --var "cf_release_path=file://$(ls "$PWD"/closed-source-releases/cf-246*.tgz)" \
   --var "cf_release_version=246.0.2" \
   --var "postgres_release_path=file://$(ls "$PWD"/closed-source-releases/postgres*.tgz)" \
