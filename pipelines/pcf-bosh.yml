@@ -176,6 +176,8 @@ jobs:
       passed: [terraform-up]
   - task: deploy-director
     file: pcf-bosh-ci/tasks/deploy-director.yml
+    params:
+      GOOGLE_JSON_KEY: {{google_json_key}}
     ensure:
       aggregate:
       - put: bosh-state

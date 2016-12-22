@@ -16,4 +16,5 @@ bosh create-env bosh-deployment/bosh.yml \
   --vars-store new-bosh-creds/bosh-creds.yml \
   --vars-file bosh-vars/bosh-vars.yml \
   --var file_path_to_credhub_release="file://$PWD/credhub-release/credhub-0.3.0.tgz" \
+  --var gcp_credentials_json="$GOOGLE_JSON_KEY" \
   --var external_ip="$(jq -r .director_external_ip terraform-state/metadata)"

@@ -14,6 +14,9 @@ inputs:
 - name: bosh-creds
 - name: terraform-state
 
+params:
+  GOOGLE_JSON_KEY:
+
 outputs:
 - name: new-bosh-state
 - name: new-bosh-creds
