@@ -101,13 +101,6 @@ resources:
     json_key: {{google_json_key}}
     versioned_file: cf-creds.yml
 
-- name: cf-cats-config
-  type: gcs-resource
-  source:
-    bucket: pcf-bosh-ci
-    json_key: {{google_json_key}}
-    versioned_file: cf-cats-config.json
-
 - name: cf-rats-config
   type: gcs-resource
   source:
@@ -257,7 +250,6 @@ jobs:
   - aggregate:
     - get: pcf-bosh-ci
     - get: cf-acceptance-tests
-    - get: cf-cats-config
     - get: cf-creds
       trigger: true
       passed: [deploy-pcf]
