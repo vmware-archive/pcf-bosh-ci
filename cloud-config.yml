@@ -1,13 +1,13 @@
 azs:
 - name: z1
   cloud_properties:
-    zone: us-central1-a
+    zone: ((z1))
 - name: z2
   cloud_properties:
-    zone: us-central1-b
+    zone: ((z2))
 - name: z3
   cloud_properties:
-    zone: us-central1-c
+    zone: ((z3))
 
 vm_types:
 - name: t2.small
@@ -90,21 +90,18 @@ networks:
     - z1
     - z2
     - z3
-    gateway: 10.0.1.1
+    gateway: ((internal_gw))
     dns:
-    - 10.0.1.1
-    range: 10.0.1.0/24
-    reserved:
-    - 10.0.1.2 - 10.0.1.3
-    - 10.0.1.255
+    - ((internal_gw))
+    range: ((internal_cidr))
+    reserved: ((reserved_ips))
     static:
-    - 10.0.1.190 - 10.0.1.254
+    - ((static_ip_start)) - ((static_ip_end))
     cloud_properties:
       ephemeral_external_ip: false
-      network_name: ol-smokey-pcf-network
-      subnetwork_name: ol-smokey-cf-subnet
-      tags:
-      - ol-smokey-vms
+      network_name: ((network))
+      subnetwork_name: ((subnetwork))
+      tags: ((cf_internal_tags))
 
 vm_extensions:
 - name: 5GB_ephemeral_disk
@@ -147,20 +144,16 @@ vm_extensions:
 
 - name: cf-router-network-properties
   cloud_properties:
-    backend_service: ol-smokey-httpslb
-    target_pool: ol-smokey-cf-ws
-    tags:
-    - ol-smokey-httpslb
-    - ol-smokey-cf-ws
+    backend_service: ((http_backend_service))
+    target_pool: ((ws_target_pool)
+    tags: ((public_tags))
 
 - name: cf-tcp-router-network-properties
   cloud_properties:
-    target_pool: ol-smokey-cf-tcp
-    tags:
-    - ol-smokey-cf-tcp
+    target_pool: ((tcp_target_pool))
+    tags: ((tcp_tags)
 
 - name: diego-ssh-proxy-network-properties
   cloud_properties:
-    target_pool: ol-smokey-cf-ssh
-    tags:
-    - ol-smokey-cf-ssh
+    target_pool: ((ssh_target_pool))
+    tags: ((ssh_tags))
