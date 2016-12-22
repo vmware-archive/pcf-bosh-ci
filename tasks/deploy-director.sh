@@ -13,6 +13,8 @@ network: $(jq -r .network_name terraform-state/metadata)
 project_id: $(jq -r .project terraform-state/metadata)
 subnetwork: $(jq -r .cf_subnet terraform-state/metadata)
 zone: $(jq -r .azs[0] terraform-state/metadata)
+bosh_director_tags: $(jq -r .bosh_director_tags terraform-state/metadata)
+bosh_director_domain: $(jq -r .bosh_director_domain terraform-state/metadata)
 gcp_credentials_json: |
     $(echo $GOOGLE_JSON_KEY)
 credhub_aes_key: 547378EB7909D6078C14FCBE631D3BAF

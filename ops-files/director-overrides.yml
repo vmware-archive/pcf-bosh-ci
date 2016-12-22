@@ -1,7 +1,7 @@
 - type: replace
   path: /networks/name=default/subnets/0/cloud_properties?/tags
-  value: [ol-smokey-vms, ol-smokey-director]
+  value: ((bosh_director_tags))
 
 - type: replace
   path: /variables/name=director_ssl/options/alternative_names/-
-  value: director.ol-smokey.gcp.pcf-bosh.cf-app.com
+  value: ((bosh_director_domain))
