@@ -151,7 +151,7 @@ jobs:
       var_file: terraform-vars/terraform.tfvars.yml
       terraform_source: terraforming-gcp
       delete_on_failure: true
-      env_name: ol-smokey
+      env_name: {{env_name}}
 
 - name: deploy-director
   plan:
