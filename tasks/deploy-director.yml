@@ -9,7 +9,6 @@ inputs:
 - name: pcf-bosh-ci
 - name: credhub-release
 - name: bosh-deployment
-- name: bosh-vars
 - name: bosh-state
 - name: bosh-creds
 - name: terraform-state

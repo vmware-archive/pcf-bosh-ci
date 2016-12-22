@@ -122,13 +122,6 @@ resources:
     json_key: {{google_json_key}}
     versioned_file: terraform.tfvars.yml
 
-- name: bosh-vars
-  type: gcs-resource
-  source:
-    bucket: pcf-bosh-ci
-    json_key: {{google_json_key}}
-    versioned_file: bosh-vars.yml
-
 - name: credhub-release
   type: gcs-resource
   source:
@@ -169,7 +162,6 @@ jobs:
         ref: 1b7d6d8c39afa6cac5f90351e586655ff1b963bf
     - get: bosh-state
     - get: bosh-creds
-    - get: bosh-vars
     - get: credhub-release
     - get: terraform-state
       trigger: true
