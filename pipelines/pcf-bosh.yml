@@ -59,7 +59,12 @@ resources:
   source:
     uri: https://github.com/cloudfoundry/cf-deployment
     branch: master
-    tag_filter: "0\\.0\\.0"
+
+    # This variable allows users to decide to lock to cf-deployment
+    # version 0.0.0 or to float on the latest commit to master. By
+    # setting the variable to "tag_filter", cf-deployment will be
+    # locked to 0.0.0.
+    {{set_to_tag_filter_to_lock_cf_deployment}}: "0\\.0\\.0"
 
 - name: cf-acceptance-tests
   type: git
