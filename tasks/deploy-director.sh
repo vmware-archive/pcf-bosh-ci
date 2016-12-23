@@ -21,8 +21,8 @@ credhub_aes_key: 547378EB7909D6078C14FCBE631D3BAF
 file_path_to_credhub_release: "file://$PWD/credhub-release/credhub-0.3.0.tgz"
 BOSHVARS
 
-cp "bosh-state/\"${ENV_NAME}\"-bosh-state.json" new-bosh-state/bosh-state.json
-cp "bosh-creds/\"${ENV_NAME}\"-bosh-creds.yml" new-bosh-creds/bosh-creds.yml
+cp "bosh-state/*-bosh-state.json" new-bosh-state/bosh-state.json
+cp "bosh-creds/*-bosh-creds.yml" new-bosh-creds/bosh-creds.yml
 
 bosh create-env bosh-deployment/bosh.yml \
   --state new-bosh-state/bosh-state.json \

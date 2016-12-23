@@ -15,7 +15,6 @@ inputs:
 
 params:
   GOOGLE_JSON_KEY:
-  ENV_NAME:
 
 outputs:
 - name: new-bosh-state

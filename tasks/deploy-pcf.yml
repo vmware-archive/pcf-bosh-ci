@@ -14,9 +14,6 @@ inputs:
 - name: closed-source-releases
 - name: terraform-state
 
-params:
-  ENV_NAME:
-
 outputs:
 - name: new-cf-creds
 
