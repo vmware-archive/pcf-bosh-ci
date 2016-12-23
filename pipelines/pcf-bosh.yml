@@ -17,6 +17,11 @@ resource_types:
     tag: latest-final
 
 resources:
+
+#########################
+# PCF BOSH Repositories #
+#########################
+
 - name: pcf-bosh-ci
   type: git
   source:
@@ -32,6 +37,23 @@ resources:
     private_key: {{pcf-bosh-ci_deploy_key}}
     paths: [cloud-config.yml]
 
+- name: p-ert-bosh-experiment
+  type: git
+  source:
+    uri: https://github.com/pivotal-cf/p-ert-bosh-experiment
+    branch: master
+
+- name: terraforming-gcp
+  type: git
+  source:
+    uri: git@github.com:pivotal-cf/pcf-bosh-terraforming-gcp
+    private_key: {{pcf-bosh-terraforming-gcp_deploy_key}}
+    branch: master
+
+###################
+# CF Repositories #
+###################
+
 - name: cf-deployment
   type: git
   source:
@@ -45,29 +67,53 @@ resources:
     uri: https://github.com/cloudfoundry/cf-acceptance-tests
     branch: master
 
-- name: p-ert-bosh-experiment
+- name: bosh-deployment
   type: git
   source:
-    uri: https://github.com/pivotal-cf/p-ert-bosh-experiment
+    uri: https://github.com/cloudfoundry/bosh-deployment
     branch: master
+
+##############
+# PCF Assets #
+##############
+
+- name: credhub-release
+  type: gcs-resource
+  source:
+    bucket: pcf-bosh-ci
+    json_key: {{google_json_key}}
+    versioned_file: credhub-0.3.0.tgz
+
+- name: closed-source-releases-zip
+  type: gcs-resource
+  source:
+    bucket: pcf-bosh-ci
+    json_key: {{google_json_key}}
+    versioned_file: closed-source-releases.zip
+
+######################
+# External Resources #
+######################
 
 - name: terraform
   type: docker-image
   source:
     repository: ljfranklin/terraform-resource
 
-- name: terraforming-gcp
-  type: git
-  source:
-    uri: git@github.com:pivotal-cf/pcf-bosh-terraforming-gcp
-    private_key: {{pcf-bosh-terraforming-gcp_deploy_key}}
-    branch: master
+#########################
+# Pipeline Global State #
+#########################
 
-- name: bosh-deployment
-  type: git
+- name: terraform-vars
+  type: gcs-resource
   source:
-    uri: https://github.com/cloudfoundry/bosh-deployment
-    branch: master
+    bucket: pcf-bosh-ci
+    json_key: {{google_json_key}}
+    versioned_file: terraform.tfvars.yml
+
+##################
+# Pipeline State #
+##################
 
 - name: terraform-state
   type: terraform
@@ -85,42 +131,21 @@ resources:
   source:
     bucket: pcf-bosh-ci
     json_key: {{google_json_key}}
-    versioned_file: bosh-state.json
+    versioned_file: '{{env_name}}-bosh-state.json'
 
 - name: bosh-creds
   type: gcs-resource
   source:
     bucket: pcf-bosh-ci
     json_key: {{google_json_key}}
-    versioned_file: bosh-creds.yml
+    versioned_file: '{{env_name}}-bosh-creds.yml'
 
 - name: cf-creds
   type: gcs-resource
   source:
     bucket: pcf-bosh-ci
     json_key: {{google_json_key}}
-    versioned_file: cf-creds.yml
-
-- name: terraform-vars
-  type: gcs-resource
-  source:
-    bucket: pcf-bosh-ci
-    json_key: {{google_json_key}}
-    versioned_file: terraform.tfvars.yml
-
-- name: credhub-release
-  type: gcs-resource
-  source:
-    bucket: pcf-bosh-ci
-    json_key: {{google_json_key}}
-    versioned_file: credhub-0.3.0.tgz
-
-- name: closed-source-releases-zip
-  type: gcs-resource
-  source:
-    bucket: pcf-bosh-ci
-    json_key: {{google_json_key}}
-    versioned_file: closed-source-releases.zip
+    versioned_file: '{{env_name}}-cf-creds.yml'
 
 jobs:
 - name: terraform-up
