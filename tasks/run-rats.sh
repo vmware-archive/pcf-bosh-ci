@@ -2,6 +2,8 @@
 
 set -e
 
+cf_creds_json=$(ruby -ryaml -rjson -e "puts JSON.pretty_generate(YAML.load_file('cf-creds/cf-creds.yml'))")
+
 cat <<CFRATSCONFIG > cf-rats-config.json
 {
   "addresses": ["$(jq -r .tcp_domain terraform-state/metadata)"],
