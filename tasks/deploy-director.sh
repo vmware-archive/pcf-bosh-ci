@@ -8,6 +8,7 @@ director_name: pcf-bosh-director
 internal_cidr: $(jq -r .cf_cidr terraform-state/metadata)
 internal_gw: $(jq -r .cf_gateway terraform-state/metadata)
 internal_ip: $(jq -r .cf_director_internal_ip terraform-state/metadata)
+external_ip: $(jq -r .director_external_ip terraform-state/metadata)
 network: $(jq -r .network_name terraform-state/metadata)
 project_id: $(jq -r .project terraform-state/metadata)
 subnetwork: $(jq -r .cf_subnet terraform-state/metadata)
