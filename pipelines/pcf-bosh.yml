@@ -175,7 +175,7 @@ jobs:
     - get: pcf-bosh-ci
     - get: bosh-deployment
       version:
-        ref: 1b7d6d8c39afa6cac5f90351e586655ff1b963bf
+        ref: ccca4c9f7bcdd0f217c8c3adf186648c52b3b137
     - get: bosh-state
     - get: bosh-creds
     - get: credhub-release
