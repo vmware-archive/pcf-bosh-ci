@@ -230,6 +230,7 @@ jobs:
   - aggregate:
     - get: pcf-bosh-ci
     - get: bosh-creds
+      passed: [deploy-pcf]
     - get: cf-creds
       trigger: true
       passed: [deploy-pcf]
