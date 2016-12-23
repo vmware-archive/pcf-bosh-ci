@@ -12,6 +12,7 @@ cat <<CFCATSCONFIG > cf-cats-config.json
   "admin_password": "$(echo "$cf_creds_json" | jq -r .uaa_scim_users_admin_password)",
   "skip_ssl_validation": true,
   "use_http": true,
+  "backend": "diego",
   "include_apps": true,
   "include_backend_compatibility": false,
   "include_detect": true,
