@@ -258,7 +258,6 @@ jobs:
   - aggregate:
     - get: pcf-bosh-ci
     - get: cf-acceptance-tests
-    - get: cf-rats-config
     - get: cf-deployment
       passed: [deploy-pcf]
     - get: cf-creds
