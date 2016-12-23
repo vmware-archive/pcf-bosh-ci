@@ -186,6 +186,7 @@ jobs:
     file: pcf-bosh-ci/tasks/deploy-director.yml
     params:
       GOOGLE_JSON_KEY: {{google_json_key}}
+      ENV_NAME: {{env_name}}
     ensure:
       aggregate:
       - put: bosh-state
@@ -209,6 +210,8 @@ jobs:
       passed: [deploy-director]
   - task: upload-cloud-config
     file: pcf-bosh-ci/tasks/upload-cloud-config.yml
+    params:
+      ENV_NAME: {{env_name}}
 
 - name: upload-stemcell
   plan:
@@ -227,6 +230,8 @@ jobs:
       NAME: bosh-google-kvm-ubuntu-trusty-go_agent
   - task: upload-stemcell
     file: pcf-bosh-ci/tasks/upload-stemcell.yml
+    params:
+      ENV_NAME: {{env_name}}
 
 - name: deploy-pcf
   serial: true
@@ -250,6 +255,8 @@ jobs:
     file: pcf-bosh-ci/tasks/extract-closed-source-releases.yml
   - task: deploy-pcf
     file: pcf-bosh-ci/tasks/deploy-pcf.yml
+    params:
+      ENV_NAME: {{env_name}}
     ensure:
         put: cf-creds
         params:
@@ -268,6 +275,8 @@ jobs:
       passed: [deploy-pcf]
   - task: run-smoke-tests
     file: pcf-bosh-ci/tasks/run-smoke-tests.yml
+    params:
+      ENV_NAME: {{env_name}}
 
 - name: run-cats
   plan:
@@ -281,8 +290,12 @@ jobs:
       passed: [deploy-pcf]
   - task: enable-diego-docker
     file: pcf-bosh-ci/tasks/enable-diego-docker.yml
+    params:
+      ENV_NAME: {{env_name}}
   - task: run-cats
     file: pcf-bosh-ci/tasks/run-cats.yml
+    params:
+      ENV_NAME: {{env_name}}
 
 - name: run-rats
   plan:
@@ -300,3 +313,5 @@ jobs:
     file: pcf-bosh-ci/tasks/fetch-routing-release.yml
   - task: run-rats
     file: pcf-bosh-ci/tasks/run-rats.yml
+    params:
+      ENV_NAME: {{env_name}}

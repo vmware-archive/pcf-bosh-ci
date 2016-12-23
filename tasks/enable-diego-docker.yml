@@ -10,5 +10,8 @@ inputs:
 - name: cf-creds
 - name: terraform-state
 
+params:
+  ENV_NAME:
+
 run:
   path: pcf-bosh-ci/tasks/enable-diego-docker.sh

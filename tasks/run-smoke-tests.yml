@@ -10,5 +10,8 @@ inputs:
 - name: bosh-creds
 - name: terraform-state
 
+params:
+  ENV_NAME:
+
 run:
   path: pcf-bosh-ci/tasks/run-smoke-tests.sh

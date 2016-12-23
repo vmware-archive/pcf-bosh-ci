@@ -2,7 +2,7 @@
 
 set -e
 
-cf_creds_json=$(ruby -ryaml -rjson -e "puts JSON.pretty_generate(YAML.load_file('cf-creds/cf-creds.yml'))")
+cf_creds_json=$(ruby -ryaml -rjson -e "puts JSON.pretty_generate(YAML.load_file('cf-creds/\"${ENV_NAME}\"-cf-creds.yml'))")
 
 cat <<CFCATSCONFIG > cf-cats-config.json
 {

@@ -11,5 +11,8 @@ inputs:
 - name: stemcell-url
 - name: terraform-state
 
+params:
+  ENV_NAME:
+
 run:
   path: pcf-bosh-ci/tasks/upload-stemcell.sh
