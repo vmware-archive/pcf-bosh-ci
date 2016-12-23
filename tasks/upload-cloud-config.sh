@@ -2,7 +2,7 @@
 
 set -e
 
-source pcf-bosh-ci/scripts/load-director-environment.sh bosh-creds/*-bosh-creds.yml terraform-state/metadata
+eval "$(pcf-bosh-ci/scripts/director-environment bosh-creds/*-bosh-creds.yml terraform-state/metadata)"
 
 cat <<BOSHVARS > bosh-vars.yml
 ---

@@ -2,6 +2,6 @@
 
 set -e
 
-source pcf-bosh-ci/scripts/load-director-environment.sh bosh-creds/*-bosh-creds.yml terraform-state/metadata
+eval "$(pcf-bosh-ci/scripts/director-environment bosh-creds/*-bosh-creds.yml terraform-state/metadata)"
 
 bosh -n upload-stemcell "$(cat stemcell-url/stemcell-url)"
