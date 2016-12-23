@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 source pcf-bosh-ci/scripts/load-director-environment.sh "bosh-creds/\"${ENV_NAME}\"-bosh-creds.yml" terraform-state/metadata
 
 cp "cf-creds/\"${ENV_NAME}\"-cf-creds.yml" new-cf-creds/cf-creds.yml
