@@ -11,3 +11,14 @@ BOSH is deployed using [https://github.com/cloudfoundry/bosh-deployment](bosh-de
 ## Cloud Foundry
 
 Cloud Foundry is deployed using [https://github.com/cloudfoundry/cf-deployment](cf-deployment). The vars necessary to deploy are the same as cf-deployment with some additions. See the [tasks/deploy-pcf.sh](deploy-pcf.sh) task for the list of variables.
+
+## Seed a new environment
+
+To create a new environment, you must first seed your GCS bucket with some empty files. For an environment named new-environment, the following must be created:
+
+- "new-environment"-cf-creds.yml
+- "new-environment"-bosh-creds.yml
+- "new-environment"-bosh-state.json
+  - This file must be valid JSON, so the contests should be `{}`
+
+_Note_: The filenames include double quotation marks, which are required due to Concourse's parameter interpolation.
