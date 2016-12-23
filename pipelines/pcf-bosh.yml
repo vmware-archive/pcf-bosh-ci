@@ -101,13 +101,6 @@ resources:
     json_key: {{google_json_key}}
     versioned_file: cf-creds.yml
 
-- name: cf-rats-config
-  type: gcs-resource
-  source:
-    bucket: pcf-bosh-ci
-    json_key: {{google_json_key}}
-    versioned_file: cf-rats-config.json
-
 - name: terraform-vars
   type: gcs-resource
   source:

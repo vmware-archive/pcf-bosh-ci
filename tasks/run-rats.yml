@@ -8,7 +8,8 @@ image_resource:
 inputs:
 - name: pcf-bosh-ci
 - name: routing-release
-- name: cf-rats-config
+- name: cf-creds
+- name: terraform-state
 
 run:
   path: pcf-bosh-ci/tasks/run-rats.sh
