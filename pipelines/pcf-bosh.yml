@@ -264,6 +264,8 @@ jobs:
     - get: cf-creds
       trigger: true
       passed: [deploy-pcf]
+    - get: terraform-state
+      passed: [deploy-pcf]
   - task: fetch-routing-release
     file: pcf-bosh-ci/tasks/fetch-routing-release.yml
   - task: run-rats
