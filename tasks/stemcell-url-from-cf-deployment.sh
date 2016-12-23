@@ -2,7 +2,7 @@
 
 set -e
 
-manifest="$(ruby -ryaml -rjson -e "puts JSON.pretty_generate(YAML.load_file('cf-deployment/cf-deployment.yml'))")"
+manifest=$(pcf-bosh-ci/scripts/yaml2json cf-deployment/cf-deployment.yml)
 
 stemcell_version=$(echo "$manifest" | jq -r .stemcells[0].version)
 

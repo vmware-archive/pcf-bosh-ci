@@ -2,7 +2,7 @@
 
 set -e
 
-cf_creds_json=$(ruby -ryaml -rjson -e "puts JSON.pretty_generate(YAML.load_file('cf-creds/*-cf-creds.yml'))")
+cf_creds_json=$(pcf-bosh-ci/scripts/yaml2json cf-creds/*-cf-creds.yml)
 
 cat <<CFRATSCONFIG > cf-rats-config.json
 {

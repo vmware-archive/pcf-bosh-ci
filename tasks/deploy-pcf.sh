@@ -2,7 +2,7 @@
 
 set -e
 
-source pcf-bosh-ci/scripts/load-director-environment.sh "bosh-creds/*-bosh-creds.yml" terraform-state/metadata
+source pcf-bosh-ci/scripts/load-director-environment.sh bosh-creds/*-bosh-creds.yml terraform-state/metadata
 
 cp "cf-creds/*-cf-creds.yml" new-cf-creds/cf-creds.yml
 

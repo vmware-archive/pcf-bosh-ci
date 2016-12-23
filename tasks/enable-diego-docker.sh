@@ -2,7 +2,7 @@
 
 set -e
 
-creds_json=$(ruby -ryaml -rjson -e "puts JSON.pretty_generate(YAML.load_file('cf-creds/*-cf-creds.yml'))")
+creds_json=$(pcf-bosh-ci/scripts/yaml2json cf-creds/*-cf-creds.yml)
 
 cf_username="admin"
 cf_password=$(echo "$creds_json" | jq -r .uaa_scim_users_admin_password)

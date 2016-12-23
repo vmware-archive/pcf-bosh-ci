@@ -3,7 +3,7 @@
 creds_path="$1"
 terraform_state_path="$2"
 
-creds_json=$(ruby -ryaml -rjson -e "puts JSON.pretty_generate(YAML.load_file('$creds_path'))")
+creds_json=$("$(dirname "$0")"/yaml2json "$creds_path")
 
 export BOSH_CLIENT="ci"
 export BOSH_CLIENT_SECRET
