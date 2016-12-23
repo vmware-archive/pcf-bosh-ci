@@ -28,7 +28,7 @@ bosh create-env bosh-deployment/bosh.yml \
   --ops-file bosh-deployment/external-ip-not-recommended.yml \
   --ops-file bosh-deployment/gcp/cpi.yml \
   --ops-file bosh-deployment/uaa.yml \
-  --ops-file pcf-bosh-ci/ops-files/uaa-with-external-ip.yml \
+  --ops-file pcf-bosh-ci/ops-files/uaa-with-external-domain.yml \
   --ops-file pcf-bosh-ci/ops-files/credhub.yml \
   --ops-file pcf-bosh-ci/ops-files/director-overrides.yml \
   --vars-store new-bosh-creds/bosh-creds.yml \
