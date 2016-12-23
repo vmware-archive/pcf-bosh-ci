@@ -6,21 +6,27 @@ cf_creds_json=$(ruby -ryaml -rjson -e "puts JSON.pretty_generate(YAML.load_file(
 
 cat <<CFCATSCONFIG > cf-cats-config.json
 {
-  "addresses": ["$(jq -r .tcp_domain terraform-state/metadata)"],
   "api": "api.$(jq -r .sys_domain terraform-state/metadata)",
+  "apps_domain": "$(jq -r .apps_domain terraform-state/metadata)",
   "admin_user": "admin",
   "admin_password": "$(echo "$cf_creds_json" | jq -r .uaa_scim_users_admin_password)",
   "skip_ssl_validation": true,
-  "use_http":true,
-  "apps_domain": "$(jq -r .apps_domain terraform-state/metadata)",
-  "include_http_routes": true,
-  "oauth": {
-    "token_endpoint": "https://uaa.$(jq -r .sys_domain terraform-state/metadata)",
-    "client_name": "tcp_emitter",
-    "client_secret": "$(echo "$cf_creds_json" | jq -r .uaa_clients_tcp_emitter_secret)",
-    "port": 443,
-    "skip_ssl_validation": true
-  }
+  "use_http": true,
+  "include_apps": true,
+  "include_backend_compatibility": false,
+  "include_detect": true,
+  "include_docker": true,
+  "include_internet_dependent": true,
+  "include_privileged_container_support": true,
+  "include_route_services": true,
+  "include_routing": true,
+  "include_zipkin": true,
+  "include_security_groups": true,
+  "include_services": true,
+  "include_ssh": true,
+  "include_sso": true,
+  "include_tasks": false,
+  "include_v3": true
 }
 CFCATSCONFIG
 
