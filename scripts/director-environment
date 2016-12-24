@@ -9,6 +9,6 @@ cat <<ENVIRONMENT
 export BOSH_CLIENT="ci"
 export BOSH_CLIENT_SECRET="$(echo "$creds_json" | jq -r .ci_secret)"
 
-export BOSH_ENVIRONMENT="$(jq -r .bosh_director_domain terraform-state/metadata)"
+export BOSH_ENVIRONMENT="$(jq -r .bosh_director_domain "$terraform_state_path")"
 export BOSH_CA_CERT="$(echo "$creds_json" | jq -r .director_ssl.ca)"
 ENVIRONMENT
