@@ -26,7 +26,8 @@ cat <<CFCATSCONFIG > cf-cats-config.json
   "include_ssh": true,
   "include_sso": true,
   "include_tasks": false,
-  "include_v3": true
+  "include_v3": true,
+  "include_zipkin": true
 }
 CFCATSCONFIG
 
