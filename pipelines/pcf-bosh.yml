@@ -230,6 +230,7 @@ jobs:
 
 - name: deploy-pcf
   serial: true
+  serial_groups: [bosh-deployment]
   plan:
   - aggregate:
     - get: pcf-bosh-ci
@@ -255,17 +256,35 @@ jobs:
         params:
           file: new-cf-creds/*
 
-- name: smoke-tests
+- name: push-apps-manager
+  serial: true
+  serial_groups: [bosh-deployment]
   plan:
   - aggregate:
     - get: pcf-bosh-ci
     - get: bosh-creds
       passed: [deploy-pcf]
+    - get: terraform-state
+      passed: [deploy-pcf]
     - get: cf-creds
       trigger: true
       passed: [deploy-pcf]
-    - get: terraform-state
+    - get: cf-deployment
       passed: [deploy-pcf]
+  - task: push-apps-manager
+    file: pcf-bosh-ci/tasks/push-apps-manager.yml
+
+- name: smoke-tests
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: bosh-creds
+      passed: &errands [push-apps-manager]
+    - get: cf-creds
+      trigger: true
+      passed: *errands
+    - get: terraform-state
+      passed: *errands
   - task: run-smoke-tests
     file: pcf-bosh-ci/tasks/run-smoke-tests.yml
 
@@ -276,9 +295,9 @@ jobs:
     - get: cf-acceptance-tests
     - get: cf-creds
       trigger: true
-      passed: [deploy-pcf]
+      passed: *errands
     - get: terraform-state
-      passed: [deploy-pcf]
+      passed: *errands
   - task: enable-diego-docker
     file: pcf-bosh-ci/tasks/enable-diego-docker.yml
   - task: run-cats
@@ -290,12 +309,12 @@ jobs:
     - get: pcf-bosh-ci
     - get: cf-acceptance-tests
     - get: cf-deployment
-      passed: [deploy-pcf]
+      passed: *errands
     - get: cf-creds
       trigger: true
-      passed: [deploy-pcf]
+      passed: *errands
     - get: terraform-state
-      passed: [deploy-pcf]
+      passed: *errands
   - task: fetch-routing-release
     file: pcf-bosh-ci/tasks/fetch-routing-release.yml
   - task: run-rats

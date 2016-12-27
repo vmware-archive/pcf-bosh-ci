@@ -1,0 +1,14 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: { repository: pcfbosh/minimal }
+
+inputs:
+- name: pcf-bosh-ci
+- name: bosh-creds
+- name: terraform-state
+
+run:
+  path: pcf-bosh-ci/tasks/push-apps-manager.sh
