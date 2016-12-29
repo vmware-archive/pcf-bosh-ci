@@ -291,7 +291,7 @@ jobs:
       passed: [deploy-pcf]
     - get: cf-deployment
       passed: [deploy-pcf]
-  - task: push-apps-manager
+  - task: deploy-notifications
     file: pcf-bosh-ci/tasks/run-errand.yml
     params:
       ERRAND_NAME: deploy-notifications
