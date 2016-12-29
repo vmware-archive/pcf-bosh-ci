@@ -18,6 +18,8 @@ bosh -n deploy cf-deployment/cf-deployment.yml \
   --ops-file p-ert/push-apps-manager.yml \
   --ops-file p-ert/deploy-notifications.yml \
   --ops-file p-ert/deploy-autoscaling.yml \
+  --ops-file p-ert/autoscaling-register-broker.yml \
+  --ops-file p-ert/autoscaling-destroy-broker.yml \
   --vars-store new-cf-creds/cf-creds.yml \
   --var "system_domain=$(jq -r .sys_domain terraform-state/metadata)" \
   --var "apps_domain=$(jq -r .apps_domain terraform-state/metadata)" \
