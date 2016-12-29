@@ -276,12 +276,32 @@ jobs:
     params:
       ERRAND_NAME: push-apps-manager
 
+- name: deploy-notifications
+  serial: true
+  serial_groups: [bosh-deployment]
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: bosh-creds
+      passed: [deploy-pcf]
+    - get: terraform-state
+      passed: [deploy-pcf]
+    - get: cf-creds
+      trigger: true
+      passed: [deploy-pcf]
+    - get: cf-deployment
+      passed: [deploy-pcf]
+  - task: push-apps-manager
+    file: pcf-bosh-ci/tasks/run-errand.yml
+    params:
+      ERRAND_NAME: deploy-notification
+
 - name: smoke-tests
   plan:
   - aggregate:
     - get: pcf-bosh-ci
     - get: bosh-creds
-      passed: &errands [push-apps-manager]
+      passed: &errands [push-apps-manager, deploy-notifications]
     - get: cf-creds
       trigger: true
       passed: *errands
