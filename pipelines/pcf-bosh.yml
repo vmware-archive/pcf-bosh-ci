@@ -272,7 +272,9 @@ jobs:
     - get: cf-deployment
       passed: [deploy-pcf]
   - task: push-apps-manager
-    file: pcf-bosh-ci/tasks/push-apps-manager.yml
+    file: pcf-bosh-ci/tasks/run-errand.yml
+    params:
+      ERRAND_NAME: push-apps-manager
 
 - name: smoke-tests
   plan:
@@ -286,7 +288,9 @@ jobs:
     - get: terraform-state
       passed: *errands
   - task: run-smoke-tests
-    file: pcf-bosh-ci/tasks/run-smoke-tests.yml
+    file: pcf-bosh-ci/tasks/run-errand.yml
+    params:
+      ERRAND_NAME: smoke-tests
 
 - name: run-cats
   plan:
