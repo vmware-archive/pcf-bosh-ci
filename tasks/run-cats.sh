@@ -21,7 +21,7 @@ cat <<CFCATSCONFIG > cf-cats-config.json
   "include_privileged_container_support": true,
   "include_route_services": true,
   "include_routing": true,
-  "include_security_groups": true,
+  "include_security_groups": false,
   "include_services": true,
   "include_ssh": true,
   "include_sso": true,
