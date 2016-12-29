@@ -294,7 +294,7 @@ jobs:
   - task: push-apps-manager
     file: pcf-bosh-ci/tasks/run-errand.yml
     params:
-      ERRAND_NAME: deploy-notification
+      ERRAND_NAME: deploy-notifications
 
 - name: smoke-tests
   plan:
