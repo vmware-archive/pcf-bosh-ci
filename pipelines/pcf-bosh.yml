@@ -296,12 +296,32 @@ jobs:
     params:
       ERRAND_NAME: deploy-notifications
 
+- name: deploy-autoscaling
+  serial: true
+  serial_groups: [bosh-deployment]
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: bosh-creds
+      passed: [deploy-pcf]
+    - get: terraform-state
+      passed: [deploy-pcf]
+    - get: cf-creds
+      trigger: true
+      passed: [deploy-pcf]
+    - get: cf-deployment
+      passed: [deploy-pcf]
+  - task: deploy-autoscaling
+    file: pcf-bosh-ci/tasks/run-errand.yml
+    params:
+      ERRAND_NAME: deploy-autoscaling
+
 - name: smoke-tests
   plan:
   - aggregate:
     - get: pcf-bosh-ci
     - get: bosh-creds
-      passed: &errands [push-apps-manager, deploy-notifications]
+      passed: &errands [push-apps-manager, deploy-notifications, deploy-autoscaling]
     - get: cf-creds
       trigger: true
       passed: *errands
