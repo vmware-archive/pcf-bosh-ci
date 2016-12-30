@@ -17,6 +17,7 @@ bosh -n deploy cf-deployment/cf-deployment.yml \
   --ops-file p-ert/smoke-tests.yml \
   --ops-file p-ert/push-apps-manager.yml \
   --ops-file p-ert/deploy-notifications.yml \
+  --ops-file p-ert/deploy-notifications-ui.yml \
   --ops-file p-ert/deploy-autoscaling.yml \
   --ops-file p-ert/autoscaling-register-broker.yml \
   --ops-file p-ert/autoscaling-destroy-broker.yml \
