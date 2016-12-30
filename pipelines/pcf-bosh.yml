@@ -296,6 +296,26 @@ jobs:
     params:
       ERRAND_NAME: deploy-notifications
 
+- name: deploy-notifications-ui
+  serial: true
+  serial_groups: [bosh-deployment]
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: bosh-creds
+      passed: [deploy-notifications]
+    - get: terraform-state
+      passed: [deploy-notifications]
+    - get: cf-creds
+      trigger: true
+      passed: [deploy-notifications]
+    - get: cf-deployment
+      passed: [deploy-notifications]
+  - task: deploy-notifications-ui
+    file: pcf-bosh-ci/tasks/run-errand.yml
+    params:
+      ERRAND_NAME: deploy-notifications-ui
+
 - name: deploy-autoscaling
   serial: true
   serial_groups: [bosh-deployment]
@@ -341,7 +361,7 @@ jobs:
   - aggregate:
     - get: pcf-bosh-ci
     - get: bosh-creds
-      passed: &errands [push-apps-manager, deploy-notifications, register-autoscaling-broker]
+      passed: &errands [push-apps-manager, deploy-notifications-ui, register-autoscaling-broker]
     - get: cf-creds
       trigger: true
       passed: *errands
