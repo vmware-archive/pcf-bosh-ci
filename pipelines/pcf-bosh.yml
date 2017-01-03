@@ -396,6 +396,25 @@ jobs:
     params:
       ERRAND_NAME: mysql-bootstrap
 
+- name: mysql-rejoin-unsafe
+  serial: true
+  serial_groups: [bosh-deployment]
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: bosh-creds
+      passed: [deploy-ert]
+    - get: terraform-state
+      passed: [deploy-ert]
+    - get: cf-creds
+      passed: [deploy-ert]
+    - get: cf-deployment
+      passed: [deploy-ert]
+  - task: mysql-rejoin-unsafe
+    file: pcf-bosh-ci/tasks/run-errand.yml
+    params:
+      ERRAND_NAME: mysql-rejoin-unsafe
+
 #########
 # Tests #
 #########

@@ -22,6 +22,7 @@ bosh -n deploy cf-deployment/cf-deployment.yml \
   --ops-file p-ert/autoscaling-register-broker.yml \
   --ops-file p-ert/autoscaling-destroy-broker.yml \
   --ops-file p-ert/mysql-bootstrap.yml \
+  --ops-file p-ert/mysql-rejoin-unsafe.yml \
   --vars-store new-cf-creds/cf-creds.yml \
   --var "system_domain=$(jq -r .sys_domain terraform-state/metadata)" \
   --var "apps_domain=$(jq -r .apps_domain terraform-state/metadata)" \
