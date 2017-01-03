@@ -19,6 +19,6 @@ To create a new environment, you must first seed your GCS bucket with some empty
 - "new-environment"-cf-creds.yml
 - "new-environment"-bosh-creds.yml
 - "new-environment"-bosh-state.json
-  - This file must be valid JSON, so the contests should be `{}`
+  - This file must be valid JSON, so the contents should be `{}`
 
 _Note_: The filenames include double quotation marks, which are required due to Concourse's parameter interpolation.
