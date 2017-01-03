@@ -415,6 +415,25 @@ jobs:
     params:
       ERRAND_NAME: mysql-rejoin-unsafe
 
+- name: push-pivotal-account
+  serial: true
+  serial_groups: [bosh-deployment]
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: bosh-creds
+      passed: [deploy-ert]
+    - get: terraform-state
+      passed: [deploy-ert]
+    - get: cf-creds
+      passed: [deploy-ert]
+    - get: cf-deployment
+      passed: [deploy-ert]
+  - task: push-pivotal-account
+    file: pcf-bosh-ci/tasks/run-errand.yml
+    params:
+      ERRAND_NAME: push-pivotal-account
+
 #########
 # Tests #
 #########
