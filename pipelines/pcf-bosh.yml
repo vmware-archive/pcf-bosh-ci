@@ -336,7 +336,7 @@ jobs:
     params:
       ERRAND_NAME: deploy-autoscaling
 
-- name: register-autoscaling-broker
+- name: autoscaling-register-broker
   serial: true
   serial_groups: [bosh-deployment]
   plan:
@@ -351,17 +351,17 @@ jobs:
       passed: [deploy-autoscaling]
     - get: cf-deployment
       passed: [deploy-autoscaling]
-  - task: register-autoscaling-broker
+  - task: autoscaling-register-broker
     file: pcf-bosh-ci/tasks/run-errand.yml
     params:
-      ERRAND_NAME: register-autoscaling-broker
+      ERRAND_NAME: autoscaling-register-broker
 
 - name: smoke-tests
   plan:
   - aggregate:
     - get: pcf-bosh-ci
     - get: bosh-creds
-      passed: &errands [push-apps-manager, deploy-notifications-ui, register-autoscaling-broker]
+      passed: &errands [push-apps-manager, deploy-notifications-ui, autoscaling-register-broker]
     - get: cf-creds
       trigger: true
       passed: *errands
