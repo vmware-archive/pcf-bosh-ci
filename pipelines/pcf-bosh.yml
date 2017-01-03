@@ -153,6 +153,11 @@ resources:
     versioned_file: '{{env_name}}-cf-creds.yml'
 
 jobs:
+
+##################
+# Infrastructure #
+##################
+
 - name: terraform-up
   plan:
   - aggregate:
@@ -168,6 +173,10 @@ jobs:
       terraform_source: terraforming-gcp
       delete_on_failure: true
       env_name: {{env_name}}
+
+########
+# BOSH #
+########
 
 - name: deploy-director
   plan:
@@ -228,6 +237,10 @@ jobs:
   - task: upload-stemcell
     file: pcf-bosh-ci/tasks/upload-stemcell.yml
 
+#################
+# Cloud Foundry #
+#################
+
 - name: deploy-ert
   serial: true
   serial_groups: [bosh-deployment]
@@ -255,6 +268,10 @@ jobs:
         put: cf-creds
         params:
           file: new-cf-creds/*
+
+###################
+# Default Errands #
+###################
 
 - name: push-apps-manager
   serial: true
@@ -355,6 +372,33 @@ jobs:
     file: pcf-bosh-ci/tasks/run-errand.yml
     params:
       ERRAND_NAME: autoscaling-register-broker
+
+#######################
+# Non-default Errands #
+#######################
+
+- name: mysql-bootstrap
+  serial: true
+  serial_groups: [bosh-deployment]
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: bosh-creds
+      passed: [deploy-ert]
+    - get: terraform-state
+      passed: [deploy-ert]
+    - get: cf-creds
+      passed: [deploy-ert]
+    - get: cf-deployment
+      passed: [deploy-ert]
+  - task: mysql-bootstrap
+    file: pcf-bosh-ci/tasks/run-errand.yml
+    params:
+      ERRAND_NAME: mysql-bootstrap
+
+#########
+# Tests #
+#########
 
 - name: smoke-tests
   plan:
