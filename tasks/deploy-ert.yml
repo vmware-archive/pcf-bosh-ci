@@ -18,4 +18,4 @@ outputs:
 - name: new-cf-creds
 
 run:
-  path: pcf-bosh-ci/tasks/deploy-pcf.sh
+  path: pcf-bosh-ci/tasks/deploy-ert.sh

@@ -228,7 +228,7 @@ jobs:
   - task: upload-stemcell
     file: pcf-bosh-ci/tasks/upload-stemcell.yml
 
-- name: deploy-pcf
+- name: deploy-ert
   serial: true
   serial_groups: [bosh-deployment]
   plan:
@@ -249,8 +249,8 @@ jobs:
       passed: [upload-cloud-config, upload-stemcell]
   - task: extract-closed-source-releases
     file: pcf-bosh-ci/tasks/extract-closed-source-releases.yml
-  - task: deploy-pcf
-    file: pcf-bosh-ci/tasks/deploy-pcf.yml
+  - task: deploy-ert
+    file: pcf-bosh-ci/tasks/deploy-ert.yml
     ensure:
         put: cf-creds
         params:
@@ -263,14 +263,14 @@ jobs:
   - aggregate:
     - get: pcf-bosh-ci
     - get: bosh-creds
-      passed: [deploy-pcf]
+      passed: [deploy-ert]
     - get: terraform-state
-      passed: [deploy-pcf]
+      passed: [deploy-ert]
     - get: cf-creds
       trigger: true
-      passed: [deploy-pcf]
+      passed: [deploy-ert]
     - get: cf-deployment
-      passed: [deploy-pcf]
+      passed: [deploy-ert]
   - task: push-apps-manager
     file: pcf-bosh-ci/tasks/run-errand.yml
     params:
@@ -283,14 +283,14 @@ jobs:
   - aggregate:
     - get: pcf-bosh-ci
     - get: bosh-creds
-      passed: [deploy-pcf]
+      passed: [deploy-ert]
     - get: terraform-state
-      passed: [deploy-pcf]
+      passed: [deploy-ert]
     - get: cf-creds
       trigger: true
-      passed: [deploy-pcf]
+      passed: [deploy-ert]
     - get: cf-deployment
-      passed: [deploy-pcf]
+      passed: [deploy-ert]
   - task: deploy-notifications
     file: pcf-bosh-ci/tasks/run-errand.yml
     params:
@@ -323,14 +323,14 @@ jobs:
   - aggregate:
     - get: pcf-bosh-ci
     - get: bosh-creds
-      passed: [deploy-pcf]
+      passed: [deploy-ert]
     - get: terraform-state
-      passed: [deploy-pcf]
+      passed: [deploy-ert]
     - get: cf-creds
       trigger: true
-      passed: [deploy-pcf]
+      passed: [deploy-ert]
     - get: cf-deployment
-      passed: [deploy-pcf]
+      passed: [deploy-ert]
   - task: deploy-autoscaling
     file: pcf-bosh-ci/tasks/run-errand.yml
     params:

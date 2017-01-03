@@ -10,7 +10,7 @@ BOSH is deployed using [https://github.com/cloudfoundry/bosh-deployment](bosh-de
 
 ## Cloud Foundry
 
-Cloud Foundry is deployed using [https://github.com/cloudfoundry/cf-deployment](cf-deployment). The vars necessary to deploy are the same as cf-deployment with some additions. See the [tasks/deploy-pcf.sh](deploy-pcf.sh) task for the list of variables.
+Cloud Foundry is deployed using [https://github.com/cloudfoundry/cf-deployment](cf-deployment). The vars necessary to deploy are the same as cf-deployment with some additions. See the [tasks/deploy-ert.sh](deploy-ert.sh) task for the list of variables.
 
 ## Seed a new environment
 
