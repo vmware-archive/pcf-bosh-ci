@@ -421,6 +421,7 @@ jobs:
   - aggregate:
     - get: pcf-bosh-ci
     - get: cf-acceptance-tests
+      version: {ref: 0e6b46fc44ecc5da7735fc2a48213de0e49b4dbf}
     - get: cf-creds
       trigger: true
       passed: *errands
