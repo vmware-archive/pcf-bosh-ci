@@ -14,16 +14,16 @@ bosh -n deploy cf-deployment/cf-deployment.yml \
   --ops-file p-ert/pivotal-defaults.yml \
   --ops-file p-ert/mysql-proxy.yml \
   --ops-file p-ert/mysql-monitoring.yml \
-  --ops-file p-ert/smoke-tests.yml \
-  --ops-file p-ert/push-apps-manager.yml \
-  --ops-file p-ert/deploy-notifications.yml \
-  --ops-file p-ert/deploy-notifications-ui.yml \
-  --ops-file p-ert/deploy-autoscaling.yml \
-  --ops-file p-ert/autoscaling-register-broker.yml \
-  --ops-file p-ert/autoscaling-destroy-broker.yml \
-  --ops-file p-ert/mysql-bootstrap.yml \
-  --ops-file p-ert/mysql-rejoin-unsafe.yml \
-  --ops-file p-ert/push-pivotal-account.yml \
+  --ops-file p-ert/errands/smoke-tests.yml \
+  --ops-file p-ert/errands/push-apps-manager.yml \
+  --ops-file p-ert/errands/deploy-notifications.yml \
+  --ops-file p-ert/errands/deploy-notifications-ui.yml \
+  --ops-file p-ert/errands/deploy-autoscaling.yml \
+  --ops-file p-ert/errands/autoscaling-register-broker.yml \
+  --ops-file p-ert/errands/autoscaling-destroy-broker.yml \
+  --ops-file p-ert/errands/push-pivotal-account.yml \
+  --ops-file p-ert/errands/mysql-recovery/bootstrap.yml \
+  --ops-file p-ert/errands/mysql-recovery/rejoin-unsafe.yml \
   --vars-store new-cf-creds/cf-creds.yml \
   --var "system_domain=$(jq -r .sys_domain terraform-state/metadata)" \
   --var "apps_domain=$(jq -r .apps_domain terraform-state/metadata)" \
