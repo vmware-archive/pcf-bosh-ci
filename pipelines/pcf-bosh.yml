@@ -39,7 +39,7 @@ resources:
   type: git
   source:
     uri: https://github.com/pivotal-cf/p-ert-bosh-experiment
-    branch: master
+    branch: {{p-ert-branch}}
 
 - name: terraforming-gcp
   type: git
