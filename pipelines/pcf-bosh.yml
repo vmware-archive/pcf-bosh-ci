@@ -439,6 +439,7 @@ jobs:
 #########
 
 - name: smoke-tests
+  serial_groups: [bosh-deployment]
   plan:
   - aggregate:
     - get: pcf-bosh-ci
