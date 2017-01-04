@@ -32,7 +32,7 @@ resources:
   type: git
   source:
     uri: https://github.com/pivotal-cf/p-ert-bosh-experiment
-    branch: master
+    branch: {{p-ert-branch}}
     paths: [cloud-config.yml]
 
 - name: p-ert-bosh-experiment
