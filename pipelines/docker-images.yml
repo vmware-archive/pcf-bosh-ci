@@ -2,8 +2,7 @@ resources:
 - name: minimal-dockerfile
   type: git
   source:
-    uri: git@github.com:pivotal-cf/pcf-bosh-ci
-    private_key: {{pcf-bosh-ci_deploy_key}}
+    uri: https://github.com/pivotal-cf/pcf-bosh-ci
     paths: [Dockerfile]
     branch: master
 
