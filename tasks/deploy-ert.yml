@@ -17,5 +17,11 @@ inputs:
 outputs:
 - name: new-cf-creds
 
+params:
+  SMTP_HOST_NAME:
+  SMTP_HOST_PORT:
+  SMTP_SENDER_USERNAME:
+  SMTP_SENDER_PASSWORD:
+
 run:
   path: pcf-bosh-ci/tasks/deploy-ert.sh
