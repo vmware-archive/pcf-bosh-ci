@@ -7,6 +7,6 @@ eval "$(pcf-bosh-ci/scripts/director-environment bosh-creds/*-bosh-creds.yml ter
 cp mysql-creds/*-mysql-creds.yml new-mysql-creds/mysql-creds.yml
 
 bosh -n deploy cf-mysql-release-repo/manifest-generation/cf-mysql-template-v2.yml \
-  --deployment mysql \
+  --deployment cf-mysql \
   --ops-file pcf-bosh-ci/ops-files/cf-mysql-overrides.yml \
   --vars-store new-mysql-creds/mysql-creds.yml
