@@ -27,7 +27,19 @@
   value: [{name: private}]
 
 - type: replace
-  path: /instance_groups/name=bootstrap/networks
+  path: /instance_groups/name=broker/vm_type
+  value: [{name: private}]
+
+- type: replace
+  path: /instance_groups/name=bootstrap/vm_type
+  value: [{name: private}]
+
+- type: replace
+  path: /instance_groups/name=broker-registrar/vm_type
+  value: [{name: private}]
+
+- type: replace
+  path: /instance_groups/name=broker-deregistrar/vm_type
   value: [{name: private}]
 
 - type: replace
@@ -59,7 +71,19 @@
   value: m3.medium
 
 - type: replace
+  path: /instance_groups/name=broker/vm_type
+  value: m3.medium
+
+- type: replace
   path: /instance_groups/name=bootstrap/vm_type
+  value: m3.medium
+
+- type: replace
+  path: /instance_groups/name=broker-registrar/vm_type
+  value: m3.medium
+
+- type: replace
+  path: /instance_groups/name=broker-deregistrar/vm_type
   value: m3.medium
 
 - type: replace
