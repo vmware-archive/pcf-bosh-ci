@@ -27,19 +27,19 @@
   value: [{name: private}]
 
 - type: replace
-  path: /instance_groups/name=broker/vm_type
+  path: /instance_groups/name=broker/networks
   value: [{name: private}]
 
 - type: replace
-  path: /instance_groups/name=bootstrap/vm_type
+  path: /instance_groups/name=bootstrap/networks
   value: [{name: private}]
 
 - type: replace
-  path: /instance_groups/name=broker-registrar/vm_type
+  path: /instance_groups/name=broker-registrar/networks
   value: [{name: private}]
 
 - type: replace
-  path: /instance_groups/name=broker-deregistrar/vm_type
+  path: /instance_groups/name=broker-deregistrar/networks
   value: [{name: private}]
 
 - type: replace
