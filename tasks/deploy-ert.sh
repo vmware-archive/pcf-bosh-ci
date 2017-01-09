@@ -27,6 +27,7 @@ bosh -n deploy cf-deployment/cf-deployment.yml \
   --vars-store new-cf-creds/cf-creds.yml \
   --var "system_domain=$(jq -r .sys_domain terraform-state/metadata)" \
   --var "apps_domain=$(jq -r .apps_domain terraform-state/metadata)" \
+  --var "notifications_smtp_host=mail.example.com" \
   --var "cf_release_path=file://$(ls "$PWD"/closed-source-releases/cf-246*.tgz)" \
   --var "cf_release_version=246.0.2" \
   --var "postgres_release_path=file://$(ls "$PWD"/closed-source-releases/postgres*.tgz)" \
