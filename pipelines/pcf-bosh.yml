@@ -521,7 +521,6 @@ jobs:
     - get: pcf-bosh-ci
     - get: cf-mysql-release-repo
       trigger: true
-      passed: [upload-stemcell]
     - get: mysql-creds
     - get: bosh-creds
       trigger: true
