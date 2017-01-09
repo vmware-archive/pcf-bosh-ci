@@ -1,0 +1,75 @@
+####################
+# Release location #
+####################
+
+- type: replace
+  path: /releases/name=cf-mysql
+  value:
+    name: cf-mysql
+    url: https://bosh.io/d/github.com/cloudfoundry/cf-mysql-release?v=32
+    version: 32
+    sha1: a41bb2cadd4311bc9977ccc2c1fca07ba41ccef2
+
+############
+# Networks #
+############
+
+- type: replace
+  path: /instance_groups/name=mysql/networks
+  value: [{name: private}]
+
+- type: replace
+  path: /instance_groups/name=arbitrator/networks
+  value: [{name: private}]
+
+- type: replace
+  path: /instance_groups/name=proxy/networks
+  value: [{name: private}]
+
+- type: replace
+  path: /instance_groups/name=bootstrap/networks
+  value: [{name: private}]
+
+- type: replace
+  path: /instance_groups/name=rejoin-unsafe/networks
+  value: [{name: private}]
+
+- type: replace
+  path: /instance_groups/name=verify-cluster-schemas/networks
+  value: [{name: private}]
+
+- type: replace
+  path: /instance_groups/name=smoke-tests/networks
+  value: [{name: private}]
+
+###########
+# VM Type #
+###########
+
+- type: replace
+  path: /instance_groups/name=mysql/vm_type
+  value: m3.medium
+
+- type: replace
+  path: /instance_groups/name=arbitrator/vm_type
+  value: m3.medium
+
+- type: replace
+  path: /instance_groups/name=proxy/vm_type
+  value: m3.medium
+
+- type: replace
+  path: /instance_groups/name=bootstrap/vm_type
+  value: m3.medium
+
+- type: replace
+  path: /instance_groups/name=rejoin-unsafe/vm_type
+  value: m3.medium
+
+- type: replace
+  path: /instance_groups/name=verify-cluster-schemas/vm_type
+  value: m3.medium
+
+- type: replace
+  path: /instance_groups/name=smoke-tests/vm_type
+  value: m3.medium

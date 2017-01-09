@@ -12,11 +12,16 @@ BOSH is deployed using [https://github.com/cloudfoundry/bosh-deployment](bosh-de
 
 Cloud Foundry is deployed using [https://github.com/cloudfoundry/cf-deployment](cf-deployment). The vars necessary to deploy are the same as cf-deployment with some additions. See the [tasks/deploy-ert.sh](deploy-ert.sh) task for the list of variables.
 
+## CF MySQL
+
+MySQL is deployed using [https://github.com/cloudfoundry/cf-mysql-release](cf-mysql-release). No vars are currently required. See the [tasks/deploy-mysql.sh](deploy-mysql.sh) task for details.
+
 ## Seed a new environment
 
 To create a new environment, you must first seed your GCS bucket with some empty files. For an environment named new-environment, the following must be created:
 
 - "new-environment"-cf-creds.yml
+- "new-environment"-mysql-creds.yml
 - "new-environment"-bosh-creds.yml
 - "new-environment"-bosh-state.json
   - This file must be valid JSON, so the contents should be `{}`

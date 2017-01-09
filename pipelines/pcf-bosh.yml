@@ -76,6 +76,16 @@ resources:
     uri: https://github.com/cloudfoundry/bosh-deployment
     branch: master
 
+######################
+# MySQL Repositories #
+######################
+
+- name: cf-mysql-release-repo
+  type: git
+  source:
+    uri: https://github.com/cloudfoundry/cf-mysql-release
+    branch: develop
+
 ##############
 # PCF Assets #
 ##############
@@ -149,6 +159,13 @@ resources:
     bucket: pcf-bosh-ci
     json_key: {{google_json_key}}
     versioned_file: '{{env_name}}-cf-creds.yml'
+
+- name: mysql-creds
+  type: gcs-resource
+  source:
+    bucket: pcf-bosh-ci
+    json_key: {{google_json_key}}
+    versioned_file: '{{env_name}}-mysql-creds.yml'
 
 jobs:
 
@@ -241,7 +258,7 @@ jobs:
 
 - name: deploy-ert
   serial: true
-  serial_groups: [bosh-deployment]
+  serial_groups: [cf-bosh-deployment]
   plan:
   - aggregate:
     - get: pcf-bosh-ci
@@ -273,7 +290,7 @@ jobs:
 
 - name: push-apps-manager
   serial: true
-  serial_groups: [bosh-deployment]
+  serial_groups: [cf-bosh-deployment]
   plan:
   - aggregate:
     - get: pcf-bosh-ci
@@ -293,7 +310,7 @@ jobs:
 
 - name: deploy-notifications
   serial: true
-  serial_groups: [bosh-deployment]
+  serial_groups: [cf-bosh-deployment]
   plan:
   - aggregate:
     - get: pcf-bosh-ci
@@ -313,7 +330,7 @@ jobs:
 
 - name: deploy-notifications-ui
   serial: true
-  serial_groups: [bosh-deployment]
+  serial_groups: [cf-bosh-deployment]
   plan:
   - aggregate:
     - get: pcf-bosh-ci
@@ -333,7 +350,7 @@ jobs:
 
 - name: deploy-autoscaling
   serial: true
-  serial_groups: [bosh-deployment]
+  serial_groups: [cf-bosh-deployment]
   plan:
   - aggregate:
     - get: pcf-bosh-ci
@@ -353,7 +370,7 @@ jobs:
 
 - name: autoscaling-register-broker
   serial: true
-  serial_groups: [bosh-deployment]
+  serial_groups: [cf-bosh-deployment]
   plan:
   - aggregate:
     - get: pcf-bosh-ci
@@ -373,7 +390,7 @@ jobs:
 
 - name: push-pivotal-account
   serial: true
-  serial_groups: [bosh-deployment]
+  serial_groups: [cf-bosh-deployment]
   plan:
   - aggregate:
     - get: pcf-bosh-ci
@@ -397,7 +414,7 @@ jobs:
 
 - name: mysql-bootstrap
   serial: true
-  serial_groups: [bosh-deployment]
+  serial_groups: [cf-bosh-deployment]
   plan:
   - aggregate:
     - get: pcf-bosh-ci
@@ -416,7 +433,7 @@ jobs:
 
 - name: mysql-rejoin-unsafe
   serial: true
-  serial_groups: [bosh-deployment]
+  serial_groups: [cf-bosh-deployment]
   plan:
   - aggregate:
     - get: pcf-bosh-ci
@@ -438,7 +455,7 @@ jobs:
 #########
 
 - name: smoke-tests
-  serial_groups: [bosh-deployment]
+  serial_groups: [cf-bosh-deployment]
   plan:
   - aggregate:
     - get: pcf-bosh-ci
@@ -486,3 +503,29 @@ jobs:
     file: pcf-bosh-ci/tasks/fetch-routing-release.yml
   - task: run-rats
     file: pcf-bosh-ci/tasks/run-rats.yml
+
+#########
+# MySQL #
+#########
+
+- name: deploy-mysql
+  serial: true
+  serial_groups: [mysql-bosh-deployment]
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: cf-mysql-release-repo
+      trigger: true
+      passed: [upload-stemcell]
+    - get: mysql-creds
+    - get: bosh-creds
+      trigger: true
+      passed: [upload-cloud-config, upload-stemcell]
+    - get: terraform-state
+      passed: [upload-cloud-config, upload-stemcell]
+  - task: deploy-mysql
+    file: pcf-bosh-ci/tasks/deploy-mysql.yml
+    ensure:
+        put: mysql-creds
+        params:
+          file: new-mysql-creds/*
