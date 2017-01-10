@@ -3,4 +3,12 @@
 require 'yaml'
 require 'json'
 
-puts JSON.pretty_generate(YAML.load_file(ARGV[0]))
+def yaml
+  if ARGV[0]
+    YAML.load_file(ARGV[0])
+  else
+    YAML.load(ARGF.read)
+  end
+end
+
+puts JSON.pretty_generate(yaml)
