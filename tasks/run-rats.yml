@@ -8,7 +8,7 @@ image_resource:
 inputs:
 - name: pcf-bosh-ci
 - name: routing-release
-- name: cf-creds
+- name: cf-vars-store
 - name: terraform-state
 
 run:

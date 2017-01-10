@@ -8,7 +8,7 @@ image_resource:
 inputs:
 - name: pcf-bosh-ci
 - name: cloud-config
-- name: bosh-creds
+- name: bosh-vars-store
 - name: terraform-state
 
 run:

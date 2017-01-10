@@ -2,7 +2,7 @@
 
 set -e
 
-cf_creds_json=$(pcf-bosh-ci/scripts/yaml2json cf-creds/*-cf-creds.yml)
+cf_creds_json=$(pcf-bosh-ci/scripts/yaml2json cf-vars-store/*-cf-vars-store.yml)
 
 cat <<CFRATSCONFIG > cf-rats-config.json
 {

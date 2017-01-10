@@ -22,7 +22,7 @@ file_path_to_credhub_release: "file://$PWD/credhub-release/credhub-0.3.0.tgz"
 BOSHVARS
 
 cp bosh-state/*-bosh-state.json new-bosh-state/bosh-state.json
-cp bosh-creds/*-bosh-creds.yml new-bosh-creds/bosh-creds.yml
+cp bosh-vars-store/*-bosh-vars-store.yml new-bosh-vars-store/bosh-vars-store.yml
 
 bosh create-env bosh-deployment/bosh.yml \
   --state new-bosh-state/bosh-state.json \
@@ -32,5 +32,5 @@ bosh create-env bosh-deployment/bosh.yml \
   --ops-file pcf-bosh-ci/ops-files/uaa-with-external-domain.yml \
   --ops-file pcf-bosh-ci/ops-files/credhub.yml \
   --ops-file pcf-bosh-ci/ops-files/director-overrides.yml \
-  --vars-store new-bosh-creds/bosh-creds.yml \
+  --vars-store new-bosh-vars-store/bosh-vars-store.yml \
   --vars-file bosh-vars.yml

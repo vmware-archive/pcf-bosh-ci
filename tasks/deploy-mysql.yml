@@ -8,12 +8,12 @@ image_resource:
 inputs:
 - name: pcf-bosh-ci
 - name: cf-mysql-release-repo
-- name: mysql-creds
-- name: bosh-creds
+- name: mysql-vars-store
+- name: bosh-vars-store
 - name: terraform-state
 
 outputs:
-- name: new-mysql-creds
+- name: new-mysql-vars-store
 
 run:
   path: pcf-bosh-ci/tasks/deploy-mysql.sh

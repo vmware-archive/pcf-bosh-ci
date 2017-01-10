@@ -10,7 +10,7 @@ inputs:
 - name: credhub-release
 - name: bosh-deployment
 - name: bosh-state
-- name: bosh-creds
+- name: bosh-vars-store
 - name: terraform-state
 
 params:
@@ -18,7 +18,7 @@ params:
 
 outputs:
 - name: new-bosh-state
-- name: new-bosh-creds
+- name: new-bosh-vars-store
 
 run:
   path: pcf-bosh-ci/tasks/deploy-director.sh

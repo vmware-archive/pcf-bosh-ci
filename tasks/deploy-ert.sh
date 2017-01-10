@@ -2,9 +2,9 @@
 
 set -e
 
-eval "$(pcf-bosh-ci/scripts/director-environment bosh-creds/*-bosh-creds.yml terraform-state/metadata)"
+eval "$(pcf-bosh-ci/scripts/director-environment bosh-vars-store/*-bosh-vars-store.yml terraform-state/metadata)"
 
-cp cf-creds/*-cf-creds.yml new-cf-creds/cf-creds.yml
+cp cf-vars-store/*-cf-vars-store.yml new-cf-vars-store/cf-vars-store.yml
 
 bosh -n deploy cf-deployment/cf-deployment.yml \
   --deployment cf \
@@ -24,7 +24,7 @@ bosh -n deploy cf-deployment/cf-deployment.yml \
   --ops-file p-ert/errands/push-pivotal-account.yml \
   --ops-file p-ert/errands/mysql-recovery/bootstrap.yml \
   --ops-file p-ert/errands/mysql-recovery/rejoin-unsafe.yml \
-  --vars-store new-cf-creds/cf-creds.yml \
+  --vars-store new-cf-vars-store/cf-vars-store.yml \
   --var "system_domain=$(jq -r .sys_domain terraform-state/metadata)" \
   --var "apps_domain=$(jq -r .apps_domain terraform-state/metadata)" \
   --var "smtp_host_name=$SMTP_HOST_NAME" \

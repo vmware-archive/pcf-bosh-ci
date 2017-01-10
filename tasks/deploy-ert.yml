@@ -7,15 +7,15 @@ image_resource:
 
 inputs:
 - name: pcf-bosh-ci
-- name: bosh-creds
+- name: bosh-vars-store
 - name: cf-deployment
 - name: p-ert
-- name: cf-creds
+- name: cf-vars-store
 - name: closed-source-releases
 - name: terraform-state
 
 outputs:
-- name: new-cf-creds
+- name: new-cf-vars-store
 
 params:
   SMTP_HOST_NAME:

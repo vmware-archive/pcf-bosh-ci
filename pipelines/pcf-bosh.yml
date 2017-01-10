@@ -145,26 +145,26 @@ resources:
     json_key: {{google_json_key}}
     versioned_file: '{{env_name}}-bosh-state.json'
 
-- name: bosh-creds
+- name: bosh-vars-store
   type: gcs-resource
   source:
     bucket: pcf-bosh-ci
     json_key: {{google_json_key}}
-    versioned_file: '{{env_name}}-bosh-creds.yml'
+    versioned_file: '{{env_name}}-bosh-vars-store.yml'
 
-- name: cf-creds
+- name: cf-vars-store
   type: gcs-resource
   source:
     bucket: pcf-bosh-ci
     json_key: {{google_json_key}}
-    versioned_file: '{{env_name}}-cf-creds.yml'
+    versioned_file: '{{env_name}}-cf-vars-store.yml'
 
-- name: mysql-creds
+- name: mysql-vars-store
   type: gcs-resource
   source:
     bucket: pcf-bosh-ci
     json_key: {{google_json_key}}
-    versioned_file: '{{env_name}}-mysql-creds.yml'
+    versioned_file: '{{env_name}}-mysql-vars-store.yml'
 
 jobs:
 
@@ -200,7 +200,7 @@ jobs:
       version:
         ref: ccca4c9f7bcdd0f217c8c3adf186648c52b3b137
     - get: bosh-state
-    - get: bosh-creds
+    - get: bosh-vars-store
     - get: credhub-release
     - get: terraform-state
       trigger: true
@@ -214,9 +214,9 @@ jobs:
       - put: bosh-state
         params:
           file: new-bosh-state/*
-      - put: bosh-creds
+      - put: bosh-vars-store
         params:
-          file: new-bosh-creds/*
+          file: new-bosh-vars-store/*
 
 - name: upload-cloud-config
   plan:
@@ -224,7 +224,7 @@ jobs:
     - get: pcf-bosh-ci
     - get: cloud-config
       trigger: true
-    - get: bosh-creds
+    - get: bosh-vars-store
       trigger: true
       passed: [deploy-director]
     - get: terraform-state
@@ -239,7 +239,7 @@ jobs:
     - get: pcf-bosh-ci
     - get: cf-deployment
       trigger: true
-    - get: bosh-creds
+    - get: bosh-vars-store
       trigger: true
       passed: [deploy-director]
     - get: terraform-state
@@ -267,9 +267,9 @@ jobs:
     - get: p-ert
       resource: p-ert-bosh-experiment
       trigger: true
-    - get: cf-creds
+    - get: cf-vars-store
     - get: closed-source-releases-zip
-    - get: bosh-creds
+    - get: bosh-vars-store
       trigger: true
       passed: [upload-cloud-config, upload-stemcell]
     - get: terraform-state
@@ -284,9 +284,9 @@ jobs:
       SMTP_SENDER_USERNAME: {{smtp_sender_username}}
       SMTP_SENDER_PASSWORD: {{smtp_sender_password}}
     ensure:
-        put: cf-creds
+        put: cf-vars-store
         params:
-          file: new-cf-creds/*
+          file: new-cf-vars-store/*
 
 ###################
 # Default Errands #
@@ -298,11 +298,11 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-bosh-ci
-    - get: bosh-creds
+    - get: bosh-vars-store
       passed: [deploy-ert]
     - get: terraform-state
       passed: [deploy-ert]
-    - get: cf-creds
+    - get: cf-vars-store
       trigger: true
       passed: [deploy-ert]
     - get: cf-deployment
@@ -318,11 +318,11 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-bosh-ci
-    - get: bosh-creds
+    - get: bosh-vars-store
       passed: [deploy-ert]
     - get: terraform-state
       passed: [deploy-ert]
-    - get: cf-creds
+    - get: cf-vars-store
       trigger: true
       passed: [deploy-ert]
     - get: cf-deployment
@@ -338,11 +338,11 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-bosh-ci
-    - get: bosh-creds
+    - get: bosh-vars-store
       passed: [deploy-notifications]
     - get: terraform-state
       passed: [deploy-notifications]
-    - get: cf-creds
+    - get: cf-vars-store
       trigger: true
       passed: [deploy-notifications]
     - get: cf-deployment
@@ -358,11 +358,11 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-bosh-ci
-    - get: bosh-creds
+    - get: bosh-vars-store
       passed: [deploy-ert]
     - get: terraform-state
       passed: [deploy-ert]
-    - get: cf-creds
+    - get: cf-vars-store
       trigger: true
       passed: [deploy-ert]
     - get: cf-deployment
@@ -378,11 +378,11 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-bosh-ci
-    - get: bosh-creds
+    - get: bosh-vars-store
       passed: [deploy-autoscaling]
     - get: terraform-state
       passed: [deploy-autoscaling]
-    - get: cf-creds
+    - get: cf-vars-store
       trigger: true
       passed: [deploy-autoscaling]
     - get: cf-deployment
@@ -398,11 +398,11 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-bosh-ci
-    - get: bosh-creds
+    - get: bosh-vars-store
       passed: [deploy-ert]
     - get: terraform-state
       passed: [deploy-ert]
-    - get: cf-creds
+    - get: cf-vars-store
       trigger: true
       passed: [deploy-ert]
     - get: cf-deployment
@@ -422,11 +422,11 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-bosh-ci
-    - get: bosh-creds
+    - get: bosh-vars-store
       passed: [deploy-ert]
     - get: terraform-state
       passed: [deploy-ert]
-    - get: cf-creds
+    - get: cf-vars-store
       passed: [deploy-ert]
     - get: cf-deployment
       passed: [deploy-ert]
@@ -441,11 +441,11 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-bosh-ci
-    - get: bosh-creds
+    - get: bosh-vars-store
       passed: [deploy-ert]
     - get: terraform-state
       passed: [deploy-ert]
-    - get: cf-creds
+    - get: cf-vars-store
       passed: [deploy-ert]
     - get: cf-deployment
       passed: [deploy-ert]
@@ -463,9 +463,9 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-bosh-ci
-    - get: bosh-creds
+    - get: bosh-vars-store
       passed: &errands [push-apps-manager, deploy-notifications-ui, autoscaling-register-broker]
-    - get: cf-creds
+    - get: cf-vars-store
       trigger: true
       passed: *errands
     - get: terraform-state
@@ -481,7 +481,7 @@ jobs:
     - get: pcf-bosh-ci
     - get: cf-acceptance-tests
       version: {ref: 0e6b46fc44ecc5da7735fc2a48213de0e49b4dbf}
-    - get: cf-creds
+    - get: cf-vars-store
       trigger: true
       passed: *errands
     - get: terraform-state
@@ -498,7 +498,7 @@ jobs:
     - get: cf-acceptance-tests
     - get: cf-deployment
       passed: *errands
-    - get: cf-creds
+    - get: cf-vars-store
       trigger: true
       passed: *errands
     - get: terraform-state
@@ -520,8 +520,8 @@ jobs:
     - get: pcf-bosh-ci
     - get: cf-mysql-release-repo
       trigger: true
-    - get: mysql-creds
-    - get: bosh-creds
+    - get: mysql-vars-store
+    - get: bosh-vars-store
       trigger: true
       passed: [upload-cloud-config, upload-stemcell]
     - get: terraform-state
@@ -529,6 +529,6 @@ jobs:
   - task: deploy-mysql
     file: pcf-bosh-ci/tasks/deploy-mysql.yml
     ensure:
-        put: mysql-creds
+        put: mysql-vars-store
         params:
-          file: new-mysql-creds/*
+          file: new-mysql-vars-store/*
