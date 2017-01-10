@@ -4,7 +4,6 @@ resource_types:
   type: docker-image
   source:
     repository: ljfranklin/terraform-resource
-    tag: 0.8.1
 
 - name: gcs-resource
   type: docker-image
