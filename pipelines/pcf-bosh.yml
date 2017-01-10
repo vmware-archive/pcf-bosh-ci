@@ -84,8 +84,7 @@ resources:
   type: git
   source:
     uri: https://github.com/cloudfoundry/cf-mysql-release
-    branch: master
-    tag_filter: "v32"
+    branch: develop
 
 ##############
 # PCF Assets #
