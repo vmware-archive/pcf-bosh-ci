@@ -15,7 +15,19 @@
   value: [{name: private}]
 
 - type: replace
+  path: /instance_groups/name=broker/networks
+  value: [{name: private}]
+
+- type: replace
   path: /instance_groups/name=bootstrap/networks
+  value: [{name: private}]
+
+- type: replace
+  path: /instance_groups/name=broker-registrar/networks
+  value: [{name: private}]
+
+- type: replace
+  path: /instance_groups/name=broker-deregistrar/networks
   value: [{name: private}]
 
 - type: replace
@@ -23,11 +35,15 @@
   value: [{name: private}]
 
 - type: replace
+  path: /instance_groups/name=smoke-tests/networks
+  value: [{name: private}]
+
+- type: replace
   path: /instance_groups/name=verify-cluster-schemas/networks
   value: [{name: private}]
 
 - type: replace
-  path: /instance_groups/name=smoke-tests/networks
+  path: /instance_groups/name=mysql-monitor/networks
   value: [{name: private}]
 
 ###########
@@ -47,7 +63,19 @@
   value: m3.medium
 
 - type: replace
+  path: /instance_groups/name=broker/vm_type
+  value: m3.medium
+
+- type: replace
   path: /instance_groups/name=bootstrap/vm_type
+  value: m3.medium
+
+- type: replace
+  path: /instance_groups/name=broker-registrar/vm_type
+  value: m3.medium
+
+- type: replace
+  path: /instance_groups/name=broker-deregistrar/vm_type
   value: m3.medium
 
 - type: replace
@@ -55,9 +83,13 @@
   value: m3.medium
 
 - type: replace
+  path: /instance_groups/name=smoke-tests/vm_type
+  value: m3.medium
+
+- type: replace
   path: /instance_groups/name=verify-cluster-schemas/vm_type
   value: m3.medium
 
 - type: replace
-  path: /instance_groups/name=smoke-tests/vm_type
+  path: /instance_groups/name=mysql-monitor/vm_type
   value: m3.medium

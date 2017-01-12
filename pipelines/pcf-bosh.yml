@@ -79,11 +79,12 @@ resources:
 # MySQL Repositories #
 ######################
 
-- name: cf-mysql-release-repo
+- name: p-mysql-deployment
   type: git
   source:
-    uri: https://github.com/cloudfoundry/cf-mysql-release
-    branch: develop
+    uri: git@github.com:pivotal-cf-experimental/p-mysql-deployment
+    branch: master
+    private_key: {{p-mysql-deployment_deploy_key}}
 
 ##################
 # p-MySQL Assets #
@@ -95,7 +96,7 @@ resources:
     bucket: mysql-monitoring-releases
     access_key_id: {{mysql_releases_access_key_id}}
     secret_access_key: {{mysql_releases_secret_access_key}}
-    regexp: final/mysql-monitoring-(\d+\.0).tgz
+      regexp: final/mysql-monitoring-(\d+).tgz
 
 ##############
 # PCF Assets #
@@ -546,14 +547,16 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-bosh-ci
-    - get: cf-mysql-release-repo
+    - get: p-mysql-deployment
       trigger: true
     - get: mysql-vars-store
+    - get: cf-vars-store
+      passed: [deploy-ert]
     - get: bosh-vars-store
       trigger: true
-      passed: [upload-cloud-config, upload-stemcell]
+      passed: [deploy-ert]
     - get: terraform-state
-      passed: [upload-cloud-config, upload-stemcell]
+      passed: [deploy-ert]
   - task: deploy-mysql
     file: pcf-bosh-ci/tasks/deploy-mysql.yml
     ensure:
