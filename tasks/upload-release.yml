@@ -12,4 +12,4 @@ inputs:
 - name: release
 
 run:
-  path: pcf-bosh-ci/tasks/upload-stemcell.sh
+  path: pcf-bosh-ci/tasks/upload-release.sh
