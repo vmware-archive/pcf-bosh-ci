@@ -1,3 +1,15 @@
+############################
+# Proxy Host Configuration #
+############################
+
+- type: replace
+  path: /instance_groups/name=smoke-tests/jobs/name=smoke-tests/properties/cf_mysql/host
+  value: 10.0.1.38
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=cf-mysql-broker/properties/cf_mysql/host
+  value: 10.0.1.38
+
 ############
 # Networks #
 ############
