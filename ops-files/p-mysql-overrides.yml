@@ -19,6 +19,14 @@
   value: internet-required
 
 - type: replace
+  path: /instance_groups/name=broker-registrar/vm_extensions?/-
+  value: internet-required
+
+- type: replace
+  path: /instance_groups/name=broker-deregistrar/vm_extensions?/-
+  value: internet-required
+
+- type: replace
   path: /instance_groups/name=smoke-tests/vm_extensions?/-
   value: internet-required
 
