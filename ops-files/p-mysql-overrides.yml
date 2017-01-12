@@ -10,6 +10,18 @@
   path: /instance_groups/name=broker/jobs/name=cf-mysql-broker/properties/cf_mysql/host
   value: 10.0.1.38
 
+###################
+# Internet Access #
+###################
+
+- type: replace
+  path: /instance_groups/name=broker/vm_extensions/-
+  value: internet-required
+
+- type: replace
+  path: /instance_groups/name=smoke-tests/vm_extensions/-
+  value: internet-required
+
 ############
 # Networks #
 ############
