@@ -95,7 +95,7 @@ resources:
     bucket: mysql-monitoring-releases
     access_key_id: {{mysql_releases_access_key_id}}
     secret_access_key: {{mysql_releases_secret_access_key}}
-    regexp: s3://mysql-monitoring-releases/final/mysql-monitoring-(\d+\.0).tgz
+    regexp: final/mysql-monitoring-(\d+\.0).tgz
 
 ##############
 # PCF Assets #
