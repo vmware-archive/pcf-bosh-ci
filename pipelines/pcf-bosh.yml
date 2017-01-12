@@ -323,7 +323,8 @@ jobs:
   - task: push-apps-manager
     file: pcf-bosh-ci/tasks/run-errand.yml
     params:
-      ERRAND_NAME: push-apps-manager
+      DEPLOYMENT: cf
+      ERRAND: push-apps-manager
 
 - name: deploy-notifications
   serial: true
@@ -343,7 +344,8 @@ jobs:
   - task: deploy-notifications
     file: pcf-bosh-ci/tasks/run-errand.yml
     params:
-      ERRAND_NAME: deploy-notifications
+      DEPLOYMENT: cf
+      ERRAND: deploy-notifications
 
 - name: deploy-notifications-ui
   serial: true
@@ -363,7 +365,8 @@ jobs:
   - task: deploy-notifications-ui
     file: pcf-bosh-ci/tasks/run-errand.yml
     params:
-      ERRAND_NAME: deploy-notifications-ui
+      DEPLOYMENT: cf
+      ERRAND: deploy-notifications-ui
 
 - name: deploy-autoscaling
   serial: true
@@ -383,7 +386,8 @@ jobs:
   - task: deploy-autoscaling
     file: pcf-bosh-ci/tasks/run-errand.yml
     params:
-      ERRAND_NAME: deploy-autoscaling
+      DEPLOYMENT: cf
+      ERRAND: deploy-autoscaling
 
 - name: autoscaling-register-broker
   serial: true
@@ -403,7 +407,8 @@ jobs:
   - task: autoscaling-register-broker
     file: pcf-bosh-ci/tasks/run-errand.yml
     params:
-      ERRAND_NAME: autoscaling-register-broker
+      DEPLOYMENT: cf
+      ERRAND: autoscaling-register-broker
 
 - name: push-pivotal-account
   serial: true
@@ -423,7 +428,8 @@ jobs:
   - task: push-pivotal-account
     file: pcf-bosh-ci/tasks/run-errand.yml
     params:
-      ERRAND_NAME: push-pivotal-account
+      DEPLOYMENT: cf
+      ERRAND: push-pivotal-account
 
 ####################
 # Recovery Errands #
@@ -446,7 +452,8 @@ jobs:
   - task: mysql-bootstrap
     file: pcf-bosh-ci/tasks/run-errand.yml
     params:
-      ERRAND_NAME: mysql-bootstrap
+      DEPLOYMENT: cf
+      ERRAND: mysql-bootstrap
 
 - name: mysql-rejoin-unsafe
   serial: true
@@ -465,7 +472,8 @@ jobs:
   - task: mysql-rejoin-unsafe
     file: pcf-bosh-ci/tasks/run-errand.yml
     params:
-      ERRAND_NAME: mysql-rejoin-unsafe
+      DEPLOYMENT: cf
+      ERRAND: mysql-rejoin-unsafe
 
 #########
 # Tests #
@@ -486,7 +494,8 @@ jobs:
   - task: run-smoke-tests
     file: pcf-bosh-ci/tasks/run-errand.yml
     params:
-      ERRAND_NAME: smoke-tests
+      DEPLOYMENT: cf
+      ERRAND: smoke-tests
 
 - name: run-cats
   plan:

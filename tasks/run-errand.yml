@@ -11,7 +11,8 @@ inputs:
 - name: terraform-state
 
 params:
-  ERRAND_NAME:
+  DEPLOYMENT:
+  ERRAND:
 
 run:
   path: pcf-bosh-ci/tasks/run-errand.sh
