@@ -574,3 +574,41 @@ jobs:
         put: mysql-vars-store
         params:
           file: new-mysql-vars-store/*
+
+- name: broker-registrar
+  serial: true
+  serial_groups: [mysql-bosh-deployment]
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: bosh-vars-store
+      passed: [deploy-mysql]
+    - get: terraform-state
+      passed: [deploy-mysql]
+    - get: mysql-vars-store
+      trigger: true
+      passed: [deploy-mysql]
+  - task: broker-registrar
+    file: pcf-bosh-ci/tasks/run-errand.yml
+    params:
+      DEPLOYMENT: p-mysql
+      ERRAND: broker-registrar
+
+- name: mysql-smoke-tests
+  serial: true
+  serial_groups: [mysql-bosh-deployment]
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: bosh-vars-store
+      passed: [broker-registrar]
+    - get: terraform-state
+      passed: [broker-registrar]
+    - get: mysql-vars-store
+      trigger: true
+      passed: [broker-registrar]
+  - task: smoke-tests
+    file: pcf-bosh-ci/tasks/run-errand.yml
+    params:
+      DEPLOYMENT: p-mysql
+      ERRAND: smoke-tests
