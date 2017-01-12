@@ -85,6 +85,18 @@ resources:
     uri: https://github.com/cloudfoundry/cf-mysql-release
     branch: develop
 
+##################
+# p-MySQL Assets #
+##################
+
+- name: mysql-monitoring-release
+  type: s3
+  source:
+    bucket: mysql-monitoring-releases
+    access_key_id: {{mysql_releases_access_key_id}}
+    secret_access_key: {{mysql_releases_secret_access_key}}
+    regexp: s3://mysql-monitoring-releases/final/mysql-monitoring-(\d+\.0).tgz
+
 ##############
 # PCF Assets #
 ##############
@@ -511,6 +523,22 @@ jobs:
 #########
 # MySQL #
 #########
+
+- name: upload-closed-source-mysql-releases
+  serial: true
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: mysql-monitoring-release
+    - get: bosh-vars-store
+      trigger: true
+      passed: [deploy-director]
+    - get: terraform-state
+      passed: [deploy-director]
+  - task: upload-mysql-monitoring-release
+    file: pcf-bosh-ci/tasks/upload-release.yml
+    input_mapping:
+      release: mysql-monitoring-release
 
 - name: deploy-mysql
   serial: true
