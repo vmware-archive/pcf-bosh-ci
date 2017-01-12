@@ -39,7 +39,7 @@ cf_nats:
   port: 4222
 MYSQLVARS
 
-bosh -n interpolate mysql-vars-template.yml \
+bosh -n interpolate p-mysql-vars-template.yml \
     -l pcf-bosh-ci/vars-files/gcp-nats-ips.yml > p-mysql-vars.yml
 
 cp mysql-vars-store/*-mysql-vars-store.yml new-mysql-vars-store/mysql-vars-store.yml
