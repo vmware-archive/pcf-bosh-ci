@@ -15,11 +15,11 @@
 ###################
 
 - type: replace
-  path: /instance_groups/name=broker/vm_extensions/-
+  path: /instance_groups/name=broker/vm_extensions?/-
   value: internet-required
 
 - type: replace
-  path: /instance_groups/name=smoke-tests/vm_extensions/-
+  path: /instance_groups/name=smoke-tests/vm_extensions?/-
   value: internet-required
 
 ############
