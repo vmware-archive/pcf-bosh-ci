@@ -1,0 +1,358 @@
+---
+groups:
+- name: bosh
+  jobs:
+  - terraform-up
+  - deploy-director
+  - upload-stemcell
+  - upload-cloud-config
+- name: fresh-ert
+  jobs:
+  - deploy-ert
+- name: upgrade-ert
+  jobs:
+  - deploy-ert-next
+  - smoke-tests
+- name: clean-up
+  jobs:
+  - delete-ert
+
+resource_types:
+- name: terraform
+  type: docker-image
+  source:
+    repository: ljfranklin/terraform-resource
+
+- name: gcs-resource
+  type: docker-image
+  source:
+    repository: frodenas/gcs-resource
+
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+resources:
+
+#########################
+# PCF BOSH Repositories #
+#########################
+
+- name: pcf-bosh-ci
+  type: git
+  source:
+    uri: https://github.com/pivotal-cf/pcf-bosh-ci
+    branch: master
+
+- name: cloud-config
+  type: git
+  source:
+    uri: https://github.com/pivotal-cf/p-ert-bosh-experiment
+    branch: "1.9"
+    paths: [cloud-config.yml]
+
+- name: p-ert-bosh-experiment
+  type: git
+  source:
+    uri: https://github.com/pivotal-cf/p-ert-bosh-experiment
+    branch: "1.9"
+    ignore_paths: [cloud-config.yml]
+
+- name: p-ert-bosh-experiment-next
+  type: git
+  source:
+    uri: https://github.com/pivotal-cf/p-ert-bosh-experiment
+    branch: master
+    ignore_paths: [cloud-config.yml]
+
+- name: terraforming-gcp
+  type: git
+  source:
+    uri: https://github.com/pivotal-cf/pcf-bosh-terraforming-gcp
+    branch: master
+
+###################
+# CF Repositories #
+###################
+
+- name: cf-deployment
+  type: git
+  source:
+    uri: https://github.com/cloudfoundry/cf-deployment
+    branch: master
+    tag_filter: "0\\.0\\.0"
+
+- name: cf-deployment-next
+  type: git
+  source:
+    uri: https://github.com/cloudfoundry/cf-deployment
+    branch: master
+
+- name: bosh-deployment
+  type: git
+  source:
+    uri: https://github.com/cloudfoundry/bosh-deployment
+    branch: master
+
+##############
+# PCF Assets #
+##############
+
+- name: credhub-release
+  type: gcs-resource
+  source:
+    bucket: pcf-bosh-ci
+    json_key: {{google_json_key}}
+    versioned_file: credhub-0.3.0.tgz
+
+- name: closed-source-releases-zip
+  type: gcs-resource
+  source:
+    bucket: pcf-bosh-ci
+    json_key: {{google_json_key}}
+    versioned_file: closed-source-releases.zip
+
+######################
+# External Resources #
+######################
+
+- name: terraform
+  type: docker-image
+  source:
+    repository: ljfranklin/terraform-resource
+
+#########################
+# Pipeline Global State #
+#########################
+
+- name: terraform-vars
+  type: gcs-resource
+  source:
+    bucket: pcf-bosh-ci
+    json_key: {{google_json_key}}
+    versioned_file: terraform.tfvars.yml
+
+##################
+# Pipeline State #
+##################
+
+- name: terraform-state
+  type: terraform
+  source:
+    storage:
+      bucket: pcf-bosh-ci
+      bucket_path: terraform-environments
+      access_key_id: {{gcs_access_key_id}}
+      secret_access_key: {{gcs_secret_access_key}}
+      endpoint: storage.googleapis.com
+  delete_on_failure: true
+
+- name: bosh-state
+  type: gcs-resource
+  source:
+    bucket: pcf-bosh-ci
+    json_key: {{google_json_key}}
+    versioned_file: '{{env_name}}-bosh-state.json'
+
+- name: bosh-vars-store
+  type: gcs-resource
+  source:
+    bucket: pcf-bosh-ci
+    json_key: {{google_json_key}}
+    versioned_file: '{{env_name}}-bosh-vars-store.yml'
+
+- name: cf-vars-store
+  type: gcs-resource
+  source:
+    bucket: pcf-bosh-ci
+    json_key: {{google_json_key}}
+    versioned_file: '{{env_name}}-cf-vars-store.yml'
+
+jobs:
+
+##################
+# Infrastructure #
+##################
+
+- name: terraform-up
+  plan:
+  - aggregate:
+    - get: terraforming-gcp
+      trigger: true
+    - get: terraform-vars
+      trigger: true
+    - get: terraform
+      trigger: true
+  - put: terraform-state
+    params:
+      var_file: terraform-vars/terraform.tfvars.yml
+      terraform_source: terraforming-gcp
+      delete_on_failure: true
+      env_name: {{env_name}}
+
+########
+# BOSH #
+########
+
+- name: deploy-director
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: bosh-deployment
+      version:
+        ref: ccca4c9f7bcdd0f217c8c3adf186648c52b3b137
+    - get: bosh-state
+    - get: bosh-vars-store
+    - get: credhub-release
+    - get: terraform-state
+      trigger: true
+      passed: [terraform-up]
+  - task: deploy-director
+    file: pcf-bosh-ci/tasks/deploy-director.yml
+    params:
+      GOOGLE_JSON_KEY: {{google_json_key}}
+    ensure:
+      aggregate:
+      - put: bosh-state
+        params:
+          file: new-bosh-state/*
+      - put: bosh-vars-store
+        params:
+          file: new-bosh-vars-store/*
+
+- name: upload-cloud-config
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: cloud-config
+      trigger: true
+    - get: bosh-vars-store
+      trigger: true
+      passed: [deploy-director]
+    - get: terraform-state
+      trigger: true
+      passed: [deploy-director]
+  - task: upload-cloud-config
+    file: pcf-bosh-ci/tasks/upload-cloud-config.yml
+
+- name: upload-stemcell
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: cf-deployment
+      trigger: true
+    - get: bosh-vars-store
+      trigger: true
+      passed: [deploy-director]
+    - get: terraform-state
+      passed: [deploy-director]
+  - task: stemcell-url-from-cf-deployment
+    file: pcf-bosh-ci/tasks/stemcell-url-from-cf-deployment.yml
+    params:
+      NAME: bosh-google-kvm-ubuntu-trusty-go_agent
+  - task: upload-stemcell
+    file: pcf-bosh-ci/tasks/upload-stemcell.yml
+
+#######################
+# Cloud Foundry Fresh #
+#######################
+
+- name: deploy-ert
+  serial: true
+  serial_groups: [cf-bosh-deployment]
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: cf-deployment
+      trigger: true
+      passed: [upload-stemcell]
+    - get: p-ert
+      resource: p-ert-bosh-experiment
+      trigger: true
+    - get: cf-vars-store
+    - get: closed-source-releases-zip
+    - get: bosh-vars-store
+      trigger: true
+      passed: [upload-cloud-config, upload-stemcell]
+    - get: terraform-state
+      passed: [upload-cloud-config, upload-stemcell]
+  - task: extract-closed-source-releases
+    file: pcf-bosh-ci/tasks/extract-closed-source-releases.yml
+  - task: deploy-ert
+    file: pcf-bosh-ci/tasks/deploy-ert.yml
+    params:
+      SMTP_HOST_NAME: {{smtp_host_name}}
+      SMTP_HOST_PORT: {{smtp_host_port}}
+      SMTP_SENDER_USERNAME: {{smtp_sender_username}}
+      SMTP_SENDER_PASSWORD: {{smtp_sender_password}}
+    ensure:
+        put: cf-vars-store
+        params:
+          file: new-cf-vars-store/*
+
+#########################
+# Cloud Foundry Upgrade #
+#########################
+
+- name: deploy-ert-next
+  serial_groups: [cf-bosh-deployment]
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: cf-deployment-next
+    - get: p-ert
+      resource: p-ert-bosh-experiment-next
+    - get: cf-vars-store
+      passed: [deploy-ert]
+    - get: closed-source-releases-zip
+    - get: bosh-vars-store
+      passed: [deploy-ert]
+    - get: terraform-state
+      passed: [deploy-ert]
+  - task: extract-closed-source-releases
+    file: pcf-bosh-ci/tasks/extract-closed-source-releases.yml
+  - task: deploy-ert
+    file: pcf-bosh-ci/tasks/deploy-ert.yml
+    params:
+      SMTP_HOST_NAME: {{smtp_host_name}}
+      SMTP_HOST_PORT: {{smtp_host_port}}
+      SMTP_SENDER_USERNAME: {{smtp_sender_username}}
+      SMTP_SENDER_PASSWORD: {{smtp_sender_password}}
+    ensure:
+        put: cf-vars-store
+        params:
+          file: new-cf-vars-store/*
+
+- name: smoke-tests
+  serial_groups: [cf-bosh-deployment]
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: bosh-vars-store
+      passed: [deploy-ert-next]
+    - get: cf-vars-store
+      trigger: true
+      passed: [deploy-ert-next]
+    - get: terraform-state
+      passed: [deploy-ert-next]
+  - task: run-smoke-tests
+    file: pcf-bosh-ci/tasks/run-errand.yml
+    params:
+      DEPLOYMENT: cf
+      ERRAND: smoke-tests
+
+############
+# Clean Up #
+############
+
+- name: delete-ert
+  serial_groups: [cf-bosh-deployment]
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: bosh-vars-store
+      passed: [smoke-tests]
+    - get: terraform-state
+      passed: [smoke-tests]
