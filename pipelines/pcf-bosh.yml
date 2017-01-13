@@ -612,3 +612,27 @@ jobs:
     params:
       DEPLOYMENT: p-mysql
       ERRAND: smoke-tests
+
+################
+# Delete MySQL #
+################
+
+- name: delete-mysql
+  serial: true
+  serial_groups: [mysql-bosh-deployment]
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: bosh-vars-store
+      passed: [deploy-mysql]
+    - get: terraform-state
+      passed: [deploy-mysql]
+  - task: broker-deregistrar
+    file: pcf-bosh-ci/tasks/run-errand.yml
+    params:
+      DEPLOYMENT: p-mysql
+      ERRAND: broker-deregistrar
+  - task: delete-mysql-deployment
+    file: pcf-bosh-ci/tasks/delete-deployment.yml
+    params:
+      DEPLOYMENT: p-mysql
