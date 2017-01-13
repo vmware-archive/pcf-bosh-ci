@@ -7,7 +7,6 @@ image_resource:
 
 inputs:
 - name: pcf-bosh-ci
-- name: credhub-release
 - name: bosh-deployment
 - name: bosh-state
 - name: bosh-vars-store

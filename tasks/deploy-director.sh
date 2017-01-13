@@ -17,8 +17,6 @@ bosh_director_tags: $(jq -r .bosh_director_tags terraform-state/metadata)
 bosh_director_domain: $(jq -r .bosh_director_domain terraform-state/metadata)
 gcp_credentials_json: |
     $(echo $GOOGLE_JSON_KEY)
-credhub_aes_key: 547378EB7909D6078C14FCBE631D3BAF
-file_path_to_credhub_release: "file://$PWD/credhub-release/credhub-0.3.0.tgz"
 BOSHVARS
 
 cp bosh-state/*-bosh-state.json new-bosh-state/bosh-state.json
@@ -30,7 +28,6 @@ bosh create-env bosh-deployment/bosh.yml \
   --ops-file bosh-deployment/gcp/cpi.yml \
   --ops-file bosh-deployment/uaa.yml \
   --ops-file pcf-bosh-ci/ops-files/uaa-with-external-domain.yml \
-  --ops-file pcf-bosh-ci/ops-files/credhub.yml \
   --ops-file pcf-bosh-ci/ops-files/director-overrides.yml \
   --vars-store new-bosh-vars-store/bosh-vars-store.yml \
   --vars-file bosh-vars.yml

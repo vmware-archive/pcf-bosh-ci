@@ -100,13 +100,6 @@ resources:
 # PCF Assets #
 ##############
 
-- name: credhub-release
-  type: gcs-resource
-  source:
-    bucket: pcf-bosh-ci
-    json_key: {{google_json_key}}
-    versioned_file: credhub-0.3.0.tgz
-
 - name: closed-source-releases-zip
   type: gcs-resource
   source:
@@ -205,7 +198,6 @@ jobs:
         ref: ccca4c9f7bcdd0f217c8c3adf186648c52b3b137
     - get: bosh-state
     - get: bosh-vars-store
-    - get: credhub-release
     - get: terraform-state
       trigger: true
       passed: [terraform-up]
