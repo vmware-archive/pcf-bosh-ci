@@ -636,3 +636,22 @@ jobs:
     file: pcf-bosh-ci/tasks/delete-deployment.yml
     params:
       DEPLOYMENT: p-mysql
+
+##############
+# Delete ERT #
+##############
+
+- name: delete-ert
+  serial: true
+  serial_groups: [cf-bosh-deployment]
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: bosh-vars-store
+      passed: [delete-mysql]
+    - get: terraform-state
+      passed: [delete-mysql]
+  - task: delete-ert-deployment
+    file: pcf-bosh-ci/tasks/delete-deployment.yml
+    params:
+      DEPLOYMENT: cf
