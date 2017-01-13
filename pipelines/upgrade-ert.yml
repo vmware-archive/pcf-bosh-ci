@@ -302,8 +302,7 @@ jobs:
   - aggregate:
     - get: pcf-bosh-ci
     - get: cf-deployment-next
-    - get: p-ert
-      resource: p-ert-bosh-experiment-next
+    - get: p-ert-bosh-experiment-next
     - get: cf-vars-store
       passed: [deploy-ert]
     - get: closed-source-releases-zip
@@ -315,6 +314,9 @@ jobs:
     file: pcf-bosh-ci/tasks/extract-closed-source-releases.yml
   - task: deploy-ert
     file: pcf-bosh-ci/tasks/deploy-ert.yml
+    input_mapping:
+      cf-deployment: cf-deployment-next
+      p-ert: p-ert-bosh-experiment-next
     params:
       SMTP_HOST_NAME: {{smtp_host_name}}
       SMTP_HOST_PORT: {{smtp_host_port}}
