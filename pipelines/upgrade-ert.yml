@@ -358,3 +358,7 @@ jobs:
       passed: [smoke-tests]
     - get: terraform-state
       passed: [smoke-tests]
+  - task: delete-ert-deployment
+    file: pcf-bosh-ci/tasks/delete-deployment.yml
+    params:
+      DEPLOYMENT: cf
