@@ -20,9 +20,9 @@ MySQL is deployed using [https://github.com/cloudfoundry/cf-mysql-release](cf-my
 
 To create a new environment, you must first seed your GCS bucket with some empty files. For an environment named new-environment, the following must be created:
 
-- "new-environment"-cf-creds.yml
-- "new-environment"-mysql-creds.yml
-- "new-environment"-bosh-creds.yml
+- "new-environment"-cf-vars-store.yml
+- "new-environment"-mysql-vars-store.yml
+- "new-environment"-bosh-vars-store.yml
 - "new-environment"-bosh-state.json
   - This file must be valid JSON, so the contents should be `{}`
 
