@@ -12,6 +12,7 @@ bosh -n deploy cf-deployment/cf-deployment.yml \
   --ops-file cf-deployment/opsfiles/tcp-routing-gcp.yml \
   --ops-file p-ert/releases.yml \
   --ops-file p-ert/pivotal-defaults.yml \
+  --ops-file p-ert/ip-overrides.yml \
   --ops-file p-ert/mysql-proxy.yml \
   --ops-file p-ert/mysql-monitoring.yml \
   --ops-file p-ert/errands/smoke-tests.yml \
