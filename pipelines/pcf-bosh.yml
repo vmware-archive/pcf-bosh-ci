@@ -478,7 +478,7 @@ jobs:
   - aggregate:
     - get: pcf-bosh-ci
     - get: bosh-vars-store
-      passed: &errands [push-apps-manager, deploy-notifications-ui, autoscaling-register-broker]
+      passed: &errands [push-apps-manager, autoscaling-register-broker] # deploy-notifications-ui
     - get: cf-vars-store
       trigger: true
       passed: *errands
