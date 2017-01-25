@@ -9,6 +9,9 @@ groups:
 - name: fresh-ert
   jobs:
   - deploy-ert
+- name: upgrade-bosh
+  jobs:
+  - upload-stemcell-next
 - name: upgrade-ert
   jobs:
   - deploy-ert-next
