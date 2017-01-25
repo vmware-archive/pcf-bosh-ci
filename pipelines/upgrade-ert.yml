@@ -284,6 +284,29 @@ jobs:
         params:
           file: new-cf-vars-store/*
 
+################
+# BOSH Upgrade #
+################
+
+- name: upload-stemcell-next
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: cf-deployment-next
+    - get: bosh-vars-store
+      trigger: true
+      passed: [deploy-ert]
+    - get: terraform-state
+      passed: [deploy-ert]
+  - task: stemcell-url-from-cf-deployment
+    file: pcf-bosh-ci/tasks/stemcell-url-from-cf-deployment.yml
+    input_mapping:
+      cf-deployment: cf-deployment-next
+    params:
+      NAME: bosh-google-kvm-ubuntu-trusty-go_agent
+  - task: upload-stemcell
+    file: pcf-bosh-ci/tasks/upload-stemcell.yml
+
 #########################
 # Cloud Foundry Upgrade #
 #########################
@@ -294,14 +317,15 @@ jobs:
   - aggregate:
     - get: pcf-bosh-ci
     - get: cf-deployment-next
+      passed: [upload-stemcell-next]
     - get: p-ert-bosh-experiment-next
     - get: cf-vars-store
       passed: [deploy-ert]
     - get: closed-source-releases-zip
     - get: bosh-vars-store
-      passed: [deploy-ert]
+      passed: [upload-stemcell-next]
     - get: terraform-state
-      passed: [deploy-ert]
+      passed: [upload-stemcell-next]
   - task: extract-closed-source-releases
     file: pcf-bosh-ci/tasks/extract-closed-source-releases.yml
   - task: deploy-ert
