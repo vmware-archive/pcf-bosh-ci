@@ -16,6 +16,12 @@ resources:
 # PCF BOSH Repositories #
 #########################
 
+- name: pcf-bosh-ci
+  type: git
+  source:
+    uri: https://github.com/pivotal-cf/pcf-bosh-ci
+    branch: master
+
 - name: terraforming-aws
   type: git
   source:
@@ -27,6 +33,16 @@ resources:
   source:
     repository: ljfranklin/terraform-resource
 
+###################
+# CF Repositories #
+###################
+
+- name: bosh-deployment
+  type: git
+  source:
+    uri: https://github.com/cloudfoundry/bosh-deployment
+    branch: master
+
 #########################
 # Pipeline Global State #
 #########################
@@ -37,6 +53,13 @@ resources:
     bucket: pcf-bosh-ci
     json_key: {{google_json_key}}
     versioned_file: terraform-aws.tfvars.yml
+
+- name: bosh-private-key
+  type: gcs-resource
+  source:
+    bucket: pcf-bosh-ci
+    json_key: {{google_json_key}}
+    versioned_file: bosh-private-key
 
 ##################
 # Pipeline State #
@@ -52,6 +75,20 @@ resources:
       secret_access_key: {{gcs_secret_access_key}}
       endpoint: storage.googleapis.com
   delete_on_failure: true
+
+- name: bosh-state
+  type: gcs-resource
+  source:
+    bucket: pcf-bosh-ci
+    json_key: {{google_json_key}}
+    versioned_file: '{{env_name}}-bosh-state.json'
+
+- name: bosh-vars-store
+  type: gcs-resource
+  source:
+    bucket: pcf-bosh-ci
+    json_key: {{google_json_key}}
+    versioned_file: '{{env_name}}-bosh-vars-store.yml'
 
 jobs:
 
@@ -74,3 +111,27 @@ jobs:
       terraform_source: terraforming-aws
       delete_on_failure: true
       env_name: {{env_name}}
+
+- name: deploy-director
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: bosh-deployment
+      version:
+        ref: ccca4c9f7bcdd0f217c8c3adf186648c52b3b137
+    - get: bosh-state
+    - get: bosh-private-key
+    - get: bosh-vars-store
+    - get: terraform-state
+      trigger: true
+      passed: [terraform-up]
+  - task: deploy-director
+    file: pcf-bosh-ci/tasks/deploy-director-aws.yml
+    ensure:
+      aggregate:
+      - put: bosh-state
+        params:
+          file: new-bosh-state/*
+      - put: bosh-vars-store
+        params:
+          file: new-bosh-vars-store/*

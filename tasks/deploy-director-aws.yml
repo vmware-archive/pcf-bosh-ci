@@ -1,0 +1,21 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: { repository: pcfbosh/minimal }
+
+inputs:
+- name: pcf-bosh-ci
+- name: bosh-deployment
+- name: bosh-state
+- name: bosh-private-key
+- name: bosh-vars-store
+- name: terraform-state
+
+outputs:
+- name: new-bosh-state
+- name: new-bosh-vars-store
+
+run:
+  path: pcf-bosh-ci/tasks/deploy-director-aws.sh
