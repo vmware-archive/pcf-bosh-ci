@@ -6,6 +6,8 @@ RUN apt-get update && apt-get install -y \
     prips \
     file \
     ruby \
+    ruby-dev \
+    zlib1g-dev \
     unzip # Used by V3 CATs \
     && rm -rf /var/lib/apt/lists/*
 
