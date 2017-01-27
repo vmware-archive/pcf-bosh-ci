@@ -6,7 +6,7 @@ internal_cidr=$(jq -r .public_subnet_cidrs[0] terraform-state/metadata)
 internal_gw=$(prips "$internal_cidr" | awk 'NR==2 {print $0}')
 internal_ip=$(prips "$internal_cidr" | awk 'NR==5 {print $0}')
 
-chmod 600 private-key/bosh-private-key
+chmod 600 bosh-private-key/bosh-private-key
 
 cat <<BOSHVARS > bosh-vars.yml
 ---
