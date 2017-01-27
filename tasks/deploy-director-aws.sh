@@ -2,7 +2,7 @@
 
 set -e
 
-internal_cidr=$(jq -r .management_subnet_cidrs[0] terraform-state/metadata)
+internal_cidr=$(jq -r .public_subnet_cidrs[0] terraform-state/metadata)
 internal_gw=$(prips "$internal_cidr" | awk 'NR==2 {print $0}')
 internal_ip=$(prips "$internal_cidr" | awk 'NR==5 {print $0}')
 
@@ -10,7 +10,7 @@ cat <<BOSHVARS > bosh-vars.yml
 ---
 director_name: pcf-bosh-director
 az: $(jq -r .azs[0] terraform-state/metadata)
-subnet_id: $(jq -r .management_subnet_ids[0] terraform-state/metadata)
+subnet_id: $(jq -r .public_subnet_ids[0] terraform-state/metadata)
 internal_cidr: $internal_cidr
 internal_gw: $internal_gw
 internal_ip: $internal_ip
