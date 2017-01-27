@@ -3,6 +3,7 @@ MAINTAINER https://github.com/pivotal-cf/pcf-bosh-ci
 
 RUN apt-get update && apt-get install -y \
     jq \
+    prips \
     ruby \
     unzip # Used by V3 CATs \
     && rm -rf /var/lib/apt/lists/*
