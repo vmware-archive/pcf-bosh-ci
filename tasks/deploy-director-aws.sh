@@ -2,14 +2,18 @@
 
 set -e
 
+internal_cidr=$(jq -r .management_subnet_cidrs[0] terraform-state/metadata)
+internal_gw=$(prips "$internal_cidr" | awk 'NR==2 {print $0}')
+internal_ip=$(prips "$internal_cidr" | awk 'NR==5 {print $0}')
+
 cat <<BOSHVARS > bosh-vars.yml
 ---
 director_name: pcf-bosh-director
 az: $(jq -r .azs[0] terraform-state/metadata)
 subnet_id: $(jq -r .management_subnet_ids[0] terraform-state/metadata)
-internal_cidr: $(jq -r .management_subnet_cidrs[0] terraform-state/metadata)
-internal_gw: $(jq -r .management_subnet_gateways[0] terraform-state/metadata)
-internal_ip: $(jq -r .bosh_director_ips_on_management_subnets[0] terraform-state/metadata)
+internal_cidr: $internal_cidr
+internal_gw: $internal_gw
+internal_ip: $internal_ip
 external_ip: $(jq -r .bosh_director_external_ip terraform-state/metadata)
 access_key_id: $(jq -r .iam_user_access_key terraform-state/metadata)
 secret_access_key: $(jq -r .iam_user_secret_access_key terraform-state/metadata)
