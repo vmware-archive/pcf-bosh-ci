@@ -15,8 +15,8 @@ internal_cidr: $internal_cidr
 internal_gw: $internal_gw
 internal_ip: $internal_ip
 external_ip: $(jq -r .bosh_director_external_ip terraform-state/metadata)
-access_key_id: $(jq -r .iam_user_access_key terraform-state/metadata)
-secret_access_key: $(jq -r .iam_user_secret_access_key terraform-state/metadata)
+access_key_id: $(jq -r .bosh_iam_user_access_key terraform-state/metadata)
+secret_access_key: $(jq -r .bosh_iam_user_secret_access_key terraform-state/metadata)
 default_key_name: $(jq -r .default_key_name terraform-state/metadata)
 default_security_groups: [$(jq -r .vms_security_group_id terraform-state/metadata)]
 region: $(jq -r .region terraform-state/metadata)
