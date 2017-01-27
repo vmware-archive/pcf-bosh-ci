@@ -1,0 +1,4 @@
+# Configure Director to more open security group
+- type: replace
+  path: /resource_pools/name=vms/cloud_properties/security_groups?
+  value: ((bosh_director_security_groups))

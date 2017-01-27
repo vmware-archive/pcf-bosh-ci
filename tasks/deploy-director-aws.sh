@@ -19,6 +19,7 @@ access_key_id: $(jq -r .bosh_iam_user_access_key terraform-state/metadata)
 secret_access_key: $(jq -r .bosh_iam_user_secret_access_key terraform-state/metadata)
 default_key_name: $(jq -r .default_key_name terraform-state/metadata)
 default_security_groups: [$(jq -r .vms_security_group_id terraform-state/metadata)]
+bosh_director_security_groups: [$(jq -r .bosh_security_group_id terraform-state/metadata)]
 region: $(jq -r .region terraform-state/metadata)
 bosh_director_domain: $(jq -r .bosh_director_domain terraform-state/metadata)
 bosh_director_tags: director
@@ -34,6 +35,7 @@ bosh create-env bosh-deployment/bosh.yml \
   --ops-file bosh-deployment/uaa.yml \
   --ops-file pcf-bosh-ci/ops-files/uaa-with-external-domain.yml \
   --ops-file pcf-bosh-ci/ops-files/director-overrides.yml \
+  --ops-file pcf-bosh-ci/ops-files/aws-director-overrides.yml \
   --vars-store new-bosh-vars-store/bosh-vars-store.yml \
   --vars-file bosh-vars.yml \
   --var-file private_key=bosh-private-key/bosh-private-key
