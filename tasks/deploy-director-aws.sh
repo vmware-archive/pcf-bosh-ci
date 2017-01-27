@@ -20,6 +20,8 @@ secret_access_key: $(jq -r .iam_user_secret_access_key terraform-state/metadata)
 default_key_name: $(jq -r .default_key_name terraform-state/metadata)
 default_security_groups: [$(jq -r .vms_security_group_id terraform-state/metadata)]
 region: $(jq -r .region terraform-state/metadata)
+bosh_director_domain: $(jq -r .bosh_director_domain terraform-state/metadata)
+bosh_director_tags: director
 BOSHVARS
 
 cp bosh-state/*-bosh-state.json new-bosh-state/bosh-state.json
