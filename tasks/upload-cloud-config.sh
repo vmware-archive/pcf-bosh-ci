@@ -26,4 +26,4 @@ static_ip_start: $(jq -r .cf_static_ip_start terraform-state/metadata)
 static_ip_end: $(jq -r .cf_static_ip_end terraform-state/metadata)
 BOSHVARS
 
-bosh -n update-cloud-config cloud-config/cloud-config.yml --vars-file bosh-vars.yml
+bosh -n update-cloud-config cloud-config/gcp/cloud-config.yml --vars-file bosh-vars.yml

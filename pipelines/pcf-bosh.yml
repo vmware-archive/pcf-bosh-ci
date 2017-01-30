@@ -33,14 +33,14 @@ resources:
   source:
     uri: https://github.com/pivotal-cf/p-ert-bosh-experiment
     branch: {{p-ert-branch}}
-    paths: [cloud-config.yml]
+    paths: [gcp/cloud-config.yml]
 
 - name: p-ert-bosh-experiment
   type: git
   source:
     uri: https://github.com/pivotal-cf/p-ert-bosh-experiment
     branch: {{p-ert-branch}}
-    ignore_paths: [cloud-config.yml]
+    ignore_paths: [gcp/cloud-config.yml]
 
 - name: terraforming-gcp
   type: git
