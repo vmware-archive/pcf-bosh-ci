@@ -33,6 +33,13 @@ resources:
   source:
     repository: ljfranklin/terraform-resource
 
+- name: cloud-config
+  type: git
+  source:
+    uri: https://github.com/pivotal-cf/p-ert-bosh-experiment
+    branch: "1.9"
+    paths: [aws/cloud-config.yml]
+
 ###################
 # CF Repositories #
 ###################
@@ -135,3 +142,18 @@ jobs:
       - put: bosh-vars-store
         params:
           file: new-bosh-vars-store/*
+
+- name: upload-cloud-config
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: cloud-config
+      trigger: true
+    - get: bosh-vars-store
+      trigger: true
+      passed: [deploy-director]
+    - get: terraform-state
+      trigger: true
+      passed: [deploy-director]
+  - task: upload-cloud-config
+    file: pcf-bosh-ci/tasks/upload-cloud-config-aws.yml

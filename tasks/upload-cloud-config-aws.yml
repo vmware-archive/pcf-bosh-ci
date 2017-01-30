@@ -1,0 +1,15 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: { repository: pcfbosh/aws-ruby }
+
+inputs:
+- name: pcf-bosh-ci
+- name: cloud-config
+- name: bosh-vars-store
+- name: terraform-state
+
+run:
+  path: pcf-bosh-ci/tasks/upload-cloud-config-aws.sh
