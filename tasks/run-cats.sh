@@ -2,14 +2,12 @@
 
 set -e
 
-cf_creds_json=$(pcf-bosh-ci/scripts/yaml2json cf-vars-store/*-cf-vars-store.yml)
-
 cat <<CFCATSCONFIG > cf-cats-config.json
 {
   "api": "api.$(jq -r .sys_domain terraform-state/metadata)",
   "apps_domain": "$(jq -r .apps_domain terraform-state/metadata)",
   "admin_user": "admin",
-  "admin_password": "$(echo "$cf_creds_json" | jq -r .uaa_scim_users_admin_password)",
+  "admin_password": "$(bosh int cf-vars-store/*-cf-vars-store.yml --path /uaa_scim_users_admin_password)",
   "skip_ssl_validation": true,
   "use_http": true,
   "backend": "diego",

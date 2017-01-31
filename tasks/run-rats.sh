@@ -2,14 +2,12 @@
 
 set -e
 
-cf_creds_json=$(pcf-bosh-ci/scripts/yaml2json cf-vars-store/*-cf-vars-store.yml)
-
 cat <<CFRATSCONFIG > cf-rats-config.json
 {
   "addresses": ["$(jq -r .tcp_domain terraform-state/metadata)"],
   "api": "api.$(jq -r .sys_domain terraform-state/metadata)",
   "admin_user": "admin",
-  "admin_password": "$(echo "$cf_creds_json" | jq -r .uaa_scim_users_admin_password)",
+  "admin_password": "$(bosh int cf-vars-store/*-cf-vars-store.yml --path /uaa_scim_users_admin_password)",
   "skip_ssl_validation": true,
   "use_http":true,
   "apps_domain": "$(jq -r .apps_domain terraform-state/metadata)",
@@ -17,7 +15,7 @@ cat <<CFRATSCONFIG > cf-rats-config.json
   "oauth": {
     "token_endpoint": "https://uaa.$(jq -r .sys_domain terraform-state/metadata)",
     "client_name": "tcp_emitter",
-    "client_secret": "$(echo "$cf_creds_json" | jq -r .uaa_clients_tcp_emitter_secret)",
+    "client_secret": "$(bosh int cf-vars-store/*-cf-vars-store.yml --path /uaa_clients_tcp_emitter_secret)",
     "port": 443,
     "skip_ssl_validation": true
   }
