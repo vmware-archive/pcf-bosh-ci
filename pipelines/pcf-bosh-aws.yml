@@ -40,6 +40,13 @@ resources:
     branch: "1.9"
     paths: [aws/cloud-config.yml]
 
+- name: p-ert-bosh-experiment
+  type: git
+  source:
+    uri: https://github.com/pivotal-cf/p-ert-bosh-experiment
+    branch: "1.9"
+    ignore_paths: [gcp/cloud-config.yml]
+
 ###################
 # CF Repositories #
 ###################
@@ -56,6 +63,17 @@ resources:
   source:
     uri: https://github.com/cloudfoundry/bosh-deployment
     branch: master
+
+##############
+# PCF Assets #
+##############
+
+- name: closed-source-releases-zip
+  type: gcs-resource
+  source:
+    bucket: pcf-bosh-ci
+    json_key: {{google_json_key}}
+    versioned_file: closed-source-releases.zip
 
 #########################
 # Pipeline Global State #
@@ -103,6 +121,13 @@ resources:
     bucket: pcf-bosh-ci
     json_key: {{google_json_key}}
     versioned_file: '{{env_name}}-bosh-vars-store.yml'
+
+- name: cf-vars-store
+  type: gcs-resource
+  source:
+    bucket: pcf-bosh-ci
+    json_key: {{google_json_key}}
+    versioned_file: '{{env_name}}-cf-vars-store.yml'
 
 jobs:
 
@@ -182,3 +207,40 @@ jobs:
       NAME: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
   - task: upload-stemcell
     file: pcf-bosh-ci/tasks/upload-stemcell.yml
+
+#################
+# Cloud Foundry #
+#################
+
+- name: deploy-ert
+  serial: true
+  serial_groups: [cf-bosh-deployment]
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: cf-deployment
+      trigger: true
+      passed: [upload-stemcell]
+    - get: p-ert
+      resource: p-ert-bosh-experiment
+      trigger: true
+    - get: cf-vars-store
+    - get: closed-source-releases-zip
+    - get: bosh-vars-store
+      trigger: true
+      passed: [upload-cloud-config, upload-stemcell]
+    - get: terraform-state
+      passed: [upload-cloud-config, upload-stemcell]
+  - task: extract-closed-source-releases
+    file: pcf-bosh-ci/tasks/extract-closed-source-releases.yml
+  - task: deploy-ert
+    file: pcf-bosh-ci/tasks/deploy-ert-aws.yml
+    params:
+      SMTP_HOST_NAME: {{smtp_host_name}}
+      SMTP_HOST_PORT: {{smtp_host_port}}
+      SMTP_SENDER_USERNAME: {{smtp_sender_username}}
+      SMTP_SENDER_PASSWORD: {{smtp_sender_password}}
+    ensure:
+        put: cf-vars-store
+        params:
+          file: new-cf-vars-store/*

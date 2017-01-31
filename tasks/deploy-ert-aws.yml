@@ -1,0 +1,27 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: { repository: pcfbosh/minimal }
+
+inputs:
+- name: pcf-bosh-ci
+- name: bosh-vars-store
+- name: cf-deployment
+- name: p-ert
+- name: cf-vars-store
+- name: closed-source-releases
+- name: terraform-state
+
+outputs:
+- name: new-cf-vars-store
+
+params:
+  SMTP_HOST_NAME:
+  SMTP_HOST_PORT:
+  SMTP_SENDER_USERNAME:
+  SMTP_SENDER_PASSWORD:
+
+run:
+  path: pcf-bosh-ci/tasks/deploy-ert-aws.sh
