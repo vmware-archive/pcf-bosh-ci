@@ -24,7 +24,7 @@ z1_cidr: $z1_cidr
 z1_gateway: $(nthIp $z1_cidr 2)
 z1_reserved_ips: ["$(nthIp $z1_cidr 1)-$(nthIp $z1_cidr 4)", "$(nthIp $z1_cidr 256)"]
 z1_static_ips: ["$(nthIp $z1_cidr 191)-$(nthIp $z1_cidr 255)"]
-z2_subnet_id: $(jq -r .ert_subnet_ids[2] terraform-state/metadata)
+z2_subnet_id: $(jq -r .ert_subnet_ids[1] terraform-state/metadata)
 z2_cidr: $z2_cidr
 z2_gateway: $(nthIp $z2_cidr 2)
 z2_reserved_ips: ["$(nthIp $z2_cidr 1)-$(nthIp $z2_cidr 4)", "$(nthIp $z2_cidr 256)"]
