@@ -44,6 +44,13 @@ resources:
 # CF Repositories #
 ###################
 
+- name: cf-deployment
+  type: git
+  source:
+    uri: https://github.com/cloudfoundry/cf-deployment
+    branch: master
+    tag_filter: "0\\.0\\.0"
+
 - name: bosh-deployment
   type: git
   source:
@@ -157,3 +164,21 @@ jobs:
       passed: [deploy-director]
   - task: upload-cloud-config
     file: pcf-bosh-ci/tasks/upload-cloud-config-aws.yml
+
+- name: upload-stemcell
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: cf-deployment
+      trigger: true
+    - get: bosh-vars-store
+      trigger: true
+      passed: [deploy-director]
+    - get: terraform-state
+      passed: [deploy-director]
+  - task: stemcell-url-from-cf-deployment
+    file: pcf-bosh-ci/tasks/stemcell-url-from-cf-deployment.yml
+    params:
+      NAME: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
+  - task: upload-stemcell
+    file: pcf-bosh-ci/tasks/upload-stemcell.yml
