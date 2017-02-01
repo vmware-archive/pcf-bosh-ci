@@ -495,7 +495,7 @@ jobs:
   - aggregate:
     - get: pcf-bosh-ci
     - get: cf-acceptance-tests
-      version: {ref: 0e6b46fc44ecc5da7735fc2a48213de0e49b4dbf}
+      version: {ref: 8691a293fe613ee817e69d6760deec40820af421}
     - get: cf-vars-store
       trigger: true
       passed: *errands
