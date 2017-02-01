@@ -35,9 +35,13 @@ z3_gateway: $(nthIp $z3_cidr 2)
 z3_reserved_ips: ["$(nthIp $z3_cidr 1)-$(nthIp $z3_cidr 4)", "$(nthIp $z3_cidr 256)"]
 z3_static_ips: ["$(nthIp $z3_cidr 191)-$(nthIp $z3_cidr 255)"]
 router_lb: $(jq -r .router_elb terraform-state/metadata)
-router_lb_security_groups: ["$(jq -r .router_elb_security_group_id terraform-state/metadata)"]
+router_lb_security_groups:
+- "$(jq -r .router_elb_security_group_id terraform-state/metadata)"
+- "$(jq -r .vms_security_group_id terraform-state/metadata)"
 ssh_proxy_lb: $(jq -r .ssh_elb terraform-state/metadata)
-ssh_proxy_lb_security_groups: ["$(jq -r .ssh_elb_security_group_id terraform-state/metadata)"]
+ssh_proxy_lb_security_groups:
+- "$(jq -r .ssh_elb_security_group_id terraform-state/metadata)"
+- "$(jq -r .vms_security_group_id terraform-state/metadata)"
 BOSHVARS
 
 bosh -n update-cloud-config cloud-config/aws/cloud-config.yml --vars-file bosh-vars.yml
