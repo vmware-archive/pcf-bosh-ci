@@ -28,6 +28,7 @@ bosh -n deploy cf-deployment/cf-deployment.yml \
   --var "cc_s3_access_key=$(jq -r .ert_iam_user_access_key terraform-state/metadata)" \
   --var "cc_s3_secret_key=$(jq -r .ert_iam_user_secret_access_key terraform-state/metadata)" \
   --var "cc_s3_bucket_name=$(jq -r .cloud_controller_bucket terraform-state/metadata)" \
+  --var "system_domain=$(jq -r .sys_domain terraform-state/metadata)" \
   --var "apps_domain=$(jq -r .apps_domain terraform-state/metadata)" \
   --var "smtp_host_name=$SMTP_HOST_NAME" \
   --var "smtp_host_port=$SMTP_HOST_PORT" \
