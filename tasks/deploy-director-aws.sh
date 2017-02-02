@@ -41,4 +41,3 @@ bosh create-env bosh-deployment/bosh.yml \
   --vars-store new-bosh-vars-store/bosh-vars-store.yml \
   --vars-file bosh-vars.yml \
   --var-file private_key=bosh-private-key/bosh-private-key
-
