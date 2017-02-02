@@ -22,9 +22,12 @@ bosh -n deploy cf-deployment/cf-deployment.yml \
   --ops-file p-ert/errands/push-pivotal-account.yml \
   --ops-file p-ert/errands/mysql-recovery/bootstrap.yml \
   --ops-file p-ert/errands/mysql-recovery/rejoin-unsafe.yml \
+  --ops-file p-ert/s3.yml \
   --ops-file p-ert/aws/ip-overrides.yml \
   --vars-store new-cf-vars-store/cf-vars-store.yml \
-  --var "system_domain=$(jq -r .sys_domain terraform-state/metadata)" \
+  --var "cc_s3_access_key=$(jq -r .ert_iam_user_access_key terraform-state/metadata)" \
+  --var "cc_s3_secret_key=$(jq -r .ert_iam_user_secret_access_key terraform-state/metadata)" \
+  --var "cc_s3_bucket_name=$(jq -r .cloud_controller_bucket terraform-state/metadata)" \
   --var "apps_domain=$(jq -r .apps_domain terraform-state/metadata)" \
   --var "smtp_host_name=$SMTP_HOST_NAME" \
   --var "smtp_host_port=$SMTP_HOST_PORT" \
