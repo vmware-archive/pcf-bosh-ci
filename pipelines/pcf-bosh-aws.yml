@@ -155,6 +155,7 @@ jobs:
 - name: terraform-up
   plan:
   - aggregate:
+    - get: pcf-bosh-ci
     - get: terraforming-aws
       trigger: true
     - get: terraform-vars
