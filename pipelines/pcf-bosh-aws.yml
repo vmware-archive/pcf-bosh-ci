@@ -271,6 +271,31 @@ jobs:
         params:
           file: new-cf-vars-store/*
 
+###################
+# Default Errands #
+###################
+
+- name: push-apps-manager
+  serial: true
+  serial_groups: [cf-bosh-deployment]
+  plan:
+  - aggregate:
+    - get: pcf-bosh-ci
+    - get: bosh-vars-store
+      passed: [deploy-ert]
+    - get: terraform-state
+      passed: [deploy-ert]
+    - get: cf-vars-store
+      trigger: true
+      passed: [deploy-ert]
+    - get: cf-deployment
+      passed: [deploy-ert]
+  - task: push-apps-manager
+    file: pcf-bosh-ci/tasks/run-errand.yml
+    params:
+      DEPLOYMENT: cf
+      ERRAND: push-apps-manager
+
 #########
 # Tests #
 #########
@@ -281,12 +306,12 @@ jobs:
   - aggregate:
     - get: pcf-bosh-ci
     - get: bosh-vars-store
-      passed: [deploy-ert]
+      passed: [push-apps-manager]
     - get: cf-vars-store
       trigger: true
-      passed: [deploy-ert]
+      passed: [push-apps-manager]
     - get: terraform-state
-      passed: [deploy-ert]
+      passed: [push-apps-manager]
   - task: run-smoke-tests
     file: pcf-bosh-ci/tasks/run-errand.yml
     params:
@@ -301,9 +326,9 @@ jobs:
       version: {ref: 8691a293fe613ee817e69d6760deec40820af421}
     - get: cf-vars-store
       trigger: true
-      passed: [deploy-ert]
+      passed: [push-apps-manager]
     - get: terraform-state
-      passed: [deploy-ert]
+      passed: [push-apps-manager]
   - task: enable-diego-docker
     file: pcf-bosh-ci/tasks/enable-diego-docker.yml
   - task: run-cats
