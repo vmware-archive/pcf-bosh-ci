@@ -6,6 +6,6 @@ RUN apt-get update && apt-get install -y \
     prips \
     && rm -rf /var/lib/apt/lists/*
 
-ADD https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-0.0.149-linux-amd64 /usr/local/bin/bosh
+ADD https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-0.0.158-linux-amd64 /usr/local/bin/bosh
 
 RUN chmod +x /usr/local/bin/bosh
