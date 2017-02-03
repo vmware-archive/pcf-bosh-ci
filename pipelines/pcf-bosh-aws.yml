@@ -114,6 +114,17 @@ resources:
       endpoint: storage.googleapis.com
   delete_on_failure: true
 
+- name: terraform-db-state
+  type: terraform
+  source:
+    storage:
+      bucket: pcf-bosh-ci
+      bucket_path: terraform-environment-dbs
+      access_key_id: {{gcs_access_key_id}}
+      secret_access_key: {{gcs_secret_access_key}}
+      endpoint: storage.googleapis.com
+  delete_on_failure: true
+
 - name: bosh-state
   type: gcs-resource
   source:
@@ -153,7 +164,15 @@ jobs:
   - put: terraform-state
     params:
       var_file: terraform-vars/terraform-aws.tfvars.yml
-      terraform_source: terraforming-aws
+      terraform_source: terraforming-aws//infrastructure
+      delete_on_failure: true
+      env_name: {{env_name}}
+  - task: generate-terraform-db-vars
+    file: pcf-bosh-ci/tasks/generate-terraform-db-vars.yml
+  - put: terraform-db-state
+    params:
+      var_file: terraform-db-vars/terraform.tfvars.yml
+      terraform_source: terraforming-aws//db-seeding
       delete_on_failure: true
       env_name: {{env_name}}
 
