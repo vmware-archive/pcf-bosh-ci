@@ -24,6 +24,7 @@ bosh -n deploy cf-deployment/cf-deployment.yml \
   --ops-file p-ert/errands/mysql-recovery/rejoin-unsafe.yml \
   --ops-file p-ert/aws/ip-overrides.yml \
   --ops-file p-ert/s3.yml \
+  --ops-file p-ert/external-mysql.yml \
   --vars-store new-cf-vars-store/cf-vars-store.yml \
   --var "cc_s3_access_key=$(jq -r .ert_iam_user_access_key terraform-state/metadata)" \
   --var "cc_s3_secret_key=$(jq -r .ert_iam_user_secret_access_key terraform-state/metadata)" \
@@ -34,6 +35,10 @@ bosh -n deploy cf-deployment/cf-deployment.yml \
   --var "smtp_host_port=$SMTP_HOST_PORT" \
   --var "smtp_sender_username=$SMTP_SENDER_USERNAME" \
   --var "smtp_sender_password=$SMTP_SENDER_PASSWORD" \
+  --var "external_mysql_host=$(jq -r .rds_address terraform-state/metadata)" \
+  --var "external_mysql_port=$(jq -r .rds_port terraform-state/metadata)" \
+  --var "external_mysql_username=$(jq -r .rds_username terraform-state/metadata)" \
+  --var "external_mysql_password=$(jq -r .rds_password terraform-state/metadata)" \
   --var "cf_release_path=file://$(ls "$PWD"/closed-source-releases/cf-246*.tgz)" \
   --var "cf_release_version=246.0.2" \
   --var "notifications_release_path=file://$(ls "$PWD"/closed-source-releases/notifications-31*.tgz)" \
