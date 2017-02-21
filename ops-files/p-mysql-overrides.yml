@@ -117,23 +117,3 @@
 - type: replace
   path: /instance_groups/name=mysql-monitor/vm_type
   value: m3.medium
-
-########
-# NATS #
-########
-
-- type: remove
-  path: /instance_groups/name=broker/jobs/name=route_registrar/properties/nats
-
-- type: replace
-  path: /instance_groups/name=broker/jobs/name=route_registrar/consumes?
-  value:
-    nats: {from: nats, deployment: cf}
-
-- type: remove
-  path: /instance_groups/name=proxy/jobs/name=route_registrar/properties/nats
-
-- type: replace
-  path: /instance_groups/name=proxy/jobs/name=route_registrar/consumes?
-  value:
-    nats: {from: nats, deployment: cf}
