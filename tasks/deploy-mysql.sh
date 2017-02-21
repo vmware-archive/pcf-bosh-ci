@@ -42,7 +42,7 @@ bosh -n interpolate p-mysql-vars-template.yml \
 
 cp mysql-vars-store/*-mysql-vars-store.yml new-mysql-vars-store/mysql-vars-store.yml
 
-bosh -n deploy mysql-deployment/mysql-deployment.yml \
+bosh -n deploy p-mysql-deployment/mysql-deployment.yml \
   --deployment cf-mysql \
   --ops-file mysql-deployment/operations/add-broker.yml \
   --ops-file mysql-deployment/operations/add-monitoring-vm.yml \
