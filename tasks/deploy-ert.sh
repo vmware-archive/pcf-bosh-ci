@@ -6,10 +6,16 @@ eval "$(pcf-bosh-ci/scripts/director-environment bosh-vars-store/*-bosh-vars-sto
 
 cp cf-vars-store/*-cf-vars-store.yml new-cf-vars-store/cf-vars-store.yml
 
+if [ -d "cf-deployment/operations" ]; then
+    export cf_deployment_ops_files="cf-deployment/operations"
+else
+    export cf_deployment_ops_files="cf-deployment/opsfiles"
+fi
+
 bosh -n deploy cf-deployment/cf-deployment.yml \
   --deployment cf \
-  --ops-file cf-deployment/opsfiles/gcp.yml \
-  --ops-file cf-deployment/opsfiles/tcp-routing-gcp.yml \
+  --ops-file "$cf_deployment_ops_files/gcp.yml" \
+  --ops-file "$cf_deployment_ops_files/tcp-routing-gcp.yml" \
   --ops-file p-ert/pivotal-defaults.yml \
   --ops-file p-ert/ip-overrides.yml \
   --ops-file p-ert/mysql-proxy.yml \
