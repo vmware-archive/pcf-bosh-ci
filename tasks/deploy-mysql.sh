@@ -42,8 +42,12 @@ bosh -n interpolate p-mysql-vars-template.yml \
 
 cp mysql-vars-store/*-mysql-vars-store.yml new-mysql-vars-store/mysql-vars-store.yml
 
-bosh -n deploy p-mysql-deployment/p-mysql-deployment.yml \
-  --deployment p-mysql \
+bosh -n deploy mysql-deployment/p-mysql-deployment.yml \
+  --deployment cf-mysql \
+  --ops-file mysql-deployment/operations/add-broker.yml \
+  --ops-file mysql-deployment/operations/add-monitoring-vm.yml \
+  --ops-file mysql-deployment/operations/monitoring-skip-ssl-validation.yml \
+  --ops-file mysql-deployment/operations/register-proxy-route.yml \
   --ops-file pcf-bosh-ci/ops-files/p-mysql-overrides.yml \
   --vars-file p-mysql-vars.yml \
   --vars-store new-mysql-vars-store/mysql-vars-store.yml

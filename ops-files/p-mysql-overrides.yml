@@ -39,10 +39,6 @@
   value: [{name: private}]
 
 - type: replace
-  path: /instance_groups/name=arbitrator/networks
-  value: [{name: private}]
-
-- type: replace
   path: /instance_groups/name=proxy/networks
   value: [{name: private}]
 
@@ -84,10 +80,6 @@
 
 - type: replace
   path: /instance_groups/name=mysql/vm_type
-  value: m3.medium
-
-- type: replace
-  path: /instance_groups/name=arbitrator/vm_type
   value: m3.medium
 
 - type: replace
