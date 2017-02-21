@@ -23,7 +23,7 @@
   value: internet-required
 
 - type: replace
-  path: /instance_groups/name=deregistrar-and-purge-instances/vm_extensions?/-
+  path: /instance_groups/name=deregister-and-purge-instances/vm_extensions?/-
   value: internet-required
 
 - type: replace
@@ -55,7 +55,7 @@
   value: [{name: private}]
 
 - type: replace
-  path: /instance_groups/name=deregistrar-and-purge-instances/networks
+  path: /instance_groups/name=deregister-and-purge-instances/networks
   value: [{name: private}]
 
 - type: replace
@@ -99,7 +99,7 @@
   value: m3.medium
 
 - type: replace
-  path: /instance_groups/name=deregistrar-and-purge-instances/vm_type
+  path: /instance_groups/name=deregister-and-purge-instances/vm_type
   value: m3.medium
 
 - type: replace
