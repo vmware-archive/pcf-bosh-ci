@@ -84,7 +84,7 @@ resources:
   type: git
   source:
     uri: git@github.com:pivotal-cf-experimental/p-mysql-deployment
-    branch: master
+    branch: releases/1.9
     private_key: {{p-mysql-deployment_deploy_key}}
 
 ##################
