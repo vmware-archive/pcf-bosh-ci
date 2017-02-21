@@ -105,3 +105,37 @@
 - type: replace
   path: /instance_groups/name=mysql-monitor/vm_type
   value: m3.medium
+
+###################
+# Vars Workaround #
+###################
+
+- type: replace
+  path: /variables/-
+  value:
+    name: cf_mysql_broker_db_password
+    type: password
+
+- type: replace
+  path: /variables/-
+  value:
+    name: cf_mysql_broker_auth_password
+    type: password
+
+- type: replace
+  path: /variables/-
+  value:
+    name: cf_mysql_broker_cookie_secret
+    type: password
+
+- type: replace
+  path: /variables/-
+  value:
+    name: cf_mysql_broker_quota_enforcer_password
+    type: password
+
+- type: replace
+  path: /variables/-
+  value:
+    name: cf_mysql_smoke_tests_password
+    type: password
