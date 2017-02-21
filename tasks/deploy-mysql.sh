@@ -30,7 +30,7 @@ cf_admin_password: $(bosh int cf-vars-store/*-cf-vars-store.yml --path /uaa_scim
 cf_app_domains: [$(jq -r .apps_domain terraform-state/metadata)]
 cf_sys_domain: $(jq -r .sys_domain terraform-state/metadata)
 cf_skip_ssl_validation: true
-cf_nats:
+nats:
   password: $(bosh int cf-vars-store/*-cf-vars-store.yml --path /nats_password)
   machines: ((nats_ips))
   user: nats
