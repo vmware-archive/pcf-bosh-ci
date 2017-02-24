@@ -1,0 +1,23 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: { repository: pcfbosh/minimal }
+
+inputs:
+- name: pcf-bosh-ci
+- name: bosh-deployment
+- name: bosh-state
+- name: bosh-vars-store
+- name: terraform-state
+
+params:
+  GOOGLE_JSON_KEY:
+
+outputs:
+- name: new-bosh-state
+- name: new-bosh-vars-store
+
+run:
+  path: pcf-bosh-ci/tasks/delete-director.sh
